@@ -9,8 +9,9 @@ The primary method for accessing specified sequence data. We can also query a su
 **Auth Required** : YES  
 
 **Default Encoding** : text  
-```Content-type: text/vnd.ga4gh.seq.v1.0.0+plain
-```  
+````
+Content-type: text/vnd.ga4gh.seq.v1.0.0+plain
+````  
 Unless negotiated with the client and allowed by the server  
 
 #### URL params
