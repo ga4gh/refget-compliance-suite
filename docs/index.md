@@ -2,8 +2,8 @@
 
 Welcome to Reference servers API documentation.
 
- [Design Principle](compliance_docs/design.md)  
- [Protocol Essentials](compliance_docs/protocol.md)  
- [Security](compliance_docs/security.md)  
- [APIs](compliance_docs/api.md)  
- [Future Enhancements](compliance_docs/future_enhancements.md)
+ [Design Principle](design.md)  
+ [Protocol Essentials](protocol.md)  
+ [Security](security.md)  
+ [APIs](api.md)  
+ [Future Enhancements](future_enhancements.md)
