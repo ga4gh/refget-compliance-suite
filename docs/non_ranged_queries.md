@@ -1,15 +1,15 @@
 ## Non Ranged Sequence API queries
 
-#### Successful Responses
+#### Successful Response
 
 **1.**  
-Simple API call to a non-circular/circular chromosome, keeping deafult settings  
-Request
+Simple API call to a non-circular/circular chromosome, keeping deafult encoding. Server responds with `status code 200` and `message OK`.   
+_Request_
 ````
 GET /sequence/959cb1883fc1ca9ae1394ceb475a356ead1ecceff5824ae7/
 ````
 
-Response
+_Response_
 ````
 HTTP/1.1 200 OK
 Date: <date>
