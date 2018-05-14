@@ -14,20 +14,35 @@ The primary method for accessing specified sequence data. We can also query a su
 Unless negotiated with the client and allowed by the server  
 
 #### URL params
-**id** (required)  
-A string specifying the sequence to be returned. The identifier shall be a checksum derived from the sequence using one of the supported checksum algorithms, or an alias for the sequence supported by the server. You can have a look at checksum algrorithm currently in use [here](checksum.md)
+
+| Name        | Type           | Description  |
+| :-------------: |:-------------:|:-----:|
+| `id`      | `String` | **Required** A string specifying the sequence to be returned. The identifier shall be a checksum derived from the sequence using one of the supported checksum algorithms, or an alias for the sequence supported by the server. You can have a look at checksum algrorithm currently in use [here](checksum.md) |
+
+
+
 
 #### Query params
-**start** (optional)  
-The start position of the range on the sequence, 0-based, inclusive.
+| Name        | Type           | Description  |
+| :-------------: |:-------------:|:-----:|
+| `start`      | `Integer` | The start position of the range on the sequence, 0-based, inclusive. |
+| `end`      | `Integer`     |  The end position of the range on the sequence, 0-based, exclusive.  |
 
-**end** (optional)  
-The end position of the range on the sequence, 0-based, exclusive.
 
-#### Headers
+
+#### Request Headers
 **Range** (optional)  
 [RFC 7233](https://tools.ietf.org/html/rfc7233). Current spec doesn't allow multiple parts as specified in rfc.  
 0-based inclusive of start and end bytes specified.
 
 **Accept** (optional)  
 Defaults to text/plain, unless negotiated with the client and supported by the server.
+
+**_Note_**  
+Reference servers **MAY** or **MAY NOT** support circular chromosomes.  
+Reference servers **MAY** or **MAY NOT** support other encodings.
+
+As specified above servers can be queried for sub-sequence (using start/end or Range) as well as full sequence.  
+Examples of API calls
+ * [Non-Ranged Queries](non_ranged.md)
+ * [Ranged Queries](ranged.md)
