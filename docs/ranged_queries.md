@@ -17,4 +17,5 @@ HTTP/1.1 200 OK
 Date: <date>
 Content-Type: text/vnd.ga4gh.seq.v1.0.0+plain; charset=us-ascii
 Content-Length: 10
-Content: CCCACACACC ````
+Content: CCCACACACC 
+````
