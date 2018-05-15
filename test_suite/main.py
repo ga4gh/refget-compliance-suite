@@ -1,4 +1,6 @@
 import argparse
+import unittest
+from sequence_api_tests import SequenceAPITests
 
 
 def get_arguments():
@@ -22,11 +24,20 @@ def get_arguments():
 def main():
     arguments = get_arguments()
     try:
-        base_url = arguments.base_url
+        base_url = 'http://' + str(arguments.base_url) + '/'
     except IOError:
         print("Enter server's base url")
     circular_support = arguments.circular_support
-    # test(base_url, circular_support)
+
+    SequenceAPITests.base_url = base_url + 'sequence/'
+    SequenceAPITests.is_circular_support = circular_support
+
+    loader = unittest.TestLoader()
+    suite = unittest.TestSuite()
+
+    suite.addTests(loader.loadTestsFromModule(SequenceAPITests()))
+    runner = unittest.TextTestRunner(verbosity=3)
+    runner.run(suite)
 
 
 if __name__ == "__main__":
