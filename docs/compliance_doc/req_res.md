@@ -1,7 +1,11 @@
-# API Endpoints
+# Sample Queries
+This section consists of the complete list of all the possible requests and responses of both the APIsfrom Reference Servers
 
- * [Sequence](sequence.md) `/sequence/:id`  
- * [Metadata](metadata.md) `/sequence/:id/metadata`
+````
+Important points :
+ * Server **MAY** or **MAY NOT** support circular chromosomes
+ * Server can implement either one or both of the checksum algorithms (MD5 and truncated SHA512)
+````
 
-**_Note_**  
-IDs in the API calls are trunc512 checksums of [non-circular chromosomes](samples.faa) or [circular chromosomes](circular.faa) provided [here](checksums.txt)
+ [Sequence Examples](sample_queries/sequence.md) `/sequence/:id`  
+ [Metadata Examples](sample_queries/metadata.md) `/sequence/:id/metadata`
