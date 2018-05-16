@@ -1,5 +1,20 @@
 import unittest
-from urllib.request import urlopen
+import requests
+import sys
+import os
+
+from chromosome_model import db, Chromosome
+from utils import populate_db
+
+
+def get(testurl, headers=None, die_on_errors=True):
+        response = requests.get(testurl, headers={"Accept": "text/plain"})
+
+        if (not response.ok) and die_on_errors:
+            response.raise_for_status()
+            sys.exit(-1)
+
+        return response
 
 
 class SequenceAPITests(unittest.TestCase):
@@ -7,15 +22,29 @@ class SequenceAPITests(unittest.TestCase):
     is_circular_support = False
 
     def setUp(self):
-        pass
+        db.connect()
+        db.create_tables([Chromosome])
+        populate_db()
 
-    def test_non_ranged_circular_chromosome_default_encoding(self):
-        I_trunc512 = '2085c82d80500a91dd0b8aa9237b0e43f1c07809bd6e6785'
-        testurl = self.base_url + I_trunc512
-        response = urlopen(testurl)
-        content = response.read().decode("utf-8")
-        self.assertEqual('GAGTTTTATC', content[:10])
-        self.assertEqual(response.code, 200)
+    def test_non_ranged_chromosomes_default_encoding(self):
+        self.assertEqual(
+            Chromosome.get(Chromosome.name == 'NC').sequence,
+            get(
+                self.base_url + Chromosome.get(
+                    Chromosome.name == 'NC').trunc512).text
+            )
+        self.assertEqual(
+            Chromosome.get(Chromosome.name == 'I').sequence,
+            get(
+                self.base_url + Chromosome.get(
+                    Chromosome.name == 'I').trunc512).text
+            )
+        self.assertEqual(
+            Chromosome.get(Chromosome.name == 'VI').sequence,
+            get(
+                self.base_url + Chromosome.get(
+                    Chromosome.name == 'VI').trunc512).text
+            )
 
     def tearDown(self):
-        pass
+        os.remove('test_db.db')
