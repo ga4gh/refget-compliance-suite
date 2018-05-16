@@ -1,4 +1,15 @@
-## Get sequence by ID
+# API Specifications
+
+Reference Servers will consists of two `GET` APIs.
+
+ * GET Sequence by ID `/sequence/:id`  
+ * GET Metadata by ID `/sequence/:id/metadata`
+
+ Detailed specifications regarding these APIs are covered in the doc, available [here](https://docs.google.com/document/d/1q2ZE9YewJTpaqQg82Nrz_jVy8KsDpKoG1T8RvCAAsbI/edit)
+
+
+
+<!-- ## Get sequence by ID
 
 The primary method for accessing specified sequence data. We can also query a sub-sequence either by using query params ```start``` and ```end``` or by using ```Range``` header in http request.
 
@@ -54,4 +65,4 @@ First line of check for any error prone request can be
 As specified above servers can be queried for sub-sequence (using start/end or Range) as well as full sequence.  
 Examples of API calls
  * [Non-Ranged Queries](non_ranged_queries.md)
- * [Ranged Queries](ranged_queries.md)
+ * [Ranged Queries](ranged_queries.md) -->
