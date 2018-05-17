@@ -6,5 +6,5 @@ Welcome to Reference Sequence Rerieval Servers Compliance documentation.
 
  [Preamble](preamble.md)  
  [API specifications](api_spec.md)  
- [Test Chromosomes](test_sequences.md)  
+ [Test Sequences](test_sequences.md)  
  [Sample requests and responses](req_res.md)  
