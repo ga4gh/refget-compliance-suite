@@ -40,19 +40,3 @@ Accept : text/<some-encoding-not-supported-by-server>
 HTTP/1.1 415 Unsupported Media Type
 Date: <date>
 ```
-
-##### Case 3
-**Unsupported media type by the server**  
-When media type requested by the client in the `Accept` header is not supported by the server, server throws a `415 Unsupported Media Type` error
-
-```
-GET
-/sequence/6681ac2f62509cfc220d78751b8dc524
-
-Accept : text/<some-encoding-not-supported-by-server>
-```
-
-```
-HTTP/1.1 415 Unsupported Media Type
-Date: <date>
-```

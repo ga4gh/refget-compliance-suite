@@ -147,7 +147,7 @@ Accept-Ranges: none
 Important Points:
  * Range header's unit will be bytes. `Range: bytes=x-y` where x and y are unsigned integers.
  * x and y are both inclusive as opposed to start / end where end was exclusive.
- * Sub-sequences of a circular sequences across the origin must not be requested via the Range header, i.e y >= x.
+ * Sub-sequences of a circular sequences across the origin must not be requested via the Range header, i.e y >= x will always be true.
  * More information can be found [here](https://tools.ietf.org/html/rfc7233)
 
 ##### Case 1
@@ -204,10 +204,10 @@ Content: CCACA........GTGGG
 ## Error Conditions
 Reference Servers MUST respond with adequate error codes for every error condition. Error conditions are documented in a hierarchical manner, i.e. first check are shown first.
 
- * [Generic Error conditions](erros/generic.md)  
+ * [Generic Error conditions](errors/generic.md)  
  * Ranged Query Error conditions :
-    * [start / end errors](erros/start_end.md)
-    * [Range header errors](erros/range_header.md)
+    * [start / end errors](errors/start_end.md)
+    * [Range header errors](errors/range_header.md)
 
 
 *Note : More details on the API specification are available [here](https://docs.google.com/document/d/1q2ZE9YewJTpaqQg82Nrz_jVy8KsDpKoG1T8RvCAAsbI/edit#heading=h.pr8uvsa1k8iy)*
