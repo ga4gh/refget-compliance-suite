@@ -1,6 +1,6 @@
 # Test sequences
 
-There are three sequence used in the compliance documentation for sample queries and in compliance test suite for API Testing
+There are three sequence used in the compliance documentation for sample queries and in compliance test suite for API testing
 
  * NC_001422.1 Enterobacteria phage phiX174 sensu lato  
     [fasta sequnce](../circular.faa)  
@@ -21,10 +21,10 @@ There are three sequence used in the compliance documentation for sample queries
 _Note : Fasta sequences of non-circular sequences are in same file_
 
 Checksums for these sequences can be found [here](./checksums.txt)
-These checksums will be used as identifiers in sequence retrieval and metadata retrieval APIs. There are currently two types of checksum algorithms in use:
+These checksums will be used as identifiers in sequence retrieval and metadata retrieval APIs. There are currently two checksum algorithms in use:
  * MD5
  * Truncated SHA512
 
 Implementation details of these algorithms are given in API specification doc [here](https://docs.google.com/document/d/1q2ZE9YewJTpaqQg82Nrz_jVy8KsDpKoG1T8RvCAAsbI/edit#heading=h.h66j2ox4ydtw).
-  
+
 **Server MUST implement MD5 while truncated SHA512 is optional**

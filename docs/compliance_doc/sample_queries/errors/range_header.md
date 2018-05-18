@@ -1,7 +1,8 @@
 # Error Conditions while using Range header
 
-Notation:  
-`Range: bytes=x-y` where x and y are integers
+Notation:
+    `Range: bytes=first-byte-spec - last-byte-spec`  
+    For example : `Range: bytes=5-10`. Here 5 is first-byte-spec and 10 is last-byte-spec.
 
 ## Circular or non-circular sequence
 ##### Case 1
@@ -24,8 +25,8 @@ Date: <date>
 ```
 
 ##### Case 2
-x and y are integers, when recieve any value other than that, server MUST throw a `400 Bad Request` error.  
-On recieving only one of the x or y parameters, server MUST throw a `400 Bad Request` error.  
+first-byte-spec and last-byte-spec are integers, when recieve any value other than that, server MUST throw a `400 Bad Request` error.  
+On recieving only one of the first-byte-spec or last-byte-spec, server MUST throw a `400 Bad Request` error.  
 Reference server must only accept `bytes` as unit in `Range` header else `400 Bad Request`
 
 
@@ -61,20 +62,12 @@ Date: <date>
 ```
 
 ##### Case 3  
-`x >= size of sequence`  
-OR  
-`y >= size of the sequence`
+`first-byte-spec >= size of sequence`
 
 Here size of the sequence is 234055.  
-Doesn't matter if sequence is circular or non-circular as x and y are both inclusive and server can not honour the query in any case, will throw a `400 Bad Request` error
+Doesn't matter if sequence is circular or non-circular as first-byte-spec is inclusive and server can not honour the query in any case, will throw a `400 Bad Request` error
 
 ```
-GET
-/sequence/6681ac2f62509cfc220d78751b8dc524/
-Range: bytes=234054-234055
-
-    OR
-
 GET
 /sequence/6681ac2f62509cfc220d78751b8dc524/
 Range: bytes=234055-234055
@@ -83,7 +76,7 @@ Range: bytes=234055-234055
 
 GET
 /sequence/6681ac2f62509cfc220d78751b8dc524/
-Range: bytes=234055-234054
+Range: bytes=234055-234057
 ```
 
 ```
@@ -92,9 +85,9 @@ Date: <date>
 ```
 
 #### Case 4
-`x > y`  
+`first-byte-spec > last-byte-spec`  
 As stated in [success response](../sequence.md) section, Range header must not be used to retrieve sub-sequences of a circular sequences across the origin. Server must respond with `400 Bad Request` error.  
-Even if the sequence is non-circular and x > y, server must throw `400 Bad Request` error.
+Even if the sequence is non-circular and first-byte-spec > last-byte-spec, server must throw `400 Bad Request` error.
 
 ```
 GET
@@ -103,6 +96,6 @@ Range: bytes=5200-56
 ```
 
 ```
-HTTP/1.1 400 Bad Request
+HTTP/1.1 416 Range Not Satisfiable
 Date: <date>
 ```

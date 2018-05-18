@@ -1,5 +1,8 @@
 # Error Conditions while using start / end parameters
 ## Circular or non-circular sequence
+Important Points:
+ * **CASE 4** of this section is only for servers which DO NOT support circular sequences.
+
 ##### Case 1
 When Range header is also passed along with start / end parameters, server must throw a `400 Bad Request` error even if both are retrieving the same sequence or sub-sequence with a valid identifier and valid encoding.
 
@@ -112,6 +115,10 @@ Date: <date>
 
 
 ## Non-circular sequence
+Important Points:
+ * **CASE 1** of this section is only for servers which support circular sequences.
+
+
 ##### Case 1
 start > end;  
 circular sequences are supported by the server  
