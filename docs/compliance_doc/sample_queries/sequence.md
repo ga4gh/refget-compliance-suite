@@ -29,7 +29,7 @@ Accept: text/vnd.ga4gh.seq.v1.0.0+plain (optional)
 HTTP/1.1 200 OK
 Date: <date>
 Content-Type: text/vnd.ga4gh.seq.v1.0.0+plain; charset=us-ascii
-Content-Length: 234055
+Content-Length: 230218
 Content: CCACA........GTGGG
 ```
 ##### Case 2
@@ -53,7 +53,7 @@ Accept: text/<new-encoding>
 HTTP/1.1 200 OK
 Date: <date>
 Content-Type: text/<new-encoding>; charset=us-ascii
-Content-Length: 234055
+Content-Length: 230218
 Content: CCACA........GTGGG
 ```
 
@@ -75,7 +75,7 @@ GET
 HTTP/1.1 200 OK
 Date: <date>
 Content-Type: text/vnd.ga4gh.seq.v1.0.0+plain; charset=us-ascii
-Content-Length: 234055
+Content-Length: 230218
 Content: CCACA........GTGGG
 ```
 
@@ -130,7 +130,7 @@ Accept-Ranges: none
 ```
 GET
 /sequence/6681ac2f62509cfc220d78751b8dc524/
-? start=234054 & end=234055 (size is 234055)
+? start=230217 & end=230218 (size is 230218)
 ```
 
 ```
@@ -191,7 +191,7 @@ Checksum Algorithm : MD5 (or truncated SHA512 if supported by the server)
 **Conditions** : first-byte-spec <= last-byte-spec < (size - 1) (if first-byte-spec is 0, last-byte-spec can not be (size - 1))    
 **Description** : Sub sequence will be retrieved no matter the type (circular/non-circular).
 If first-byte-spec is not 0 and last-byte-spec is not (size - 1) or more, (i.e. complete sequence is not being queried) response should be a `206` otherwise `200` ([case 2](#case-2-2))  
-Size of sequence is 234055
+Size of sequence is 230218
 
 ```
 GET
@@ -213,7 +213,7 @@ Content: CCCACACACC
 GET
 /sequence/6681ac2f62509cfc220d78751b8dc524/
 
-Range: bytes=10-234055
+Range: bytes=10-230217
 
 ```
 
@@ -221,7 +221,7 @@ Range: bytes=10-234055
 HTTP/1.1 206 Partial Content
 Date: <date>
 Content-Type: text/vnd.ga4gh.seq.v1.0.0+plain; charset=us-ascii
-Content-Length: 234045
+Content-Length: 230208
 Content: CCCAC.....GTGGG
 ```
 
@@ -238,7 +238,7 @@ Range: bytes=10-99999999
 HTTP/1.1 206 Partial Content
 Date: <date>
 Content-Type: text/vnd.ga4gh.seq.v1.0.0+plain; charset=us-ascii
-Content-Length: 234045
+Content-Length: 230208
 Content: CCCAC.....GTGGG
 ```
 
@@ -249,13 +249,13 @@ Checksum Algorithm : MD5 (or truncated SHA512 if supported by the server)
 `Accept : text/vnd.ga4gh.seq.v1.0.0+plain` (or any encoding supported by server)  
 **Conditions** : first-byte-spec = 0 and last-byte-spec => size of - 1   
 **Description** : Complete sequence will be retrieved no matter the type (circular/non-circular) hence ignoring the Range header.  
-Size of the sequence is 234055
+Size of the sequence is 230218
 
 ```
 GET
 /sequence/6681ac2f62509cfc220d78751b8dc524/
 
-Range: bytes=0-234054
+Range: bytes=0-230217
 
 ```
 
@@ -263,7 +263,7 @@ Range: bytes=0-234054
 HTTP/1.1 200 OK
 Date: <date>
 Content-Type: text/vnd.ga4gh.seq.v1.0.0+plain; charset=us-ascii
-Content-Length: 234055
+Content-Length: 230218
 Content: CCACA........GTGGG
 ```
 
@@ -279,7 +279,7 @@ Range: bytes=0-999999999
 HTTP/1.1 200 OK
 Date: <date>
 Content-Type: text/vnd.ga4gh.seq.v1.0.0+plain; charset=us-ascii
-Content-Length: 234055
+Content-Length: 230218
 Content: CCACA........GTGGG
 ```
 

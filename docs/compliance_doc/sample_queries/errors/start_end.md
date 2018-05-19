@@ -59,7 +59,7 @@ When
 OR  
 `end > size of the sequence`
 
-Here, size of the sequence is 234055
+Here, size of the sequence is 230218
 
 `6681ac2f62509cfc220d78751b8dc524` is a non-circular sequence; size = 234055  
 `3332ed720ac7eaa9b3655c06f6b9e196` is a circular sequence; size = 5384
@@ -67,19 +67,19 @@ Here, size of the sequence is 234055
 ```
 GET
 /sequence/6681ac2f62509cfc220d78751b8dc524/
-? start = 234055 & end = 234055
+? start = 230218 & end = 230218
 
     OR
 
 GET
 /sequence/6681ac2f62509cfc220d78751b8dc524/
-? start = 67 & end = 234056
+? start = 67 & end = 230219
 
     OR
 
 GET
 /sequence/6681ac2f62509cfc220d78751b8dc524/
-? start = 234055 & end = 234056
+? start = 230218 & end = 230219
 
     OR
 
@@ -104,7 +104,7 @@ Server MUST respond with a `501 Not Implemented` error. Doesn't matter the type 
 ```
 GET
 /sequence/6681ac2f62509cfc220d78751b8dc524/
-? start = 234000 & end = 671
+? start = 220218 & end = 671
 ```
 
 ```
@@ -128,7 +128,7 @@ But since sequence is not circular, server MUST repond with a `416 Range Not Sat
 ```
 GET
 /sequence/6681ac2f62509cfc220d78751b8dc524/
-? start = 234000 & end = 671
+? start = 220218 & end = 671
 ```
 
 ```

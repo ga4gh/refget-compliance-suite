@@ -10,12 +10,12 @@ There are three sequence used in the compliance documentation for sample queries
  * I Saccharomyces_cerevisiae chromosome:R64-1-1:I:1:230218:1  
     [fasta sequence](../samples.faa)  
     Non-circular Sequence  
-    Size : 234055
+    Size : 230218
 
  * VI Saccharomyces_cerevisiae chromosome:R64-1-1:VI:1:270161:1  
     [fasta sequence](../samples.faa)  
     Non-circular sequence  
-    Size : 274664
+    Size : 270161
 
 
 _Note : Fasta sequences of non-circular sequences are in same file_
