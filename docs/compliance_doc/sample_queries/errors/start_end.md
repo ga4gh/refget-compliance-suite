@@ -9,17 +9,15 @@ When Range header is also passed along with start / end parameters, server must 
 _Note: Only one of the two ways should be used to query a sub-sequence._
 
 ```
-GET
-/sequence/6681ac2f62509cfc220d78751b8dc524/
-? start = 10 & end = 20
+GET /sequence/6681ac2f62509cfc220d78751b8dc524/
+?start=10&end=20
 
 Range: bytes=10-19
 
 ```
 
 ```
-HTTP/1.1 400 Bad Request
-Date: <date>
+400 Bad Request
 ```
 
 ##### Case 2
@@ -28,29 +26,27 @@ On recieving only one of the start / end parameters, server MUST throw a `400 Ba
 
 
 ```
-GET
-/sequence/6681ac2f62509cfc220d78751b8dc524/
-? start = abc & end = 20
+GET /sequence/6681ac2f62509cfc220d78751b8dc524/
+?start=abc&end=20
 
     OR
 
-/sequence/6681ac2f62509cfc220d78751b8dc524/
-? start = -10 & end = -29
+GET /sequence/6681ac2f62509cfc220d78751b8dc524/
+?start=-10&end=-29
 
     OR
 
-/sequence/6681ac2f62509cfc220d78751b8dc524/
-? start = abc   (end is missing)
+GET /sequence/6681ac2f62509cfc220d78751b8dc524/
+?start=abc
 
     OR
 
-/sequence/6681ac2f62509cfc220d78751b8dc524/
-? end = 20  (start is missing)
+GET /sequence/6681ac2f62509cfc220d78751b8dc524/
+?end=20
 ```
 
 ```
-HTTP/1.1 400 Bad Request
-Date: <date>
+400 Bad Request
 ```
 
 ##### Case 3
@@ -61,37 +57,32 @@ OR
 
 Here, size of the sequence is 230218
 
-`6681ac2f62509cfc220d78751b8dc524` is a non-circular sequence; size = 234055  
+`6681ac2f62509cfc220d78751b8dc524` is a non-circular sequence; size = 230218  
 `3332ed720ac7eaa9b3655c06f6b9e196` is a circular sequence; size = 5384
 
 ```
-GET
-/sequence/6681ac2f62509cfc220d78751b8dc524/
-? start = 230218 & end = 230218
+GET /sequence/6681ac2f62509cfc220d78751b8dc524/
+?start=230218&end=230218
 
     OR
 
-GET
-/sequence/6681ac2f62509cfc220d78751b8dc524/
-? start = 67 & end = 230219
+GET /sequence/6681ac2f62509cfc220d78751b8dc524/
+?start=67&end=230219
 
     OR
 
-GET
-/sequence/6681ac2f62509cfc220d78751b8dc524/
-? start = 230218 & end = 230219
+GET /sequence/6681ac2f62509cfc220d78751b8dc524/
+?start=230218&end=230219
 
     OR
 
-GET
-/sequence/3332ed720ac7eaa9b3655c06f6b9e196/
-? start = 5384 & end = 5
+GET /sequence/3332ed720ac7eaa9b3655c06f6b9e196/
+?start=5384&end=5
 
 ```
 
 ```
-HTTP/1.1 400 Bad Request
-Date: <date>
+400 Bad Request
 ```
 
 ##### Case 4
@@ -102,14 +93,12 @@ Server MUST respond with a `501 Not Implemented` error. Doesn't matter the type 
 
 
 ```
-GET
-/sequence/6681ac2f62509cfc220d78751b8dc524/
-? start = 220218 & end = 671
+GET /sequence/6681ac2f62509cfc220d78751b8dc524/
+?start=220218&end=671
 ```
 
 ```
-HTTP/1.1 501 Not Implemented
-Date: <date>
+501 Not Implemented
 ```
 
 
@@ -126,12 +115,10 @@ circular sequences are supported by the server
 But since sequence is not circular, server MUST repond with a `416 Range Not Satisfiable` error.
 
 ```
-GET
-/sequence/6681ac2f62509cfc220d78751b8dc524/
-? start = 220218 & end = 671
+GET /sequence/6681ac2f62509cfc220d78751b8dc524/
+?start=220218&end=671
 ```
 
 ```
-HTTP/1.1 416 Range Not Satisfiable
-Date: <date>
+416 Range Not Satisfiable
 ```

@@ -26,8 +26,7 @@ GET
 Accept: text/vnd.ga4gh.seq.v1.0.0+plain (optional)
 ```
 ```
-HTTP/1.1 200 OK
-Date: <date>
+200 OK
 Content-Type: text/vnd.ga4gh.seq.v1.0.0+plain; charset=us-ascii
 Content-Length: 230218
 Content: CCACA........GTGGG
@@ -50,8 +49,7 @@ Accept: text/<new-encoding>
 
 ```
 ```
-HTTP/1.1 200 OK
-Date: <date>
+200 OK
 Content-Type: text/<new-encoding>; charset=us-ascii
 Content-Length: 230218
 Content: CCACA........GTGGG
@@ -72,14 +70,13 @@ GET
 /sequence/959cb1883fc1ca9ae1394ceb475a356ead1ecceff5824ae7/
 ```
 ```
-HTTP/1.1 200 OK
-Date: <date>
+200 OK
 Content-Type: text/vnd.ga4gh.seq.v1.0.0+plain; charset=us-ascii
 Content-Length: 230218
 Content: CCACA........GTGGG
 ```
 
-### Ranged Queries
+### Sub-Sequence Queries
 #### Using start / end query parameters
 Important Points:
  * start is inclusive while end is exclusive
@@ -100,12 +97,11 @@ Checksum Algorithm : MD5 (or truncated SHA512 if supported by the server)
 ```
 GET
 /sequence/6681ac2f62509cfc220d78751b8dc524/
-? start=10 & end=20
+?start=10&end=20
 ```
 
 ```
-HTTP/1.1 200 OK
-Date: <date>
+200 OK
 Content-Type: text/vnd.ga4gh.seq.v1.0.0+plain; charset=us-ascii
 Content-Length: 10
 Content: CCCACACACC
@@ -115,12 +111,11 @@ Accept-Ranges: none
 ```
 GET
 /sequence/6681ac2f62509cfc220d78751b8dc524/
-? start=10 & end=11
+?start=10&end=11
 ```
 
 ```
-HTTP/1.1 200 OK
-Date: <date>
+200 OK
 Content-Type: text/vnd.ga4gh.seq.v1.0.0+plain; charset=us-ascii
 Content-Length: 1
 Content: C
@@ -130,12 +125,11 @@ Accept-Ranges: none
 ```
 GET
 /sequence/6681ac2f62509cfc220d78751b8dc524/
-? start=230217 & end=230218 (size is 230218)
+?start=230217&end=230218
 ```
 
 ```
-HTTP/1.1 200 OK
-Date: <date>
+200 OK
 Content-Type: text/vnd.ga4gh.seq.v1.0.0+plain; charset=us-ascii
 Content-Length: 1
 Content: G
@@ -158,13 +152,12 @@ Response : GCATGC + AT -> GCATGCAT
 ```
 GET
 /sequence/3332ed720ac7eaa9b3655c06f6b9e196/
-? start=5372 & end=5
+?start=5372&end=5
 
 ```
 
 ```
-HTTP/1.1 200 OK
-Date: <date>
+200 OK
 Content-Type: text/vnd.ga4gh.seq.v1.0.0+plain; charset=us-ascii
 Content-Length: 17
 Content: ATCCAACCTGCAGAGTT
@@ -202,8 +195,7 @@ Range: bytes=10-19
 ```
 
 ```
-HTTP/1.1 206 Partial Content
-Date: <date>
+206 Partial Content
 Content-Type: text/vnd.ga4gh.seq.v1.0.0+plain; charset=us-ascii
 Content-Length: 10
 Content: CCCACACACC
@@ -218,8 +210,7 @@ Range: bytes=10-230217
 ```
 
 ```
-HTTP/1.1 206 Partial Content
-Date: <date>
+206 Partial Content
 Content-Type: text/vnd.ga4gh.seq.v1.0.0+plain; charset=us-ascii
 Content-Length: 230208
 Content: CCCAC.....GTGGG
@@ -235,8 +226,7 @@ Range: bytes=10-99999999
 ```
 
 ```
-HTTP/1.1 206 Partial Content
-Date: <date>
+206 Partial Content
 Content-Type: text/vnd.ga4gh.seq.v1.0.0+plain; charset=us-ascii
 Content-Length: 230208
 Content: CCCAC.....GTGGG
@@ -260,8 +250,7 @@ Range: bytes=0-230217
 ```
 
 ```
-HTTP/1.1 200 OK
-Date: <date>
+200 OK
 Content-Type: text/vnd.ga4gh.seq.v1.0.0+plain; charset=us-ascii
 Content-Length: 230218
 Content: CCACA........GTGGG
@@ -276,8 +265,7 @@ Range: bytes=0-999999999
 ```
 
 ```
-HTTP/1.1 200 OK
-Date: <date>
+200 OK
 Content-Type: text/vnd.ga4gh.seq.v1.0.0+plain; charset=us-ascii
 Content-Length: 230218
 Content: CCACA........GTGGG
@@ -287,7 +275,7 @@ Content: CCACA........GTGGG
 Reference Servers MUST respond with adequate error codes for every error condition. Error conditions are documented in a hierarchical manner, i.e. first check are shown first.
 
  * [Generic Error conditions](errors/generic.md)  
- * Ranged Query Error conditions :
+ * Sub-Sequence Query Error conditions :
     * [start / end errors](errors/start_end.md)
     * [Range header errors](errors/range_header.md)
 

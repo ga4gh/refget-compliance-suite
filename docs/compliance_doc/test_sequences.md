@@ -5,23 +5,28 @@ There are three sequence used in the compliance documentation for sample queries
  * NC_001422.1 Enterobacteria phage phiX174 sensu lato  
     [fasta sequnce](../circular.faa)  
     Circular Sequence  
-    Size : 5384
+    Size : 5384  
+    MD5 : 3332ed720ac7eaa9b3655c06f6b9e196  
+    Tuncated SHA512 : 2085c82d80500a91dd0b8aa9237b0e43f1c07809bd6e6785  
 
  * I Saccharomyces_cerevisiae chromosome:R64-1-1:I:1:230218:1  
     [fasta sequence](../samples.faa)  
     Non-circular Sequence  
-    Size : 230218
+    Size : 230218  
+    MD5 : 6681ac2f62509cfc220d78751b8dc524  
+    Tuncated SHA512 : 959cb1883fc1ca9ae1394ceb475a356ead1ecceff5824ae7
 
  * VI Saccharomyces_cerevisiae chromosome:R64-1-1:VI:1:270161:1  
     [fasta sequence](../samples.faa)  
     Non-circular sequence  
-    Size : 270161
+    Size : 270161  
+    MD5 : b7ebc601f9a7df2e1ec5863deeae88a3  
+    Tuncated SHA512 : cfea89816a1a711055efbcdc32064df44feeb6b773990b07
 
 
 _Note : Fasta sequences of non-circular sequences are in same file_
 
-Checksums for these sequences can be found [here](./checksums.txt)
-These checksums will be used as identifiers in sequence retrieval and metadata retrieval APIs. There are currently two checksum algorithms in use:
+Checksums will be used as identifiers in sequence retrieval and metadata retrieval APIs. There are currently two checksum algorithms in use:
  * MD5
  * Truncated SHA512
 

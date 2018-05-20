@@ -12,15 +12,14 @@ _Note: Only one of the two ways should be used to query a sub-sequence._
 
 ```
 GET /sequence/6681ac2f62509cfc220d78751b8dc524/
-? start = 10 & end = 20
+?start=10&end=20
 
 Range: bytes=10-19
 
 ```
 
 ```
-HTTP/1.1 400 Bad Request
-Date: <date>
+400 Bad Request
 ```
 
 ##### Case 2
@@ -55,8 +54,7 @@ Range: bytes=10-
 ```
 
 ```
-HTTP/1.1 400 Bad Request
-Date: <date>
+400 Bad Request
 ```
 
 #### Case 3
@@ -70,8 +68,7 @@ Range: bytes=5200-56
 ```
 
 ```
-HTTP/1.1 416 Range Not Satisfiable
-Date: <date>
+416 Range Not Satisfiable
 ```
 
 ##### Case 4  
@@ -87,10 +84,9 @@ Range: bytes=230218-230218
     OR
 
 GET /sequence/6681ac2f62509cfc220d78751b8dc524/
-    Range: bytes=9999999-999999999999
+Range: bytes=9999999-999999999999
 ```
 
-``
-HTTP/1.1 400 Bad Request
-Date: <date>
+```
+400 Bad Request
 ```
