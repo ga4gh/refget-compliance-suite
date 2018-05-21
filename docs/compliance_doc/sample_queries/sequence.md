@@ -20,13 +20,12 @@ Checksum Algorithm : MD5
 **Description** : Complete sequence will be retrieved no matter the type (circular/non-circular)
 
 ```
-GET
-/sequence/6681ac2f62509cfc220d78751b8dc524/
+GET /sequence/6681ac2f62509cfc220d78751b8dc524/ 
 
 Accept: text/vnd.ga4gh.seq.v1.0.0+plain (optional)
 ```
 ```
-200 OK
+HTTP/1.1 200 OK
 Content-Type: text/vnd.ga4gh.seq.v1.0.0+plain; charset=us-ascii
 Content-Length: 230218
 Content: CCACA........GTGGG
@@ -42,14 +41,13 @@ Checksum Algorithm : MD5
 _Note : Encoding can be different, provided supported by the server and requested by the client. This is true for other success queries also._
 
 ```
-GET
-/sequence/6681ac2f62509cfc220d78751b8dc524/
+GET /sequence/6681ac2f62509cfc220d78751b8dc524/
 
 Accept: text/<new-encoding>
 
 ```
 ```
-200 OK
+HTTP/1.1 200 OK
 Content-Type: text/<new-encoding>; charset=us-ascii
 Content-Length: 230218
 Content: CCACA........GTGGG
@@ -66,11 +64,10 @@ Checksum Algorithm : Truncated SHA512
 _Note : Checksum Algorithm can be different, provided supported by the server. This is true for other success queries also._
 
 ```
-GET
-/sequence/959cb1883fc1ca9ae1394ceb475a356ead1ecceff5824ae7/
+GET /sequence/959cb1883fc1ca9ae1394ceb475a356ead1ecceff5824ae7/
 ```
 ```
-200 OK
+HTTP/1.1 200 OK
 Content-Type: text/vnd.ga4gh.seq.v1.0.0+plain; charset=us-ascii
 Content-Length: 230218
 Content: CCACA........GTGGG
@@ -95,13 +92,12 @@ Checksum Algorithm : MD5 (or truncated SHA512 if supported by the server)
 **Description** : Sub sequence will be retrieved no matter the type (circular/non-circular).
 
 ```
-GET
-/sequence/6681ac2f62509cfc220d78751b8dc524/
+GET /sequence/6681ac2f62509cfc220d78751b8dc524/
 ?start=10&end=20
 ```
 
 ```
-200 OK
+HTTP/1.1 200 OK
 Content-Type: text/vnd.ga4gh.seq.v1.0.0+plain; charset=us-ascii
 Content-Length: 10
 Content: CCCACACACC
@@ -109,13 +105,12 @@ Accept-Ranges: none
 ```
 
 ```
-GET
-/sequence/6681ac2f62509cfc220d78751b8dc524/
+GET /sequence/6681ac2f62509cfc220d78751b8dc524/
 ?start=10&end=11
 ```
 
 ```
-200 OK
+HTTP/1.1 200 OK
 Content-Type: text/vnd.ga4gh.seq.v1.0.0+plain; charset=us-ascii
 Content-Length: 1
 Content: C
@@ -123,13 +118,12 @@ Accept-Ranges: none
 ```
 
 ```
-GET
-/sequence/6681ac2f62509cfc220d78751b8dc524/
+GET /sequence/6681ac2f62509cfc220d78751b8dc524/
 ?start=230217&end=230218
 ```
 
 ```
-200 OK
+HTTP/1.1 200 OK
 Content-Type: text/vnd.ga4gh.seq.v1.0.0+plain; charset=us-ascii
 Content-Length: 1
 Content: G
@@ -150,14 +144,13 @@ Sequence : ATGCATGCATGCATGC ; start = 10 & end = 2
 Response : GCATGC + AT -> GCATGCAT
 
 ```
-GET
-/sequence/3332ed720ac7eaa9b3655c06f6b9e196/
+GET /sequence/3332ed720ac7eaa9b3655c06f6b9e196/
 ?start=5372&end=5
 
 ```
 
 ```
-200 OK
+HTTP/1.1 200 OK
 Content-Type: text/vnd.ga4gh.seq.v1.0.0+plain; charset=us-ascii
 Content-Length: 17
 Content: ATCCAACCTGCAGAGTT
@@ -187,30 +180,28 @@ If first-byte-spec is not 0 and last-byte-spec is not (size - 1) or more, (i.e. 
 Size of sequence is 230218
 
 ```
-GET
-/sequence/6681ac2f62509cfc220d78751b8dc524/
+GET /sequence/6681ac2f62509cfc220d78751b8dc524/
 
 Range: bytes=10-19
 
 ```
 
 ```
-206 Partial Content
+HTTP/1.1 206 Partial Content
 Content-Type: text/vnd.ga4gh.seq.v1.0.0+plain; charset=us-ascii
 Content-Length: 10
 Content: CCCACACACC
 ```
 
 ```
-GET
-/sequence/6681ac2f62509cfc220d78751b8dc524/
+GET /sequence/6681ac2f62509cfc220d78751b8dc524/
 
 Range: bytes=10-230217
 
 ```
 
 ```
-206 Partial Content
+HTTP/1.1 206 Partial Content
 Content-Type: text/vnd.ga4gh.seq.v1.0.0+plain; charset=us-ascii
 Content-Length: 230208
 Content: CCCAC.....GTGGG
@@ -218,15 +209,14 @@ Content: CCCAC.....GTGGG
 
 
 ```
-GET
-/sequence/6681ac2f62509cfc220d78751b8dc524/
+GET /sequence/6681ac2f62509cfc220d78751b8dc524/
 
 Range: bytes=10-99999999
 
 ```
 
 ```
-206 Partial Content
+HTTP/1.1 206 Partial Content
 Content-Type: text/vnd.ga4gh.seq.v1.0.0+plain; charset=us-ascii
 Content-Length: 230208
 Content: CCCAC.....GTGGG
@@ -242,30 +232,28 @@ Checksum Algorithm : MD5 (or truncated SHA512 if supported by the server)
 Size of the sequence is 230218
 
 ```
-GET
-/sequence/6681ac2f62509cfc220d78751b8dc524/
+GET /sequence/6681ac2f62509cfc220d78751b8dc524/
 
 Range: bytes=0-230217
 
 ```
 
 ```
-200 OK
+HTTP/1.1 200 OK
 Content-Type: text/vnd.ga4gh.seq.v1.0.0+plain; charset=us-ascii
 Content-Length: 230218
 Content: CCACA........GTGGG
 ```
 
 ```
-GET
-/sequence/6681ac2f62509cfc220d78751b8dc524/
+GET /sequence/6681ac2f62509cfc220d78751b8dc524/
 
 Range: bytes=0-999999999
 
 ```
 
 ```
-200 OK
+HTTP/1.1 200 OK
 Content-Type: text/vnd.ga4gh.seq.v1.0.0+plain; charset=us-ascii
 Content-Length: 230218
 Content: CCACA........GTGGG
@@ -280,4 +268,4 @@ Reference Servers MUST respond with adequate error codes for every error conditi
     * [Range header errors](errors/range_header.md)
 
 
-*Note : More details on the API specification are available [here](https://docs.google.com/document/d/1q2ZE9YewJTpaqQg82Nrz_jVy8KsDpKoG1T8RvCAAsbI/edit#heading=h.pr8uvsa1k8iy)*
+*Note : More details on the API specification are available [here](HTTP/1.1HTTP/1.1  s://docs.google.com/document/d/1q2ZE9YewJTpaqQg82Nrz_jVy8KsDpKoG1T8RvCAAsbI/edit#heading=h.pr8uvsa1k8iy)*

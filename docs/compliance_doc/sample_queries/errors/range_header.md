@@ -19,7 +19,7 @@ Range: bytes=10-19
 ```
 
 ```
-400 Bad Request
+HTTP/1.1 400 Bad Request
 ```
 
 ##### Case 2
@@ -54,7 +54,7 @@ Range: bytes=10-
 ```
 
 ```
-400 Bad Request
+HTTP/1.1 400 Bad Request
 ```
 
 #### Case 3
@@ -62,13 +62,13 @@ Range: bytes=10-
 As stated in [success response](../sequence.md) section, Range header must not be used to retrieve sub-sequences of a circular sequences across the origin. Server must respond with `400 Bad Request` error.  
 Even if the sequence is non-circular and first-byte-spec > last-byte-spec, server must throw `400 Bad Request` error.
 
-```
+````
 GET /sequence/3332ed720ac7eaa9b3655c06f6b9e196/
 Range: bytes=5200-56
 ```
 
 ```
-416 Range Not Satisfiable
+HTTP/1.1 416 Range Not Satisfiable
 ```
 
 ##### Case 4  
@@ -88,5 +88,5 @@ Range: bytes=9999999-999999999999
 ```
 
 ```
-400 Bad Request
+HTTP/1.1 400 Bad Request
 ```

@@ -17,7 +17,7 @@ Range: bytes=10-19
 ```
 
 ```
-400 Bad Request
+HTTP/1.1 400 Bad Request
 ```
 
 ##### Case 2
@@ -46,7 +46,7 @@ GET /sequence/6681ac2f62509cfc220d78751b8dc524/
 ```
 
 ```
-400 Bad Request
+HTTP/1.1 400 Bad Request
 ```
 
 ##### Case 3
@@ -82,7 +82,7 @@ GET /sequence/3332ed720ac7eaa9b3655c06f6b9e196/
 ```
 
 ```
-400 Bad Request
+HTTP/1.1 400 Bad Request
 ```
 
 ##### Case 4
@@ -98,7 +98,7 @@ GET /sequence/6681ac2f62509cfc220d78751b8dc524/
 ```
 
 ```
-501 Not Implemented
+HTTP/1.1 501 Not Implemented
 ```
 
 
@@ -120,5 +120,5 @@ GET /sequence/6681ac2f62509cfc220d78751b8dc524/
 ```
 
 ```
-416 Range Not Satisfiable
+HTTP/1.1 416 Range Not Satisfiable
 ```

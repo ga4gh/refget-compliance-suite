@@ -13,12 +13,10 @@ Important Points :
  Identifier can be MD5 or truncated SHA512(if supported by the server) or any alias for the sequence, supported by the server.
 
  ```
- GET
- /sequence/3332ed720ac7eaa9b3655c06f6b9e196/metadata/
+ GET  /sequence/3332ed720ac7eaa9b3655c06f6b9e196/metadata/
  ```
  ```
  HTTP/1.1 200 OK
- Date: <date>
  Content-Type: application/vnd.ga4gh.seq.v1.0.0+json
  Content: <JSON object shown below>
  ```
@@ -52,13 +50,11 @@ Important Points :
 When ID provided in the request doesn't match any of the checksums of any sequence or alias supported by the server, server throws a `404 Not Found` error
 
 ```
-GET
-/sequence/some1111garbage11111id/metadata/
+GET /sequence/some1111garbage11111id/metadata/
 ```
 
 ```
 HTTP/1.1 404 Not Found
-Date: <date>
 ```
 
 ##### Case 2
@@ -66,15 +62,13 @@ Date: <date>
 When media type requested by the client in the `Accept` header is not supported by the server, server throws a `415 Unsupported Media Type` error
 
 ```
-GET
-/sequence/3332ed720ac7eaa9b3655c06f6b9e196/metadata/
+GET /sequence/3332ed720ac7eaa9b3655c06f6b9e196/metadata/
 
 Accept : text/<some-encoding-not-supported-by-server>
 ```
 
 ```
 HTTP/1.1 415 Unsupported Media Type
-Date: <date>
 ```
 
 

@@ -7,7 +7,7 @@ These conditions are first line of checks, failing these conditions would result
 More information can be found in API spec, [here]()
 
 ```
-401 Unauthorized
+HTTP/1.1 401 Unauthorized
 ```
 
 ##### Case 2
@@ -19,7 +19,7 @@ GET /sequence/some1111garbage11111id/
 ```
 
 ```
-404 Not Found
+HTTP/1.1 404 Not Found
 ```
 
 ##### Case 3
@@ -33,5 +33,5 @@ Accept : text/<some-encoding-not-supported-by-server>
 ```
 
 ```
-415 Unsupported Media Type
+HTTP/1.1 415 Unsupported Media Type
 ```
