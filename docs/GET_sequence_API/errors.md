@@ -34,9 +34,9 @@ GET /sequence/6681ac2f62509cfc220d78751b8dc524
 Accept : text/<some-encoding-not-supported-by-server>
 ```
 
-````
+```
 HTTP/1.1 415 Unsupported Media Type
-````
+```
 
 ## Error Conditions while using start / end parameters
 
@@ -232,7 +232,7 @@ HTTP/1.1 400 Bad Request
 
 <h5> Case 3 </h5>
 `first-byte-spec > last-byte-spec`  
-As stated in [success response](../sequence.md) section, Range header must not be used to retrieve sub-sequences of a circular sequences across the origin. Server must respond with `400 Bad Request` error.  
+As stated in [success response](success.md) section, Range header must not be used to retrieve sub-sequences of a circular sequences across the origin. Server must respond with `400 Bad Request` error.  
 Even if the sequence is non-circular and first-byte-spec > last-byte-spec, server must throw `400 Bad Request` error.
 
 ```text

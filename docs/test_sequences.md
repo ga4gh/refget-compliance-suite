@@ -25,6 +25,7 @@ There are three sequence used in the compliance documentation for sample queries
 _Note : Fasta sequences of non-circular sequences are in same file_
 
 Checksums will be used as identifiers in sequence retrieval and metadata retrieval APIs. There are currently two checksum algorithms in use:
+
  * MD5
  * Truncated SHA512
 

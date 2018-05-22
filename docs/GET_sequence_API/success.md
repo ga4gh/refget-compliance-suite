@@ -17,7 +17,7 @@ Checksum Algorithm : MD5
 `Range : NA`   
 **Description** : Complete sequence will be retrieved no matter the type (circular/non-circular)
 
-```
+```text
 GET /sequence/6681ac2f62509cfc220d78751b8dc524/
 
 Accept: text/vnd.ga4gh.seq.v1.0.0+plain (optional)
@@ -38,7 +38,7 @@ Checksum Algorithm : MD5
 
 _Note : Encoding can be different, provided supported by the server and requested by the client. This is true for other success queries also._
 
-```
+```text
 GET /sequence/6681ac2f62509cfc220d78751b8dc524/
 
 Accept: text/<new-encoding>
@@ -61,7 +61,7 @@ Checksum Algorithm : Truncated SHA512
 
 _Note : Checksum Algorithm can be different, provided supported by the server. This is true for other success queries also._
 
-```
+```text
 GET /sequence/959cb1883fc1ca9ae1394ceb475a356ead1ecceff5824ae7/
 ```
 ```
@@ -75,7 +75,7 @@ Content: CCACA........GTGGG
 <h3> Using start / end query parameters </h3>
 Important Points:
 
- * start is inclusive while end is exclusive
+ * start is 0-based inclusive while end is 0-based exclusive
  * start and end both are 32 bit unsigned integers
  * start / end parameters must not be used along with `Range`
  * While using start / end, response must have a `Accept-Ranges` header set to none.
@@ -90,9 +90,10 @@ Checksum Algorithm : MD5 (or truncated SHA512 if supported by the server)
 **Conditions** : start < end ; start < size of sequence;   
 **Description** : Sub sequence will be retrieved no matter the type (circular/non-circular).
 
-```
+```text
 GET /sequence/6681ac2f62509cfc220d78751b8dc524/
-?start=10&end=20
+    ?start=10
+    &end=20
 ```
 
 ```
@@ -103,9 +104,10 @@ Content: CCCACACACC
 Accept-Ranges: none
 ```
 
-```
+```text
 GET /sequence/6681ac2f62509cfc220d78751b8dc524/
-?start=10&end=11
+    ?start=10
+    &end=11
 ```
 
 ```
@@ -116,9 +118,10 @@ Content: C
 Accept-Ranges: none
 ```
 
-```
+```text
 GET /sequence/6681ac2f62509cfc220d78751b8dc524/
-?start=230217&end=230218
+    ?start=230217
+    &end=230218
 ```
 
 ```
@@ -142,9 +145,10 @@ For example :
 Sequence : ATGCATGCATGCATGC ; start = 10 & end = 2  
 Response : GCATGC + AT -> GCATGCAT
 
-```
+```text
 GET /sequence/3332ed720ac7eaa9b3655c06f6b9e196/
-?start=5372&end=5
+    ?start=5372
+    &end=5
 
 ```
 
@@ -156,6 +160,49 @@ Content: ATCCAACCTGCAGAGTT
 Accept-Ranges: none
 ```
 
+<h5> Case 3 </h5>
+Non-circularCircular Sequences  
+Query parameters : Either start or end given  
+Checksum Algorithm : MD5 (or truncated SHA512 if supported by the server)  
+`Accept : text/vnd.ga4gh.seq.v1.0.0+plain` (or any encoding supported by server)  
+`Range : NA`  
+**Conditions** :  
+Either start or end given; start < size of the sequence; end <= size of the sequence
+
+**Description** : Sub sequence will be retrieved. If only start is given, end will be assumed to have a value equals to `size of the sequence`. If only end is given, start will be assumed to have a value equals to `0`.  
+For example :  
+Sequence : ATGCATGCATGCATGC ; start = 1    
+Response : TGCATGCATGCATGC
+
+Sequence : ATGCATGCATGCATGC ; end = 8  
+Response :  ATGCATGC
+
+```text
+GET /sequence/6681ac2f62509cfc220d78751b8dc524/
+    ?start=10
+```
+
+```
+HTTP/1.1 200 OK
+Content-Type: text/vnd.ga4gh.seq.v1.0.0+plain; charset=us-ascii
+Content-Length: 230208
+Content: CCCAC.....GTGGG
+Accept-Ranges: none
+```
+
+```text
+GET /sequence/6681ac2f62509cfc220d78751b8dc524/
+    ?end=5
+```
+
+```
+HTTP/1.1 200 OK
+Content-Type: text/vnd.ga4gh.seq.v1.0.0+plain; charset=us-ascii
+Content-Length: 5
+Content: CCACA
+Accept-Ranges: none
+```
+
 <h3> Using Range Header </h3>
 Notation:
     `Range: bytes=first-byte-spec - last-byte-spec`  
@@ -164,7 +211,7 @@ Notation:
 Important Points:
 
  * Range header's unit will be bytes. first-byte-spec and last-byte-spec can be integral values only and last-byte-spec >= first-byte-spec MUST be True.
- * first-byte-spec and last-byte-spec are both inclusive as opposed to start / end where end was exclusive.
+ * first-byte-spec and last-byte-spec are both 0-based inclusive as opposed to start / end where end was exclusive.
  * Sub-sequences of a circular sequences across the origin must not be requested via the Range header. Refer first point.
  * More information can be found [here](https://tools.ietf.org/html/rfc7233)
  * **If last-byte-spec equals or more than size of sequence, server MUST replace the value of last-byte-spec with (size - 1).**
@@ -179,7 +226,7 @@ Checksum Algorithm : MD5 (or truncated SHA512 if supported by the server)
 If first-byte-spec is not 0 and last-byte-spec is not (size - 1) or more, (i.e. complete sequence is not being queried) response should be a `206` otherwise `200` ([case 2](#case-2-2))  
 Size of sequence is 230218
 
-```
+```text
 GET /sequence/6681ac2f62509cfc220d78751b8dc524/
 
 Range: bytes=10-19
@@ -193,7 +240,7 @@ Content-Length: 10
 Content: CCCACACACC
 ```
 
-```
+```text
 GET /sequence/6681ac2f62509cfc220d78751b8dc524/
 
 Range: bytes=10-230217
@@ -208,7 +255,7 @@ Content: CCCAC.....GTGGG
 ```
 
 
-```
+```text
 GET /sequence/6681ac2f62509cfc220d78751b8dc524/
 
 Range: bytes=10-99999999
@@ -231,7 +278,7 @@ Checksum Algorithm : MD5 (or truncated SHA512 if supported by the server)
 **Description** : Complete sequence will be retrieved no matter the type (circular/non-circular) hence ignoring the Range header.  
 Size of the sequence is 230218
 
-```
+```text
 GET /sequence/6681ac2f62509cfc220d78751b8dc524/
 
 Range: bytes=0-230217
@@ -245,7 +292,7 @@ Content-Length: 230218
 Content: CCACA........GTGGG
 ```
 
-```
+```text
 GET /sequence/6681ac2f62509cfc220d78751b8dc524/
 
 Range: bytes=0-999999999
