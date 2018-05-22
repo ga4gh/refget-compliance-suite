@@ -12,7 +12,7 @@ Important Points :
 <h5> Case 1 </h5>
 Identifier can be MD5 or truncated SHA512(if supported by the server) or any alias for the sequence, supported by the server.
 
-```text
+```
 GET  /sequence/3332ed720ac7eaa9b3655c06f6b9e196/metadata/
 ```
 ```
@@ -48,7 +48,7 @@ Content: <JSON object shown below>
 **ID not found**  
 When ID provided in the request doesn't match any of the checksums of any sequence or alias supported by the server, server throws a `404 Not Found` error
 
-```text
+```
 GET /sequence/some1111garbage11111id/metadata/
 ```
 
@@ -60,7 +60,7 @@ HTTP/1.1 404 Not Found
 **Unsupported media type by the server**  
 When media type requested by the client in the `Accept` header is not supported by the server, server throws a `415 Unsupported Media Type` error
 
-```text
+```
 GET /sequence/3332ed720ac7eaa9b3655c06f6b9e196/metadata/
 
 Accept : text/<some-encoding-not-supported-by-server>

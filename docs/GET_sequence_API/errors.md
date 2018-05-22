@@ -16,7 +16,7 @@ HTTP/1.1 401 Unauthorized
 **ID not found**  
 When ID provided in the request doesn't match any of the checksums of any sequence, server throws a `404 Not Found` error
 
-```text
+```
 GET /sequence/some1111garbage11111id/
 ```
 
@@ -28,7 +28,7 @@ HTTP/1.1 404 Not Found
 **Unsupported media type by the server**  
 When media type requested by the client in the `Accept` header is not supported by the server, server throws a `415 Unsupported Media Type` error
 
-```text
+```
 GET /sequence/6681ac2f62509cfc220d78751b8dc524
 
 Accept : text/<some-encoding-not-supported-by-server>
@@ -50,7 +50,7 @@ When Range header is also passed along with start / end parameters, server must 
 
 _Note: Only one of the two ways should be used to query a sub-sequence._
 
-```text
+```
 GET /sequence/6681ac2f62509cfc220d78751b8dc524/
     ?start=10
     &end=20
@@ -68,7 +68,7 @@ start and end are 32 bit-unsigned integers, when recieve any value other than th
 On recieving only one of the start / end parameters, server MUST throw a `400 Bad Request` error.
 
 
-```text
+```
 GET /sequence/6681ac2f62509cfc220d78751b8dc524/
     ?start=abc
     &end=20
@@ -100,7 +100,7 @@ Here, size of the sequence is 230218
 `6681ac2f62509cfc220d78751b8dc524` is a non-circular sequence; size = 230218  
 `3332ed720ac7eaa9b3655c06f6b9e196` is a circular sequence; size = 5384
 
-```text
+```
 GET /sequence/6681ac2f62509cfc220d78751b8dc524/
     ?start=23021
     8&end=230218
@@ -136,7 +136,7 @@ Circular sequences **not** supported by the server;
 Server MUST respond with a `501 Not Implemented` error. Doesn't matter the type of sequence (circular or non-circular).
 
 
-```text
+```
 GET /sequence/6681ac2f62509cfc220d78751b8dc524/
     ?start=220218
     &end=671
@@ -159,7 +159,7 @@ circular sequences are supported by the server
 
 But since sequence is not circular, server MUST repond with a `416 Range Not Satisfiable` error.
 
-```text
+```
 GET /sequence/6681ac2f62509cfc220d78751b8dc524/
     ?start=220218
     &end=671
@@ -182,7 +182,7 @@ When start / end parameters are also passed along with Range header, server must
 
 _Note: Only one of the two ways should be used to query a sub-sequence._
 
-```text
+```
 GET /sequence/6681ac2f62509cfc220d78751b8dc524/
     ?start=10
     &end=20
@@ -201,7 +201,7 @@ On recieving only one of the first-byte-spec or last-byte-spec, server MUST thro
 Reference server must only accept `bytes` as unit in `Range` header else `400 Bad Request`
 
 
-```text
+```
 GET /sequence/6681ac2f62509cfc220d78751b8dc524/
 Range: units=10-19
 
@@ -235,7 +235,7 @@ HTTP/1.1 400 Bad Request
 As stated in [success response](success.md) section, Range header must not be used to retrieve sub-sequences of a circular sequences across the origin. Server must respond with `400 Bad Request` error.  
 Even if the sequence is non-circular and first-byte-spec > last-byte-spec, server must throw `400 Bad Request` error.
 
-```text
+```
 GET /sequence/3332ed720ac7eaa9b3655c06f6b9e196/
 Range: bytes=5200-56
 ```
@@ -250,7 +250,7 @@ HTTP/1.1 416 Range Not Satisfiable
 Here size of the sequence is 230218.  
 Doesn't matter if sequence is circular or non-circular as first-byte-spec is inclusive and server can not honour the query in any case, will throw a `400 Bad Request` error
 
-```text
+```
 GET /sequence/6681ac2f62509cfc220d78751b8dc524/
 Range: bytes=230218-230218
 
