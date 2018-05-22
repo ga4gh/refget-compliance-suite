@@ -1,5 +1,7 @@
 # Preamble
 
+Welcome to Reference Sequence Rerieval Servers Compliance documentation.
+
 ## Reference Sequence Retrieval Servers
 The Reference Sequence Retrieval Servers enables bulk access to reference genomic sequences and their metadata using an identifier which will be derieved from the sequence itself. Reference Servers can be queried for complete sequence as well as sub-sequences.
 

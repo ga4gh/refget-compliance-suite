@@ -1,16 +1,14 @@
-# GET Sequence by ID
+# Success Conditions of Sequence API
 API : `/sequence/:id`
 
-Important Points :  
+Important Points
  * Servers may or may not support circular sequence.
  * Servers may or may not support other encoding(JSON, fasta etc) but must support `text/vnd.ga4gh.seq.v1.0.0+plain` or `text/plain`.
  * Client can query for a sub-sequence and server MUST honour.
  * `Accept` header in the requests is optional, if not given default is `text/vnd.ga4gh.seq.v1.0.0+plain` but reponse MUST have a `Content-type` header
 
-## Success Responses
-
 These are all the possible success responses associated with this API.
-### Non Ranged Queries
+### Complete Sequence Queries
 ##### Case 1
 Circular or Non-circular sequences  
 Query parameters : NA  
@@ -20,7 +18,7 @@ Checksum Algorithm : MD5
 **Description** : Complete sequence will be retrieved no matter the type (circular/non-circular)
 
 ```
-GET /sequence/6681ac2f62509cfc220d78751b8dc524/ 
+GET /sequence/6681ac2f62509cfc220d78751b8dc524/
 
 Accept: text/vnd.ga4gh.seq.v1.0.0+plain (optional)
 ```
@@ -258,14 +256,4 @@ Content-Type: text/vnd.ga4gh.seq.v1.0.0+plain; charset=us-ascii
 Content-Length: 230218
 Content: CCACA........GTGGG
 ```
-
-## Error Conditions
-Reference Servers MUST respond with adequate error codes for every error condition. Error conditions are documented in a hierarchical manner, i.e. first check are shown first.
-
- * [Generic Error conditions](errors/generic.md)  
- * Sub-Sequence Query Error conditions :
-    * [start / end errors](errors/start_end.md)
-    * [Range header errors](errors/range_header.md)
-
-
 *Note : More details on the API specification are available [here](HTTP/1.1HTTP/1.1  s://docs.google.com/document/d/1q2ZE9YewJTpaqQg82Nrz_jVy8KsDpKoG1T8RvCAAsbI/edit#heading=h.pr8uvsa1k8iy)*

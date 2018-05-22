@@ -1,0 +1,15 @@
+site_name: Compliance Documentation
+site_description: Compliance Documentation for Reference Sequence Retrieval APIs
+site_author: GA4GH
+
+repo_url: https://github.com/ga4gh/gsoc2018-ref-retrieval-api/
+edit_uri: ""
+
+pages:
+    - Preamble: index.md
+    - API Specification: api_spec.md
+    - Test Sequeces: test_sequences.md
+    - Sample Queries:
+        - Success Conditions of sequence API: sample_queries/sequence.md
+        - Error Conditions of sequence API: sample_queries/errors.md
+        - Metadata API: sample_queries/metadata.md
