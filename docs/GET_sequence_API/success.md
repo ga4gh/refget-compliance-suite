@@ -1,6 +1,7 @@
 API : `/sequence/:id`
 
 Important Points
+
  * Servers may or may not support circular sequence.
  * Servers may or may not support other encoding(JSON, fasta etc) but must support `text/vnd.ga4gh.seq.v1.0.0+plain` or `text/plain`.
  * Client can query for a sub-sequence and server MUST honour.
@@ -73,6 +74,7 @@ Content: CCACA........GTGGG
 ### Sub-Sequence Queries
 #### Using start / end query parameters
 Important Points:
+
  * start is inclusive while end is exclusive
  * start and end both are 32 bit unsigned integers
  * start / end parameters must not be used along with `Range`
@@ -160,6 +162,7 @@ Notation:
     For example : `Range: bytes=5-10`. Here 5 is first-byte-spec and 10 is last-byte-spec.
 
 Important Points:
+
  * Range header's unit will be bytes. first-byte-spec and last-byte-spec can be integral values only and last-byte-spec >= first-byte-spec MUST be True.
  * first-byte-spec and last-byte-spec are both inclusive as opposed to start / end where end was exclusive.
  * Sub-sequences of a circular sequences across the origin must not be requested via the Range header. Refer first point.

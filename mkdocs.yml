@@ -12,4 +12,16 @@ pages:
     - 'GET Sequence API':
         - 'Success Conditions': 'GET_sequence_API/success.md'
         - 'Error Conditions': 'GET_sequence_API/errors.md'
+            # - 'Generic': 'GET_sequence_API/errors.md#generic-error-conditions'
+            # - 'start/end parameters': 'GET_sequence_API/errors.md#error-conditions-while-using-start--end-parameters'
+            # - 'Range Header': 'GET_sequence_API/errors.md#error-conditions-while-using-range-header'
     - 'GET Metadata API': 'metadata.md'
+
+markdown_extensions:
+    - toc:
+        permalink: 
+    - admonition
+    - def_list
+
+theme:
+  name: 'material'
