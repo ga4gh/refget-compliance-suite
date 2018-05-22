@@ -9,7 +9,7 @@ Important Points
 
 These are all the possible success responses associated with this API.
 ### Complete Sequence Queries
-##### Case 1
+<h5> Case 1 </h5>  
 Circular or Non-circular sequences  
 Query parameters : NA  
 Checksum Algorithm : MD5  
@@ -28,7 +28,7 @@ Content-Type: text/vnd.ga4gh.seq.v1.0.0+plain; charset=us-ascii
 Content-Length: 230218
 Content: CCACA........GTGGG
 ```
-##### Case 2
+<h5> Case 2 </h5>
 Circular or Non-circular Sequences  
 Query parameters : NA  
 Checksum Algorithm : MD5  
@@ -51,7 +51,7 @@ Content-Length: 230218
 Content: CCACA........GTGGG
 ```
 
-##### Case 3
+<h5> Case 3 </h5>
 Circular or Non-circular Sequences  
 Query parameters : NA  
 Checksum Algorithm : Truncated SHA512  
@@ -72,7 +72,7 @@ Content: CCACA........GTGGG
 ```
 
 ### Sub-Sequence Queries
-#### Using start / end query parameters
+<h3> Using start / end query parameters </h3>
 Important Points:
 
  * start is inclusive while end is exclusive
@@ -81,7 +81,7 @@ Important Points:
  * While using start / end, response must have a `Accept-Ranges` header set to none.
  * **CASE 2** of this section is only for servers which support circular sequences
 
-##### Case 1
+<h5> Case 1 </h5>
 Circular or Non-circular Sequences  
 Query parameters : start and end given  
 Checksum Algorithm : MD5 (or truncated SHA512 if supported by the server)  
@@ -129,7 +129,7 @@ Content: G
 Accept-Ranges: none
 ```
 
-##### Case 2
+<h5> Case 2 </h5>
 Circular Sequences  
 Query parameters : start and end given  
 Checksum Algorithm : MD5 (or truncated SHA512 if supported by the server)  
@@ -156,7 +156,7 @@ Content: ATCCAACCTGCAGAGTT
 Accept-Ranges: none
 ```
 
-#### Using Range Header
+<h3> Using Range Header </h3>
 Notation:
     `Range: bytes=first-byte-spec - last-byte-spec`  
     For example : `Range: bytes=5-10`. Here 5 is first-byte-spec and 10 is last-byte-spec.
@@ -169,7 +169,7 @@ Important Points:
  * More information can be found [here](https://tools.ietf.org/html/rfc7233)
  * **If last-byte-spec equals or more than size of sequence, server MUST replace the value of last-byte-spec with (size - 1).**
 
-##### Case 1
+<h5> Case 1 </h5>
 Circular or Non-circular Sequences  
 Query parameters : NIL  
 Checksum Algorithm : MD5 (or truncated SHA512 if supported by the server)  
@@ -222,7 +222,7 @@ Content-Length: 230208
 Content: CCCAC.....GTGGG
 ```
 
-##### Case 2
+<h5> Case 2 </h5>
 Circular or Non-circular Sequences  
 Query parameters : NIL  
 Checksum Algorithm : MD5 (or truncated SHA512 if supported by the server)  

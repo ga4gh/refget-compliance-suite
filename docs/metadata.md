@@ -9,7 +9,7 @@ Important Points :
 
 
 ## Success Conditions
-##### Case 1
+<h5> Case 1 </h5>
 Identifier can be MD5 or truncated SHA512(if supported by the server) or any alias for the sequence, supported by the server.
 
 ```
@@ -44,7 +44,7 @@ Content: <JSON object shown below>
 ```
 
 ## Error Conditions
-##### Case 1
+<h5> Case 1 </h5>
 **ID not found**  
 When ID provided in the request doesn't match any of the checksums of any sequence or alias supported by the server, server throws a `404 Not Found` error
 
@@ -56,7 +56,7 @@ GET /sequence/some1111garbage11111id/metadata/
 HTTP/1.1 404 Not Found
 ```
 
-##### Case 2
+<h5> Case 2 </h5>
 **Unsupported media type by the server**  
 When media type requested by the client in the `Accept` header is not supported by the server, server throws a `415 Unsupported Media Type` error
 
