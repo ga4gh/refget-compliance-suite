@@ -1,5 +1,3 @@
-# Test sequences
-
 There are three sequence used in the compliance documentation for sample queries and in compliance test suite for API testing
 
  * NC_001422.1 Enterobacteria phage phiX174 sensu lato  

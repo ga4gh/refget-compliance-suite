@@ -1,4 +1,3 @@
-# Success Conditions of Sequence API
 API : `/sequence/:id`
 
 Important Points

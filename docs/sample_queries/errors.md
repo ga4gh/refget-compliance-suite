@@ -1,4 +1,3 @@
-# Error Conditions of Sequence API
 Reference Servers MUST respond with adequate error codes for every error condition. Error conditions are documented in a hierarchical manner, i.e. first check are shown first.
 
 ## Generic Error Conditions
@@ -229,7 +228,7 @@ HTTP/1.1 400 Bad Request
 As stated in [success response](../sequence.md) section, Range header must not be used to retrieve sub-sequences of a circular sequences across the origin. Server must respond with `400 Bad Request` error.  
 Even if the sequence is non-circular and first-byte-spec > last-byte-spec, server must throw `400 Bad Request` error.
 
-````
+```
 GET /sequence/3332ed720ac7eaa9b3655c06f6b9e196/
 Range: bytes=5200-56
 ```

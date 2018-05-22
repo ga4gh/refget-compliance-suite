@@ -1,4 +1,3 @@
-# GET Metadata for a Sequence by ID
 API : `/sequence/:id/metadata`
 
 Important Points :  
@@ -8,41 +7,40 @@ Important Points :
  * The server MAY return the query identifier in the list of identifiers.
 
 
- ## Success responses
- ##### Case 1
- Identifier can be MD5 or truncated SHA512(if supported by the server) or any alias for the sequence, supported by the server.
+## Success Conditions
+##### Case 1
+Identifier can be MD5 or truncated SHA512(if supported by the server) or any alias for the sequence, supported by the server.
 
- ```
- GET  /sequence/3332ed720ac7eaa9b3655c06f6b9e196/metadata/
- ```
- ```
- HTTP/1.1 200 OK
- Content-Type: application/vnd.ga4gh.seq.v1.0.0+json
- Content: <JSON object shown below>
- ```
-
- ```json
- {
-  "metadata" : {
-    "id" : "3332ed720ac7eaa9b3655c06f6b9e196",
-    "length": 5384,
-    "aliases" : [
-      {
-        "alias": "3332ed720ac7eaa9b3655c06f6b9e196"
-      },
-      {
-        "alias":   "2085c82d80500a91dd0b8aa9237b0e43f1c07809bd6e6785"
-      },
-      {
-        "alias": "NC_001422.1"
-      },
-      {
-        "alias": "Phi X 174"
-      }
-    ]
-  }
+```
+GET  /sequence/3332ed720ac7eaa9b3655c06f6b9e196/metadata/
+```
+```
+HTTP/1.1 200 OK
+Content-Type: application/vnd.ga4gh.seq.v1.0.0+json
+Content: <JSON object shown below>
+```
+```json
+{
+    "metadata" : {
+        "id" : "3332ed720ac7eaa9b3655c06f6b9e196",
+        "length": 5384,
+        "aliases" : [
+            {
+                "alias": "3332ed720ac7eaa9b3655c06f6b9e196"
+            },
+            {
+                "alias":   "2085c82d80500a91dd0b8aa9237b0e43f1c07809bd6e6785"
+            },
+            {
+                "alias": "NC_001422.1"
+            },
+            {
+                "alias": "Phi X 174"
+            }
+        ]
+    }
 }
- ```
+```
 
 ## Error Conditions
 ##### Case 1

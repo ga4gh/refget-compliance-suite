@@ -1,11 +1,15 @@
-# API Specifications
-
 Reference Servers will consists of two `GET` APIs.
 
  * GET Sequence by ID `/sequence/:id`  
  * GET Metadata by ID `/sequence/:id/metadata`
 
- Detailed specifications regarding these APIs are covered in the doc, available [here](https://docs.google.com/document/d/1q2ZE9YewJTpaqQg82Nrz_jVy8KsDpKoG1T8RvCAAsbI/edit)
+Detailed specifications regarding these APIs are covered in the doc, available [here](https://docs.google.com/document/d/1q2ZE9YewJTpaqQg82Nrz_jVy8KsDpKoG1T8RvCAAsbI/edit)
+
+Important points :
+ * Server **MAY** or **MAY NOT** support circular sequences
+ * Server **MUST** implement MD5 while truncated SHA512 is optional
+
+
 
 
 

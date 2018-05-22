@@ -9,7 +9,7 @@ pages:
     - Preamble: index.md
     - API Specification: api_spec.md
     - Test Sequeces: test_sequences.md
-    - Sample Queries:
-        - Success Conditions of sequence API: sample_queries/sequence.md
-        - Error Conditions of sequence API: sample_queries/errors.md
-        - Metadata API: sample_queries/metadata.md
+    - GET Sequence API:
+        - Success Conditions: sample_queries/sequence.md
+        - Error Conditions: sample_queries/errors.md
+    - GET Metadata API: sample_queries/metadata.md
