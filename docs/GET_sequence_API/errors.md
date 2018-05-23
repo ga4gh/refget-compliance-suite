@@ -30,7 +30,6 @@ When media type requested by the client in the `Accept` header is not supported 
 
 ```
 GET /sequence/6681ac2f62509cfc220d78751b8dc524
-
 Accept : text/<some-encoding-not-supported-by-server>
 ```
 
@@ -54,7 +53,6 @@ _Note: Only one of the two ways should be used to query a sub-sequence._
 GET /sequence/6681ac2f62509cfc220d78751b8dc524/
     ?start=10
     &end=20
-
 Range: bytes=10-19
 
 ```
@@ -186,7 +184,6 @@ _Note: Only one of the two ways should be used to query a sub-sequence._
 GET /sequence/6681ac2f62509cfc220d78751b8dc524/
     ?start=10
     &end=20
-
 Range: bytes=10-19
 
 ```

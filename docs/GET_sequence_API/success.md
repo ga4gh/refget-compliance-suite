@@ -85,8 +85,8 @@ Important Points:
 <h5> Case 1 </h5>
 Circular or Non-circular Sequences  
 Query parameters : start and end given  
-Checksum Algorithm : MD5 (or truncated SHA512 if supported by the server)  
-`Accept : text/vnd.ga4gh.seq.v1.0.0+plain` (or any encoding supported by server)  
+Checksum Algorithm : MD5  
+`Accept : text/vnd.ga4gh.seq.v1.0.0+plain`  
 `Range : NA`  
 **Conditions** : start < end ; start < size of sequence;   
 **Description** : Sub sequence will be retrieved no matter the type (circular/non-circular).
@@ -137,10 +137,35 @@ G
 ```
 
 <h5> Case 2 </h5>
+Circular or Non-circular Sequences  
+Query parameters : start and end given  
+Checksum Algorithm : MD5  
+`Accept : text/vnd.ga4gh.seq.v1.0.0+plain`  
+`Range : NA`  
+**Conditions** : start = end ; start < size of sequence;  
+**Description** : Sub sequence of length 0 will be return (i.e. an empty string), as start is inclusive but end is exclusive.
+
+```
+GET /sequence/6681ac2f62509cfc220d78751b8dc524/
+    ?start=10
+    &end=10
+```
+
+```
+HTTP/1.1 200 OK
+Content-Type: text/vnd.ga4gh.seq.v1.0.0+plain; charset=us-ascii
+Content-Length: 0
+Accept-Ranges: none
+
+
+```
+
+
+<h5> Case 3 </h5>
 Circular Sequences  
 Query parameters : start and end given  
-Checksum Algorithm : MD5 (or truncated SHA512 if supported by the server)  
-`Accept : text/vnd.ga4gh.seq.v1.0.0+plain` (or any encoding supported by server)  
+Checksum Algorithm : MD5  
+`Accept : text/vnd.ga4gh.seq.v1.0.0+plain`  
 `Range : NA`  
 **Conditions** : start > end ;  start < size of sequence; end <= size of sequence   
 Circular sequences **must** be supported by the server (This support is optional. Server will throw a Not Implemented error if support for circular sequences is not there,which will be covered in **Error** section)  
@@ -168,8 +193,8 @@ ATCCAACCTGCAGAGTT
 <h5> Case 3 </h5>
 Non-circularCircular Sequences  
 Query parameters : Either start or end given  
-Checksum Algorithm : MD5 (or truncated SHA512 if supported by the server)  
-`Accept : text/vnd.ga4gh.seq.v1.0.0+plain` (or any encoding supported by server)  
+Checksum Algorithm : MD5  
+`Accept : text/vnd.ga4gh.seq.v1.0.0+plain`  
 `Range : NA`  
 **Conditions** :  
 Either start or end given; start < size of the sequence; end <= size of the sequence
@@ -235,7 +260,6 @@ Size of sequence is 230218
 
 ```
 GET /sequence/6681ac2f62509cfc220d78751b8dc524/
-
 Range: bytes=10-19
 
 ```
@@ -250,7 +274,6 @@ CCCACACACC
 
 ```
 GET /sequence/6681ac2f62509cfc220d78751b8dc524/
-
 Range: bytes=10-230217
 
 ```
@@ -266,7 +289,6 @@ CCCAC.....GTGGG
 
 ```
 GET /sequence/6681ac2f62509cfc220d78751b8dc524/
-
 Range: bytes=10-99999999
 
 ```
@@ -290,7 +312,6 @@ Size of the sequence is 230218
 
 ```
 GET /sequence/6681ac2f62509cfc220d78751b8dc524/
-
 Range: bytes=0-230217
 
 ```
@@ -305,7 +326,6 @@ CCACA........GTGGG
 
 ```
 GET /sequence/6681ac2f62509cfc220d78751b8dc524/
-
 Range: bytes=0-999999999
 
 ```

@@ -63,7 +63,6 @@ When media type requested by the client in the `Accept` header is not supported 
 
 ```
 GET /sequence/3332ed720ac7eaa9b3655c06f6b9e196/metadata/
-
 Accept : text/<some-encoding-not-supported-by-server>
 ```
 
