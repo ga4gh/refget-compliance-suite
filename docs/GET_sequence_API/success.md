@@ -3,8 +3,8 @@ API : `/sequence/:id`
 Important Points
 
  * Servers may or may not support circular sequence.
- * Servers may or may not support other encoding(JSON, fasta etc) but must support `text/vnd.ga4gh.seq.v1.0.0+plain` or `text/plain`.
- * Client can query for a sub-sequence and server MUST honour.
+ * Servers may or may not support other encodings(JSON, fasta etc) but must support a response type of `text/vnd.ga4gh.seq.v1.0.0+plain`.
+ * Client can query for a sub-sequence and the server MUST honour.
  * `Accept` header in the requests is optional, if not given default is `text/vnd.ga4gh.seq.v1.0.0+plain` but reponse MUST have a `Content-type` header
 
 These are all the possible success responses associated with this API.
@@ -26,17 +26,16 @@ Accept: text/vnd.ga4gh.seq.v1.0.0+plain (optional)
 HTTP/1.1 200 OK
 Content-Type: text/vnd.ga4gh.seq.v1.0.0+plain; charset=us-ascii
 Content-Length: 230218
-Content: CCACA........GTGGG
+
+CCACA........GTGGG
 ```
 <h5> Case 2 </h5>
 Circular or Non-circular Sequences  
 Query parameters : NA  
 Checksum Algorithm : MD5  
-`Accept : text/<new-encoding>`  
+`Accept : NIL`  
 `Range : NA`   
-**Description** : Complete sequence will be retrieved no matter the type (circular/non-circular). Encoding provided in the `Accept` header of request by the cient should be supported by the server otherwise reponse will be an error which be covered in **Error** section
-
-_Note : Encoding can be different, provided supported by the server and requested by the client. This is true for other success queries also._
+**Description** : Complete sequence will be retrieved no matter the type (circular/non-circular). If encoding is not provided, server will assume it to be `text/vnd.ga4gh.seq.v1.0.0+plain`.  
 
 ```
 GET /sequence/6681ac2f62509cfc220d78751b8dc524/
@@ -46,9 +45,10 @@ Accept: text/<new-encoding>
 ```
 ```
 HTTP/1.1 200 OK
-Content-Type: text/<new-encoding>; charset=us-ascii
+Content-Type: text/vnd.ga4gh.seq.v1.0.0+plain; charset=us-ascii
 Content-Length: 230218
-Content: CCACA........GTGGG
+
+CCACA........GTGGG
 ```
 
 <h5> Case 3 </h5>
@@ -59,7 +59,7 @@ Checksum Algorithm : Truncated SHA512
 `Range : NA`   
 **Description** : Complete sequence will be retrieved no matter the type (circular/non-circular). Checksum algorithm must be supported by the server, otherwise server will result in a `404 Not  Found` error.
 
-_Note : Checksum Algorithm can be different, provided supported by the server. This is true for other success queries also._
+_Note : Identifier in the API requsted can also be derived using truncated SHA512, provided, the server supports it._
 
 ```
 GET /sequence/959cb1883fc1ca9ae1394ceb475a356ead1ecceff5824ae7/
@@ -68,7 +68,8 @@ GET /sequence/959cb1883fc1ca9ae1394ceb475a356ead1ecceff5824ae7/
 HTTP/1.1 200 OK
 Content-Type: text/vnd.ga4gh.seq.v1.0.0+plain; charset=us-ascii
 Content-Length: 230218
-Content: CCACA........GTGGG
+
+CCACA........GTGGG
 ```
 
 ### Sub-Sequence Queries
@@ -100,8 +101,9 @@ GET /sequence/6681ac2f62509cfc220d78751b8dc524/
 HTTP/1.1 200 OK
 Content-Type: text/vnd.ga4gh.seq.v1.0.0+plain; charset=us-ascii
 Content-Length: 10
-Content: CCCACACACC
 Accept-Ranges: none
+
+CCCACACACC
 ```
 
 ```
@@ -114,8 +116,9 @@ GET /sequence/6681ac2f62509cfc220d78751b8dc524/
 HTTP/1.1 200 OK
 Content-Type: text/vnd.ga4gh.seq.v1.0.0+plain; charset=us-ascii
 Content-Length: 1
-Content: C
 Accept-Ranges: none
+
+C
 ```
 
 ```
@@ -128,8 +131,9 @@ GET /sequence/6681ac2f62509cfc220d78751b8dc524/
 HTTP/1.1 200 OK
 Content-Type: text/vnd.ga4gh.seq.v1.0.0+plain; charset=us-ascii
 Content-Length: 1
-Content: G
 Accept-Ranges: none
+
+G
 ```
 
 <h5> Case 2 </h5>
@@ -156,8 +160,9 @@ GET /sequence/3332ed720ac7eaa9b3655c06f6b9e196/
 HTTP/1.1 200 OK
 Content-Type: text/vnd.ga4gh.seq.v1.0.0+plain; charset=us-ascii
 Content-Length: 17
-Content: ATCCAACCTGCAGAGTT
 Accept-Ranges: none
+
+ATCCAACCTGCAGAGTT
 ```
 
 <h5> Case 3 </h5>
@@ -186,8 +191,9 @@ GET /sequence/6681ac2f62509cfc220d78751b8dc524/
 HTTP/1.1 200 OK
 Content-Type: text/vnd.ga4gh.seq.v1.0.0+plain; charset=us-ascii
 Content-Length: 230208
-Content: CCCAC.....GTGGG
 Accept-Ranges: none
+
+CCCAC....GTGGG
 ```
 
 ```
@@ -199,8 +205,9 @@ GET /sequence/6681ac2f62509cfc220d78751b8dc524/
 HTTP/1.1 200 OK
 Content-Type: text/vnd.ga4gh.seq.v1.0.0+plain; charset=us-ascii
 Content-Length: 5
-Content: CCACA
 Accept-Ranges: none
+
+CCACA
 ```
 
 <h3> Using Range Header </h3>
@@ -237,7 +244,8 @@ Range: bytes=10-19
 HTTP/1.1 206 Partial Content
 Content-Type: text/vnd.ga4gh.seq.v1.0.0+plain; charset=us-ascii
 Content-Length: 10
-Content: CCCACACACC
+
+CCCACACACC
 ```
 
 ```
@@ -251,7 +259,8 @@ Range: bytes=10-230217
 HTTP/1.1 206 Partial Content
 Content-Type: text/vnd.ga4gh.seq.v1.0.0+plain; charset=us-ascii
 Content-Length: 230208
-Content: CCCAC.....GTGGG
+
+CCCAC.....GTGGG
 ```
 
 
@@ -266,7 +275,8 @@ Range: bytes=10-99999999
 HTTP/1.1 206 Partial Content
 Content-Type: text/vnd.ga4gh.seq.v1.0.0+plain; charset=us-ascii
 Content-Length: 230208
-Content: CCCAC.....GTGGG
+
+CCCAC.....GTGGG
 ```
 
 <h5> Case 2 </h5>
@@ -289,7 +299,8 @@ Range: bytes=0-230217
 HTTP/1.1 200 OK
 Content-Type: text/vnd.ga4gh.seq.v1.0.0+plain; charset=us-ascii
 Content-Length: 230218
-Content: CCACA........GTGGG
+
+CCACA........GTGGG
 ```
 
 ```
@@ -303,6 +314,7 @@ Range: bytes=0-999999999
 HTTP/1.1 200 OK
 Content-Type: text/vnd.ga4gh.seq.v1.0.0+plain; charset=us-ascii
 Content-Length: 230218
-Content: CCACA........GTGGG
+
+CCACA........GTGGG
 ```
 *Note : More details on the API specification are available [here](HTTP/1.1HTTP/1.1  s://docs.google.com/document/d/1q2ZE9YewJTpaqQg82Nrz_jVy8KsDpKoG1T8RvCAAsbI/edit#heading=h.pr8uvsa1k8iy)*

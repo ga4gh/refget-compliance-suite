@@ -7,7 +7,7 @@ repo_url: https://github.com/ga4gh/gsoc2018-ref-retrieval-api/
 pages:
     - 'Preamble': 'index.md'
     - 'API Specification': 'api_spec.md'
-    - 'Test Sequeces': 'test_sequences.md'
+    - 'Test Sequences': 'test_sequences.md'
     - 'GET Sequence API':
         - 'Success Conditions': 'GET_sequence_API/success.md'
         - 'Error Conditions': 'GET_sequence_API/errors.md'
