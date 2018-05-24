@@ -24,5 +24,4 @@ def server(request):
     port = get_free_port()
     start_mock_server(port)
     server_base_url = 'http://localhost:' + str(port) + '/'
-    print(server_base_url)
     return server_base_url

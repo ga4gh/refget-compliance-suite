@@ -1,5 +1,5 @@
 from http.server import BaseHTTPRequestHandler, HTTPServer
-import json
+# import json
 import re
 import cgi
 import socket
@@ -12,9 +12,72 @@ DATA = []
 
 
 class MockServerRequestHandler(BaseHTTPRequestHandler):
+    CIRCULAR_CHROMOSOME_SUPPORT = False
     URL = 'http://localhost:5000/'
     SEQUENCE_PATTERN = re.compile(r'/sequence/[a-z0-9A-Z]*/?$')
     METADATA_PATTERN = re.compile(r'/sequence/[a-z0-9A-Z]*/metadata/?$')
+
+    def handle_subsequence_query_start_end(self, seq_obj, args):
+        if 'start' in args and 'end' in args and len(args) == 2:
+            start = args['start'][0]
+            end = args['end'][0]
+            if not start.isdigit() or not end.isdigit():
+                self.send(400)
+                return
+            start = int(start)
+            end = int(end)
+            if start >= seq_obj.size or end > seq_obj.size:
+                self.send(400)
+                return
+            if start > end:
+                if self.CIRCULAR_CHROMOSOME_SUPPORT is False:
+                        self.send(501)
+                        return
+                else:
+                    if seq_obj.is_circular == 0:
+                        self.send(416)
+                        return
+                    else:
+                        text = seq_obj.sequence[start:seq_obj.size] + \
+                            seq_obj.sequence[0:end]
+                        self.send(200, bytes(text, "utf-8"))
+            elif start < end:
+                text = seq_obj.sequence[start:end]
+                self.send(200, bytes(text, "utf-8"))
+            else:
+                self.send(200, bytes('', "utf-8"))
+        if 'start' in args and len(args) == 1:
+            start = args['start'][0]
+            if not start.isdigit():
+                self.send(400)
+                return
+            start = int(start)
+            if start >= seq_obj.size:
+                self.send(400)
+                return
+            text = seq_obj.sequence[start:]
+            self.send(200, bytes(text, "utf-8"))
+            return
+
+        if 'end' in args and len(args) == 1:
+            end = args['end'][0]
+            if not end.isdigit():
+                self.send(400)
+                return
+            end = int(end)
+            if end > seq_obj.size:
+                self.send(400)
+                return
+            text = seq_obj.sequence[:end]
+            self.send(200, bytes(text, "utf-8"))
+            return
+
+    def get_seq_obj(self):
+        seq_id = self.path.split('/')[2]
+        for seq in DATA:
+            if seq.md5 == seq_id or seq.sha512 == seq_id:
+                return seq
+        return None
 
     def get_args(self):
         args = {}
@@ -23,23 +86,50 @@ class MockServerRequestHandler(BaseHTTPRequestHandler):
             args = cgi.parse_qs(self.path[idx+1:])
         return args
 
-    def send(self, status_code, content, headers={}):
+    def send(self, status_code, content=bytes('', "utf-8"), headers={}):
         self.send_response(status_code)
         for key in headers:
             self.send_header(key, headers[key])
         self.send_header(
             'Content-Type', 'text/vnd.ga4gh.seq.v1.0.0+plain; charset=us-ascii'
         )
+        if status_code is 200 or status_code is 206:
+            self.send_header('Content-Length', len(content))
         self.end_headers()
         self.wfile.write(content)
         return
 
     def do_GET(self):
         if self.SEQUENCE_PATTERN.match((self.path).split('?')[0]):
-            SUPPORTED_ENCODINGS = ['*/*', 'text/vnd.ga4gh.seq.v1.0.0+plain']
-
             args = self.get_args()
-            self.send(200, bytes('ATGC', "utf-8"))
+            SUPPORTED_ENCODINGS = ['*/*', 'text/vnd.ga4gh.seq.v1.0.0+plain']
+            seq_obj = self.get_seq_obj()
+            if seq_obj is None:
+                self.send(404)
+                return
+
+            if self.headers['Accept'] not in SUPPORTED_ENCODINGS:
+                self.send(415)
+                return
+
+            if 'Range' not in self.headers and args == {}:
+                self.send(200, bytes(seq_obj.sequence, "utf-8"))
+                return
+
+            if 'Range' in self.headers and args != {}:
+                self.send(400)
+                return
+
+            if args != {}:
+                self.handle_subsequence_query_start_end(seq_obj, args)
+                return
+
+            if 'Range' in self.headers:
+                pass
+
+            else:
+                self.send(404, bytes('ATGC', "utf-8"))
+                return
 
             return
 
@@ -54,7 +144,6 @@ def set_data():
     DATA.append(get_seq_obj("I"))
     DATA.append(get_seq_obj("VI"))
     DATA.append(get_seq_obj("NC"))
-    print(DATA[2].sequence)
     return
 
 
