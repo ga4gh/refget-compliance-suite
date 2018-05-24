@@ -9,10 +9,10 @@ from utils import get_seq_obj
 
 
 DATA = []
+CIRCULAR_CHROMOSOME_SUPPORT = False
 
 
 class MockServerRequestHandler(BaseHTTPRequestHandler):
-    CIRCULAR_CHROMOSOME_SUPPORT = False
     URL = 'http://localhost:5000/'
     SEQUENCE_PATTERN = re.compile(r'/sequence/[a-z0-9A-Z]*/?$')
     METADATA_PATTERN = re.compile(r'/sequence/[a-z0-9A-Z]*/metadata/?$')
@@ -30,7 +30,7 @@ class MockServerRequestHandler(BaseHTTPRequestHandler):
                 self.send(400)
                 return
             if start > end:
-                if self.CIRCULAR_CHROMOSOME_SUPPORT is False:
+                if CIRCULAR_CHROMOSOME_SUPPORT is False:
                         self.send(501)
                         return
                 else:
@@ -73,7 +73,7 @@ class MockServerRequestHandler(BaseHTTPRequestHandler):
             return
 
     def get_seq_obj(self):
-        seq_id = self.path.split('/')[2]
+        seq_id = self.path.split('/')[2].split('?')[0]
         for seq in DATA:
             if seq.md5 == seq_id or seq.sha512 == seq_id:
                 return seq
@@ -101,6 +101,7 @@ class MockServerRequestHandler(BaseHTTPRequestHandler):
 
     def do_GET(self):
         if self.SEQUENCE_PATTERN.match((self.path).split('?')[0]):
+            print(CIRCULAR_CHROMOSOME_SUPPORT)
             args = self.get_args()
             SUPPORTED_ENCODINGS = ['*/*', 'text/vnd.ga4gh.seq.v1.0.0+plain']
             seq_obj = self.get_seq_obj()
@@ -137,6 +138,7 @@ class MockServerRequestHandler(BaseHTTPRequestHandler):
             print('metdata')
 
         else:
+            print(self.path)
             self.send_response(404)
 
 
@@ -155,7 +157,9 @@ def get_free_port():
     return port
 
 
-def start_mock_server(port, daemon=True):
+def start_mock_server(port, circular_support, daemon=True):
+    global CIRCULAR_CHROMOSOME_SUPPORT
+    CIRCULAR_CHROMOSOME_SUPPORT = circular_support
     set_data()
     mock_server = HTTPServer(('localhost', port), MockServerRequestHandler)
     mock_server_thread = Thread(target=mock_server.serve_forever)
@@ -165,4 +169,4 @@ def start_mock_server(port, daemon=True):
 
 
 if __name__ == '__main__':
-    start_mock_server(5000, False)
+    start_mock_server(5000, True, False)

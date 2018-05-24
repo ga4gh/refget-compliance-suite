@@ -32,12 +32,12 @@ def test_complete_sequence(server, data):
 
 
 @pytest.mark.parametrize("_input, _output", [
-    ('/?start=10&end=10', ['', 0]),
-    ('/?start=10&end=20', ['CCCACACACC', 10]),
-    ('/?start=10&end=11', ['C', 1]),
-    ('/?start=230208', ['TGTGTGTGGG', 10]),
-    ('/?end=5', ['CCACA', 5]),
-    ('/?start=230217&end=230218', ['G', 1])
+    ('?start=10&end=10', ['', 0]),
+    ('?start=10&end=20', ['CCCACACACC', 10]),
+    ('?start=10&end=11', ['C', 1]),
+    ('?start=230208', ['TGTGTGTGGG', 10]),
+    ('?end=5', ['CCACA', 5]),
+    ('?start=230217&end=230218', ['G', 1])
 ])
 def test_subsequence_start_end_I(server, data, _input, _output):
     api = 'sequence/'
