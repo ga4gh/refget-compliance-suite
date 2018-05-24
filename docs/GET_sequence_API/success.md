@@ -190,7 +190,7 @@ Accept-Ranges: none
 ATCCAACCTGCAGAGTT
 ```
 
-<h5> Case 3 </h5>
+<h5> Case 4 </h5>
 Non-circularCircular Sequences  
 Query parameters : Either start or end given  
 Checksum Algorithm : MD5  
