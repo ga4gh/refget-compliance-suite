@@ -9,13 +9,33 @@ from utils import get_seq_obj
 
 
 DATA = []
-CIRCULAR_CHROMOSOME_SUPPORT = False
+CIRCULAR_CHROMOSOME_SUPPORT = True
 
 
 class MockServerRequestHandler(BaseHTTPRequestHandler):
-    URL = 'http://localhost:5000/'
     SEQUENCE_PATTERN = re.compile(r'/sequence/[a-z0-9A-Z]*/?$')
     METADATA_PATTERN = re.compile(r'/sequence/[a-z0-9A-Z]*/metadata/?$')
+    RANGE_HEADER_PATTERN = re.compile(r'bytes=[0-9]*-[0-9]*$')
+
+    def handle_subsequence_query_range(self, seq_obj):
+        if not self.RANGE_HEADER_PATTERN.match(self.headers['Range']):
+            self.send(400)
+            return
+        fbs = int(self.headers['Range'].split('=')[1].split('-')[0])
+        lbs = int(self.headers['Range'].split('=')[1].split('-')[1])
+        if lbs >= seq_obj.size:
+            lbs = seq_obj.size - 1
+        if fbs >= seq_obj.size:
+            self.send(400)
+            return
+        if fbs > lbs:
+            self.send(400)
+            return
+        if fbs == 0 and lbs == seq_obj.size - 1:
+            self.send(200, bytes(seq_obj.sequence, "utf-8"))
+            return
+        self.send(206, bytes(seq_obj.sequence[fbs:lbs+1], "utf-8"))
+        return
 
     def handle_subsequence_query_start_end(self, seq_obj, args):
         if 'start' in args and 'end' in args and len(args) == 2:
@@ -40,12 +60,12 @@ class MockServerRequestHandler(BaseHTTPRequestHandler):
                     else:
                         text = seq_obj.sequence[start:seq_obj.size] + \
                             seq_obj.sequence[0:end]
-                        self.send(200, bytes(text, "utf-8"))
+                        self.send(200, bytes(text, "utf-8"), {})
             elif start < end:
                 text = seq_obj.sequence[start:end]
-                self.send(200, bytes(text, "utf-8"))
+                self.send(200, bytes(text, "utf-8"), {"Accept-Ranges": "none"})
             else:
-                self.send(200, bytes('', "utf-8"))
+                self.send(200, bytes('', "utf-8"), {"Accept-Ranges": "none"})
         if 'start' in args and len(args) == 1:
             start = args['start'][0]
             if not start.isdigit():
@@ -56,7 +76,7 @@ class MockServerRequestHandler(BaseHTTPRequestHandler):
                 self.send(400)
                 return
             text = seq_obj.sequence[start:]
-            self.send(200, bytes(text, "utf-8"))
+            self.send(200, bytes(text, "utf-8"), {"Accept-Ranges": "none"})
             return
 
         if 'end' in args and len(args) == 1:
@@ -69,7 +89,7 @@ class MockServerRequestHandler(BaseHTTPRequestHandler):
                 self.send(400)
                 return
             text = seq_obj.sequence[:end]
-            self.send(200, bytes(text, "utf-8"))
+            self.send(200, bytes(text, "utf-8"), {"Accept-Ranges": "none"})
             return
 
     def get_seq_obj(self):
@@ -90,11 +110,11 @@ class MockServerRequestHandler(BaseHTTPRequestHandler):
         self.send_response(status_code)
         for key in headers:
             self.send_header(key, headers[key])
-        self.send_header(
-            'Content-Type', 'text/vnd.ga4gh.seq.v1.0.0+plain; charset=us-ascii'
-        )
         if status_code is 200 or status_code is 206:
             self.send_header('Content-Length', len(content))
+            self.send_header(
+                'Content-Type', 'text/vnd.ga4gh.seq.v1.0.0+plain; charset=us-ascii'
+            )
         self.end_headers()
         self.wfile.write(content)
         return
@@ -126,7 +146,8 @@ class MockServerRequestHandler(BaseHTTPRequestHandler):
                 return
 
             if 'Range' in self.headers:
-                pass
+                self.handle_subsequence_query_range(seq_obj)
+                return
 
             else:
                 self.send(404, bytes('ATGC', "utf-8"))

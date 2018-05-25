@@ -5,5 +5,11 @@
   "test_sequence_success.py::test_subsequence_start_end_I[?start=10&end=11-_output2]",
   "test_sequence_success.py::test_subsequence_start_end_I[?start=230208-_output3]",
   "test_sequence_success.py::test_subsequence_start_end_I[?end=5-_output4]",
-  "test_sequence_success.py::test_subsequence_start_end_I[?start=230217&end=230218-_output5]"
+  "test_sequence_success.py::test_subsequence_start_end_I[?start=230217&end=230218-_output5]",
+  "test_sequence_success.py::test_subsequence_start_end_NC[?start=5372&end=5-_output0]",
+  "test_sequence_success.py::test_subsequence_range_I[_input0-_output0]",
+  "test_sequence_success.py::test_subsequence_range_I[_input1-_output1]",
+  "test_sequence_success.py::test_subsequence_range_I[_input2-_output2]",
+  "test_sequence_success.py::test_subsequence_range_I[_input3-_output3]",
+  "test_sequence_success.py::test_subsequence_range_I[_input4-_output4]"
 ]
