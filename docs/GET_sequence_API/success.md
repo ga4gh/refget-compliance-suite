@@ -80,7 +80,7 @@ Important Points:
  * start and end both are 32 bit unsigned integers
  * start / end parameters must not be used along with `Range`
  * While using start / end, response must have a `Accept-Ranges` header set to none.
- * **CASE 2** of this section is only for servers which support circular sequences
+ * **CASE 3** of this section is only for servers which support circular sequences
 
 <h5> Case 1 </h5>
 Circular or Non-circular Sequences  

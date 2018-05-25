@@ -100,8 +100,8 @@ Here, size of the sequence is 230218
 
 ```
 GET /sequence/6681ac2f62509cfc220d78751b8dc524/
-    ?start=23021
-    8&end=230218
+    ?start=230218
+    &end=230218
 
     OR
 
@@ -124,7 +124,7 @@ GET /sequence/3332ed720ac7eaa9b3655c06f6b9e196/
 ```
 
 ```
-HTTP/1.1 400 Bad Request
+HTTP/1.1 416 Bad Request
 ```
 
 <h5> Case 4 </h5>  
@@ -151,7 +151,7 @@ Important Points:
  * **CASE 1** of this section is only for servers which support circular sequences.
 
 
-<h5> Case 5 </h5>
+<h5> Case 1 </h5>
 start > end;  
 circular sequences are supported by the server  
 
@@ -227,21 +227,8 @@ Range: bytes=10-
 HTTP/1.1 400 Bad Request
 ```
 
+
 <h5> Case 3 </h5>
-`first-byte-spec > last-byte-spec`  
-As stated in [success response](success.md) section, Range header must not be used to retrieve sub-sequences of a circular sequences across the origin. Server must respond with `400 Bad Request` error.  
-Even if the sequence is non-circular and first-byte-spec > last-byte-spec, server must throw `400 Bad Request` error.
-
-```
-GET /sequence/3332ed720ac7eaa9b3655c06f6b9e196/
-Range: bytes=5200-56
-```
-
-```
-HTTP/1.1 416 Range Not Satisfiable
-```
-
-<h5> Case 4 </h5>
 `first-byte-spec >= size of sequence`
 
 Here size of the sequence is 230218.  
@@ -259,4 +246,18 @@ Range: bytes=9999999-999999999999
 
 ```
 HTTP/1.1 400 Bad Request
+```
+
+<h5> Case 4 </h5>
+`first-byte-spec > last-byte-spec`  
+As stated in [success response](success.md) section, Range header must not be used to retrieve sub-sequences of a circular sequences across the origin. Server must respond with `416 Range Not Satisfiable` error.  
+Even if the sequence is non-circular and first-byte-spec > last-byte-spec, server must throw `416 Range Not Satisfiable` error.
+
+```
+GET /sequence/3332ed720ac7eaa9b3655c06f6b9e196/
+Range: bytes=5200-56
+```
+
+```
+HTTP/1.1 416 Range Not Satisfiable
 ```

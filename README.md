@@ -25,6 +25,16 @@ git clone https://github.com/ga4gh/gsoc2018-ref-retrieval-api.git
 cd gsoc2018-ref-retrieval-api/test_suite
 
 pip3 install -r requirements.txt
+```
 
+If the server to be tested supports circular sequences then run
+
+```
+py.test --server <your-server-base-url-without-http://-prefix> --cir
+```
+
+and if it doesn't support circular sequences then run
+
+```
 py.test --server <your-server-base-url-without-http://-prefix>
 ```
