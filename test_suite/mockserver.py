@@ -29,7 +29,7 @@ class MockServerRequestHandler(BaseHTTPRequestHandler):
             self.send(400)
             return
         if fbs > lbs:
-            self.send(400)
+            self.send(416)
             return
         if fbs == 0 and lbs == seq_obj.size - 1:
             self.send(200, bytes(seq_obj.sequence, "utf-8"))
@@ -190,4 +190,4 @@ def start_mock_server(port, circular_support, daemon=True):
 
 
 if __name__ == '__main__':
-    start_mock_server(5000, False, False)
+    start_mock_server(5000, True, False)

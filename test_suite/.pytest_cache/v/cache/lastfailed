@@ -1,4 +1,6 @@
 {
+  "test_sequence_error.py::test_sequence_range_errors[_input6-400]": true,
+  "test_sequence_error.py::test_sequence_range_errors[_input9-416]": true,
   "test_sequence_success.py::test_subsequence_start_end_I[?end=5-_output3]": true,
   "test_sequence_success.py::test_subsequence_start_end_I[?start=230217&end=230218-_output4]": true,
   "test_sequence_success.py::test_subsequence_start_end_I[?start=5372&end=5-_output6]": true
