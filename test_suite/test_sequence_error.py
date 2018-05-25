@@ -20,3 +20,32 @@ def test_sequence_generic_errors(server, data, _input, _output):
     response = requests.get(
         server + api + _input[0] + _input[1], headers=_input[2])
     assert response.status_code == _output
+
+
+###############################################################################
+# start End error conditions
+
+
+@pytest.mark.parametrize("_input, _output", [
+    (['6681ac2f62509cfc220d78751b8dc524', '?start=abc&end=20', {}], 400),
+    (['6681ac2f62509cfc220d78751b8dc524', '?start=-10&end=-29', {}], 400),
+    (['6681ac2f62509cfc220d78751b8dc524', '?start=abc', {}], 400),
+    (['3332ed720ac7eaa9b3655c06f6b9e196', '?start=67&end=5385', {}], 416),
+    (['3332ed720ac7eaa9b3655c06f6b9e196', '?start=5384&end=5385', {}], 416),
+    (['3332ed720ac7eaa9b3655c06f6b9e196', '?start=5384&end=5384', {}], 416),
+    (['3332ed720ac7eaa9b3655c06f6b9e196', '?start=5384&end=5', {}], 416),
+    pytest.mark.skipif(
+        ("pytest.config.getoption('--cir') != 'False'"))((
+            ['6681ac2f62509cfc220d78751b8dc524', '?start=220218&end=671', {}], 501)),
+    pytest.mark.skipif(
+        ("pytest.config.getoption('--cir') != 'False'"))((
+            ['3332ed720ac7eaa9b3655c06f6b9e196', '?start=20&end=4', {}], 501)),
+    pytest.mark.skipif(
+        ("pytest.config.getoption('--cir') == 'False'"))((
+            ['6681ac2f62509cfc220d78751b8dc524', '?start=220218&end=671', {}], 416))
+])
+def test_sequence_start_end_errors(server, data, _input, _output):
+    api = 'sequence/'
+    response = requests.get(
+        server + api + _input[0] + _input[1], headers=_input[2])
+    assert response.status_code == _output

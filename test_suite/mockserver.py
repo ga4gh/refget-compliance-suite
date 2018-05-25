@@ -47,12 +47,13 @@ class MockServerRequestHandler(BaseHTTPRequestHandler):
             start = int(start)
             end = int(end)
             if start >= seq_obj.size or end > seq_obj.size:
-                self.send(400)
+                self.send(416)
                 return
             if start > end:
-                if CIRCULAR_CHROMOSOME_SUPPORT is False:
-                        self.send(501)
-                        return
+                if CIRCULAR_CHROMOSOME_SUPPORT is not True:
+                    print('woohoo')
+                    self.send(501)
+                    return
                 else:
                     if seq_obj.is_circular == 0:
                         self.send(416)
@@ -189,4 +190,4 @@ def start_mock_server(port, circular_support, daemon=True):
 
 
 if __name__ == '__main__':
-    start_mock_server(5000, True, False)
+    start_mock_server(5000, False, False)
