@@ -112,8 +112,9 @@ class MockServerRequestHandler(BaseHTTPRequestHandler):
             self.send_header(key, headers[key])
         if status_code is 200 or status_code is 206:
             self.send_header('Content-Length', len(content))
+            content_type = 'text/vnd.ga4gh.seq.v1.0.0+plain; charset=us-ascii'
             self.send_header(
-                'Content-Type', 'text/vnd.ga4gh.seq.v1.0.0+plain; charset=us-ascii'
+                'Content-Type', content_type
             )
         self.end_headers()
         self.wfile.write(content)
@@ -152,8 +153,6 @@ class MockServerRequestHandler(BaseHTTPRequestHandler):
             else:
                 self.send(404, bytes('ATGC', "utf-8"))
                 return
-
-            return
 
         elif self.SEQUENCE_PATTERN.match(self.path):
             print('metdata')

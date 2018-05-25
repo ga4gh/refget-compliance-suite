@@ -1,4 +1,11 @@
 [
+  "test_sequence_error.py::test_sequence_generic_errors[_input0-404]",
+  "test_sequence_error.py::test_sequence_generic_errors[_input1-404]",
+  "test_sequence_error.py::test_sequence_generic_errors[_input2-404]",
+  "test_sequence_error.py::test_sequence_generic_errors[_input3-415]",
+  "test_sequence_error.py::test_sequence_generic_errors[_input4-415]",
+  "test_sequence_error.py::test_sequence_generic_errors[_input5-415]",
+  "test_sequence_error.py::test_sequence_generic_errors[_input6-400]",
   "test_sequence_success.py::test_complete_sequence",
   "test_sequence_success.py::test_subsequence_start_end_I[?start=10&end=10-_output0]",
   "test_sequence_success.py::test_subsequence_start_end_I[?start=10&end=20-_output1]",
