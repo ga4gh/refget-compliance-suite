@@ -1,5 +1,5 @@
 from http.server import BaseHTTPRequestHandler, HTTPServer
-# import json
+import json
 import re
 import cgi
 import socket
@@ -121,9 +121,20 @@ class MockServerRequestHandler(BaseHTTPRequestHandler):
         self.wfile.write(content)
         return
 
+    def get_metadata(self, seq, checksum):
+        response = {
+            "metadata": {
+                "id": checksum,
+                "length": seq.size,
+                "alias": []
+            }
+        }
+        response["metadata"]["alias"].append({"alias": seq.md5})
+        response["metadata"]["alias"].append({"alias": seq.sha512})
+        return json.dumps(response)
+
     def do_GET(self):
         if self.SEQUENCE_PATTERN.match((self.path).split('?')[0]):
-            print(CIRCULAR_CHROMOSOME_SUPPORT)
             args = self.get_args()
             SUPPORTED_ENCODINGS = ['*/*', 'text/vnd.ga4gh.seq.v1.0.0+plain']
             seq_obj = self.get_seq_obj()
@@ -155,8 +166,28 @@ class MockServerRequestHandler(BaseHTTPRequestHandler):
                 self.send(404, bytes('ATGC', "utf-8"))
                 return
 
-        elif self.SEQUENCE_PATTERN.match(self.path):
-            print('metdata')
+        elif self.METADATA_PATTERN.match(self.path):
+            SUPPORTED_ENCODINGS = ['*/*', 'text/vnd.ga4gh.seq.v1.0.0+json']
+            seq_obj = self.get_seq_obj()
+            if seq_obj is None:
+                self.send(404)
+                return
+
+            if self.headers['Accept'] not in SUPPORTED_ENCODINGS:
+                self.send(415)
+                return
+
+            seq_id = self.path.split('/')[2].split('?')[0]
+            metadata = self.get_metadata(seq_obj, seq_id)
+            self.send_response(200)
+            content_type = 'text/vnd.ga4gh.seq.v1.0.0+json'
+            self.send_header(
+                'Content-Type', content_type
+            )
+            self.end_headers()
+            print(metadata.encode('utf8'))
+            self.wfile.write(metadata.encode('utf-8'))
+            return
 
         else:
             print(self.path)
