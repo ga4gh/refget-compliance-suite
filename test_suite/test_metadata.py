@@ -1,5 +1,6 @@
 import json
 import requests
+import pytest
 
 ###############################################################################
 # Successful Conditions
@@ -37,3 +38,21 @@ def test_complete_sequence(server, data):
         check_complete_sequence_response(response, seq, seq.md5)
         response = requests.get(server + api + seq.sha512 + '/metadata')
         check_complete_sequence_response(response, seq, seq.sha512)
+
+
+###############################################################################
+# Error Conditions
+
+
+@pytest.mark.parametrize("_input, _output", [
+    (['some1111garbage1111ID', {}], 404),
+    (['some1111garbage1111ID', {'Accept': 'text/vnd.ga4gh.seq.v1.0.0+json'}], 404),
+    (['some1111garbage1111ID', {'Accept': 'text/embl'}], 404),
+    (['6681ac2f62509cfc220d78751b8dc524', {'Accept': 'text/embl'}], 415)
+
+])
+def test_sequence_generic_errors(server, data, _input, _output):
+    api = 'sequence/'
+    response = requests.get(
+        server + api + _input[0] + '/metadata', headers=_input[1])
+    assert response.status_code == _output

@@ -1,5 +1,9 @@
 [
   "test_metadata.py::test_complete_sequence",
+  "test_metadata.py::test_sequence_generic_errors[_input0-404]",
+  "test_metadata.py::test_sequence_generic_errors[_input1-404]",
+  "test_metadata.py::test_sequence_generic_errors[_input2-404]",
+  "test_metadata.py::test_sequence_generic_errors[_input3-415]",
   "test_sequence_error.py::test_sequence_generic_errors[_input0-404]",
   "test_sequence_error.py::test_sequence_generic_errors[_input1-404]",
   "test_sequence_error.py::test_sequence_generic_errors[_input2-404]",

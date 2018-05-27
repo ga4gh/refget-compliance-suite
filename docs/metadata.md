@@ -2,7 +2,7 @@ API : `/sequence/:id/metadata`
 
 Important Points :  
 
- * Servers may or may not support other encoding but must support `application/vnd.ga4gh.seq.v1.0.0+json` or `text/json`.
+ * Servers may or may not support other encoding but must support `application/vnd.ga4gh.seq.v1.0.0+json`.
  * `Accept` header in the requests is optional, if not given default is `application/vnd.ga4gh.seq.v1.0.0+json` but reponse MUST have a `Content-type: application/vnd.ga4gh.seq.v1.0.0+json` header
  * This API will return all known names for an identifier and related metadata.
  * The server MAY return the query identifier in the list of identifiers.
@@ -32,12 +32,6 @@ Content-Type: application/vnd.ga4gh.seq.v1.0.0+json
             },
             {
                 "alias":   "2085c82d80500a91dd0b8aa9237b0e43f1c07809bd6e6785"
-            },
-            {
-                "alias": "NC_001422.1"
-            },
-            {
-                "alias": "Phi X 174"
             }
         ]
     }
