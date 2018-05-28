@@ -1,4 +1,6 @@
 class Sequence:
+    '''Sequence model object used to store seqeunce data in a defined manner
+    '''
     def __init__(self, name, sequence, is_circular, sha512, md5, size):
         self.name = name
         self.sequence = sequence
@@ -6,6 +8,9 @@ class Sequence:
         self.sha512 = sha512
         self.md5 = md5
         self.size = size
+
+
+# Additional utility functions to load the sequence data
 
 
 def read_sequence(chr_name):

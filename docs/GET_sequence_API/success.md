@@ -20,7 +20,7 @@ Checksum Algorithm : MD5
 ```
 GET /sequence/6681ac2f62509cfc220d78751b8dc524/
 
-Accept: text/vnd.ga4gh.seq.v1.0.0+plain (optional)
+Accept: text/vnd.ga4gh.seq.v1.0.0+plain
 ```
 ```
 HTTP/1.1 200 OK
@@ -39,9 +39,6 @@ Checksum Algorithm : MD5
 
 ```
 GET /sequence/6681ac2f62509cfc220d78751b8dc524/
-
-Accept: text/<new-encoding>
-
 ```
 ```
 HTTP/1.1 200 OK
@@ -92,9 +89,7 @@ Checksum Algorithm : MD5
 **Description** : Sub sequence will be retrieved no matter the type (circular/non-circular).
 
 ```
-GET /sequence/6681ac2f62509cfc220d78751b8dc524/
-    ?start=10
-    &end=20
+GET /sequence/6681ac2f62509cfc220d78751b8dc524/?start=10&end=20
 ```
 
 ```
@@ -107,9 +102,7 @@ CCCACACACC
 ```
 
 ```
-GET /sequence/6681ac2f62509cfc220d78751b8dc524/
-    ?start=10
-    &end=11
+GET /sequence/6681ac2f62509cfc220d78751b8dc524/?start=10&end=11
 ```
 
 ```
@@ -122,9 +115,21 @@ C
 ```
 
 ```
-GET /sequence/6681ac2f62509cfc220d78751b8dc524/
-    ?start=230217
-    &end=230218
+GET /sequence/6681ac2f62509cfc220d78751b8dc524/?start=0&end=1
+```
+
+```
+HTTP/1.1 200 OK
+Content-Type: text/vnd.ga4gh.seq.v1.0.0+plain; charset=us-ascii
+Content-Length: 1
+Accept-Ranges: none
+
+C
+```
+
+
+```
+GET /sequence/6681ac2f62509cfc220d78751b8dc524/?start=230217&end=230218
 ```
 
 ```
@@ -136,6 +141,8 @@ Accept-Ranges: none
 G
 ```
 
+
+
 <h5> Case 2 </h5>
 Circular or Non-circular Sequences  
 Query parameters : start and end given  
@@ -146,9 +153,7 @@ Checksum Algorithm : MD5
 **Description** : Sub sequence of length 0 will be return (i.e. an empty string), as start is inclusive but end is exclusive.
 
 ```
-GET /sequence/6681ac2f62509cfc220d78751b8dc524/
-    ?start=10
-    &end=10
+GET /sequence/6681ac2f62509cfc220d78751b8dc524/?start=10&end=10
 ```
 
 ```
@@ -175,9 +180,7 @@ Sequence : ATGCATGCATGCATGC ; start = 10 & end = 2
 Response : GCATGC + AT -> GCATGCAT
 
 ```
-GET /sequence/3332ed720ac7eaa9b3655c06f6b9e196/
-    ?start=5372
-    &end=5
+GET /sequence/3332ed720ac7eaa9b3655c06f6b9e196/?start=5372&end=5
 
 ```
 
@@ -191,7 +194,7 @@ ATCCAACCTGCAGAGTT
 ```
 
 <h5> Case 4 </h5>
-Non-circularCircular Sequences  
+Non-circular Sequences  
 Query parameters : Either start or end given  
 Checksum Algorithm : MD5  
 `Accept : text/vnd.ga4gh.seq.v1.0.0+plain`  
@@ -208,8 +211,7 @@ Sequence : ATGCATGCATGCATGC ; end = 8
 Response :  ATGCATGC
 
 ```
-GET /sequence/6681ac2f62509cfc220d78751b8dc524/
-    ?start=10
+GET /sequence/6681ac2f62509cfc220d78751b8dc524/?start=10
 ```
 
 ```
@@ -222,8 +224,7 @@ CCCAC....GTGGG
 ```
 
 ```
-GET /sequence/6681ac2f62509cfc220d78751b8dc524/
-    ?end=5
+GET /sequence/6681ac2f62509cfc220d78751b8dc524/?end=5
 ```
 
 ```
@@ -299,6 +300,34 @@ Content-Type: text/vnd.ga4gh.seq.v1.0.0+plain; charset=us-ascii
 Content-Length: 230208
 
 CCCAC.....GTGGG
+```
+
+```
+GET /sequence/6681ac2f62509cfc220d78751b8dc524/
+Range: bytes=0-0
+
+```
+
+```
+HTTP/1.1 206 Partial Content
+Content-Type: text/vnd.ga4gh.seq.v1.0.0+plain; charset=us-ascii
+Content-Length: 1
+
+C
+```
+
+```
+GET /sequence/6681ac2f62509cfc220d78751b8dc524/
+Range: bytes=230217-230217
+
+```
+
+```
+HTTP/1.1 206 Partial Content
+Content-Type: text/vnd.ga4gh.seq.v1.0.0+plain; charset=us-ascii
+Content-Length: 1
+
+C
 ```
 
 <h5> Case 2 </h5>
