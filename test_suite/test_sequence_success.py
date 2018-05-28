@@ -1,11 +1,20 @@
 import requests
 import pytest
 
+'''This module will be testing success queries associated with GET sequence by
+checksum ID API. All the functions with 'test_' as prefix will be treated as
+test cases by pytest.
+'''
 ###############################################################################
-# Test cases for complete sequence success queries
+# Test Cases for complete seqeunce success queries
 
 
 def check_complete_sequence_response(response, seq):
+    '''check_complete_sequence_response is a utility function used by
+    test_complete_sequence function to remove duplication of code. It takes
+    response and seq object as input parameter and assert for reponse header,
+    status code and content
+    '''
     assert response.text == seq.sequence
     assert response.status_code == 200
     assert response.headers['content-type'] == \
@@ -14,15 +23,25 @@ def check_complete_sequence_response(response, seq):
 
 
 def test_complete_sequence(server, data):
+    '''test_complete_sequence tests all the possible scenarios of retrieving
+    successfully retrieving complete sequences. It uses server and data fixture
+    values from conftest.py module.
+    '''
+
     api = 'sequence/'
     accept_header = {
         'Accept': 'text/vnd.ga4gh.seq.v1.0.0+plain'
     }
     for seq in data:
+        # checking support for md5 with Accept headers
         response = requests.get(server + api + seq.md5, headers=accept_header)
         check_complete_sequence_response(response, seq)
+
+        # checking support for md5 without Accept header
         response = requests.get(server + api + seq.md5)
         check_complete_sequence_response(response, seq)
+
+        # checking support for truncated sha512 without Accept header
         response = requests.get(server + api + seq.sha512)
         check_complete_sequence_response(response, seq)
 
@@ -40,6 +59,13 @@ def test_complete_sequence(server, data):
     ('?start=230217&end=230218', ['G', 1]),
 ])
 def test_subsequence_start_end_I(server, data, _input, _output):
+    '''test_subsequence_start_end_I tests all the possible scenarios of
+    successfully retrieving sub-sequences using start and end query parameters.
+    It uses server and data fixture values from conftest.py module.
+    'parametrize' is also implemented to reuse same test code on different
+    inputs.
+    '''
+
     api = 'sequence/'
     response = requests.get(server + api + data[0].md5 + _input)
     assert response.text == _output[0]
@@ -56,9 +82,14 @@ def test_subsequence_start_end_I(server, data, _input, _output):
             'ATCCAACCTGCAGAGTT', 17]))
 ])
 def test_subsequence_start_end_NC(server, data, _input, _output):
+    '''test_subsequence_start_end_NC tests a specific case when the server
+    supports circular seqeunces. This test case will only run if '--cir' tag
+    is specified and hence skipif function is used above which tells to skip
+    this test if server does not support circular sequences.
+    '''
+
     api = 'sequence/'
     response = requests.get(server + api + data[2].md5 + _input)
-    # print(server + api + data[2].md5 + _input)
     assert response.text == _output[0]
     assert response.status_code == 200
     assert int(response.headers['content-length']) == _output[1]
@@ -80,11 +111,21 @@ def test_subsequence_start_end_NC(server, data, _input, _output):
     (['bytes=230217-230217', 230217, 230217], [206, 1])
 ])
 def test_subsequence_range_I(server, data, _input, _output):
+    '''test_subsequence_range_I tests all the possible scenarios of successfully
+    retrieving sub-sequences using range header. It uses server and data
+    fixture values from conftest.py module.
+    'parametrize' is also implemented to reuse same test code on different
+    inputs.
+    '''
+
     api = 'sequence/'
     header = {'Range': _input[0]}
     response = requests.get(server + api + data[0].md5, headers=header)
+
+    # if the last-byte-spec is >= size, replace it with size - 1.
     if _input[2] >= data[0].size:
         _input[2] = data[0].size - 1
+
     assert response.text == data[0].sequence[_input[1]:_input[2]+1]
     assert response.status_code == _output[0]
     assert int(response.headers['content-length']) == _output[1]
