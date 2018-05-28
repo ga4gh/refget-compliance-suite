@@ -16,6 +16,9 @@ def data():
     data.append(get_seq_obj("I"))
     data.append(get_seq_obj("VI"))
     data.append(get_seq_obj("NC"))
+    # print(data[0].size)
+    # print(data[1].size)
+    print(data[2].sequence)
     return data
 
 

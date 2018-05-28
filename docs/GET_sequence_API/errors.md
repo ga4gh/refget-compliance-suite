@@ -50,9 +50,7 @@ When Range header is also passed along with start / end parameters, server must 
 _Note: Only one of the two ways should be used to query a sub-sequence._
 
 ```
-GET /sequence/6681ac2f62509cfc220d78751b8dc524/
-    ?start=10
-    &end=20
+GET /sequence/6681ac2f62509cfc220d78751b8dc524/?start=10&end=20
 Range: bytes=10-19
 
 ```
@@ -67,20 +65,15 @@ On recieving only one of the start / end parameters, server MUST throw a `400 Ba
 
 
 ```
-GET /sequence/6681ac2f62509cfc220d78751b8dc524/
-    ?start=abc
-    &end=20
+GET /sequence/6681ac2f62509cfc220d78751b8dc524/?start=abc&end=20
 
     OR
 
-GET /sequence/6681ac2f62509cfc220d78751b8dc524/
-    ?start=-10
-    &end=-29
+GET /sequence/6681ac2f62509cfc220d78751b8dc524/?start=-10&end=-29
 
     OR
 
-GET /sequence/6681ac2f62509cfc220d78751b8dc524/
-    ?start=abc
+GET /sequence/6681ac2f62509cfc220d78751b8dc524/?start=abc
 ```
 
 ```
@@ -99,28 +92,19 @@ Here, size of the sequence is 230218
 `3332ed720ac7eaa9b3655c06f6b9e196` is a circular sequence; size = 5384
 
 ```
-GET /sequence/6681ac2f62509cfc220d78751b8dc524/
-    ?start=230218
-    &end=230218
+GET /sequence/6681ac2f62509cfc220d78751b8dc524/?start=230218&end=230218
 
     OR
 
-GET /sequence/6681ac2f62509cfc220d78751b8dc524/
-    ?start=67
-    &end=230219
+GET /sequence/6681ac2f62509cfc220d78751b8dc524/?start=67&end=230219
 
     OR
 
-GET /sequence/6681ac2f62509cfc220d78751b8dc524/
-    ?start=230218
-    &end=230219
+GET /sequence/6681ac2f62509cfc220d78751b8dc524/?start=230218&end=230219
 
     OR
 
-GET /sequence/3332ed720ac7eaa9b3655c06f6b9e196/
-    ?start=5384
-    &end=5
-
+GET /sequence/3332ed720ac7eaa9b3655c06f6b9e196/?start=5384&end=5
 ```
 
 ```
@@ -135,9 +119,7 @@ Server MUST respond with a `501 Not Implemented` error. Doesn't matter the type 
 
 
 ```
-GET /sequence/6681ac2f62509cfc220d78751b8dc524/
-    ?start=220218
-    &end=671
+GET /sequence/6681ac2f62509cfc220d78751b8dc524/?start=220218&end=671
 ```
 
 ```
@@ -158,9 +140,7 @@ circular sequences are supported by the server
 But since sequence is not circular, server MUST repond with a `416 Range Not Satisfiable` error.
 
 ```
-GET /sequence/6681ac2f62509cfc220d78751b8dc524/
-    ?start=220218
-    &end=671
+GET /sequence/6681ac2f62509cfc220d78751b8dc524/?start=220218&end=671
 ```
 
 ```
@@ -181,9 +161,7 @@ When start / end parameters are also passed along with Range header, server must
 _Note: Only one of the two ways should be used to query a sub-sequence._
 
 ```
-GET /sequence/6681ac2f62509cfc220d78751b8dc524/
-    ?start=10
-    &end=20
+GET /sequence/6681ac2f62509cfc220d78751b8dc524/?start=10&end=20
 Range: bytes=10-19
 
 ```

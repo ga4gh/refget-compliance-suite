@@ -44,10 +44,10 @@ def test_sequence_generic_errors(server, data, _input, _output):
     (['6681ac2f62509cfc220d78751b8dc524', '?start=abc', {}], 400),
 
     # Range out of bounds. Size of the sequence being tested is 5384.
-    (['3332ed720ac7eaa9b3655c06f6b9e196', '?start=67&end=5385', {}], 416),
-    (['3332ed720ac7eaa9b3655c06f6b9e196', '?start=5384&end=5385', {}], 416),
-    (['3332ed720ac7eaa9b3655c06f6b9e196', '?start=5384&end=5384', {}], 416),
-    (['3332ed720ac7eaa9b3655c06f6b9e196', '?start=5384&end=5', {}], 416),
+    (['3332ed720ac7eaa9b3655c06f6b9e196', '?start=67&end=5387', {}], 416),
+    (['3332ed720ac7eaa9b3655c06f6b9e196', '?start=5386&end=5375', {}], 416),
+    (['3332ed720ac7eaa9b3655c06f6b9e196', '?start=5386&end=5386', {}], 416),
+    (['3332ed720ac7eaa9b3655c06f6b9e196', '?start=5386&end=5', {}], 416),
 
     # Edge cases depending on the implementation of the server tested and hence
     # skipif tag is used to skip tests appropriately
@@ -88,11 +88,11 @@ def test_sequence_start_end_errors(server, data, _input, _output):
     # Range out of bounds as fbs > lbs which is not allowed
     (['3332ed720ac7eaa9b3655c06f6b9e196', '', {'Range': 'bytes=5200-19'}], 416),
     (['3332ed720ac7eaa9b3655c06f6b9e196', '', {'Range': 'bytes=59-50'}], 416),
-    (['3332ed720ac7eaa9b3655c06f6b9e196', '', {'Range': 'bytes=5383-5380'}], 416),
+    (['3332ed720ac7eaa9b3655c06f6b9e196', '', {'Range': 'bytes=5385-5382'}], 416),
 
     # Range out of bounds. Size of the sequence tested is 5384
-    (['3332ed720ac7eaa9b3655c06f6b9e196', '', {'Range': 'bytes=5385-5389'}], 400),
-    (['3332ed720ac7eaa9b3655c06f6b9e196', '', {'Range': 'bytes=5384-5385'}], 400),
+    (['3332ed720ac7eaa9b3655c06f6b9e196', '', {'Range': 'bytes=5387-5391'}], 400),
+    (['3332ed720ac7eaa9b3655c06f6b9e196', '', {'Range': 'bytes=5386-5387'}], 400),
     (['3332ed720ac7eaa9b3655c06f6b9e196', '', {'Range': 'bytes=9999-99999'}], 400)
 ])
 def test_sequence_range_errors(server, data, _input, _output):

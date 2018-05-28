@@ -78,7 +78,7 @@ def test_subsequence_start_end_I(server, data, _input, _output):
 
 @pytest.mark.parametrize("_input, _output", [
     pytest.mark.skipif(
-        ("pytest.config.getoption('--cir') == 'False'"))(('?start=5372&end=5', [
+        ("pytest.config.getoption('--cir') == 'False'"))(('?start=5374&end=5', [
             'ATCCAACCTGCAGAGTT', 17]))
 ])
 def test_subsequence_start_end_NC(server, data, _input, _output):

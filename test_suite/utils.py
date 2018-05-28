@@ -14,36 +14,30 @@ class Sequence:
 
 
 def read_sequence(chr_name):
-    sequence_file = open("test_chromosomes/" + chr_name + ".txt", "r")
-    sequence_data = sequence_file.read().replace('\n', '')
+    with open("../docs/sequences/" + chr_name + ".faa", "r") as sequence_file:
+        next(sequence_file)
+        sequence_data = sequence_file.read().replace('\n', '')
     return sequence_data
 
 
+def read_sequence_data(chr_name):
+    import json
+    with open("../docs/sequences/checksums.json", "r") as checksums_file:
+        checksums = json.load(checksums_file)
+    return checksums[chr_name]
+
+
 def get_seq_obj(chr):
-    if chr is "I":
-        return Sequence(
-            'I',
-            read_sequence(chr),
-            False,
-            '959cb1883fc1ca9ae1394ceb475a356ead1ecceff5824ae7',
-            '6681ac2f62509cfc220d78751b8dc524',
-            len(read_sequence(chr))
-        )
-    if chr is "VI":
-        return Sequence(
-            'VI',
-            read_sequence(chr),
-            False,
-            'cfea89816a1a711055efbcdc32064df44feeb6b773990b07',
-            'b7ebc601f9a7df2e1ec5863deeae88a3',
-            len(read_sequence(chr))
-        )
+    data = read_sequence_data(chr)
+    if data['is_circular'] == 1:
+        data['is_circular'] = True
     else:
-        return Sequence(
-            'NC',
-            read_sequence(chr),
-            True,
-            '2085c82d80500a91dd0b8aa9237b0e43f1c07809bd6e6785',
-            '3332ed720ac7eaa9b3655c06f6b9e196',
-            len(read_sequence(chr))
-        )
+        data['is_circular'] = False
+    return Sequence(
+        chr,
+        read_sequence(chr),
+        data['is_circular'],
+        data['sha512'],
+        data['md5'],
+        len(read_sequence(chr))
+    )
