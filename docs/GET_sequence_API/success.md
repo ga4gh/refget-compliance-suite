@@ -180,7 +180,7 @@ Sequence : ATGCATGCATGCATGC ; start = 10 & end = 2
 Response : GCATGC + AT -> GCATGCAT
 
 ```
-GET /sequence/3332ed720ac7eaa9b3655c06f6b9e196/?start=5372&end=5
+GET /sequence/3332ed720ac7eaa9b3655c06f6b9e196/?start=5374&end=5
 
 ```
 

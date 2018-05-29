@@ -89,7 +89,7 @@ OR
 Here, size of the sequence is 230218
 
 `6681ac2f62509cfc220d78751b8dc524` is a non-circular sequence; size = 230218  
-`3332ed720ac7eaa9b3655c06f6b9e196` is a circular sequence; size = 5384
+`3332ed720ac7eaa9b3655c06f6b9e196` is a circular sequence; size = 5386
 
 ```
 GET /sequence/6681ac2f62509cfc220d78751b8dc524/?start=230218&end=230218
@@ -104,7 +104,7 @@ GET /sequence/6681ac2f62509cfc220d78751b8dc524/?start=230218&end=230219
 
     OR
 
-GET /sequence/3332ed720ac7eaa9b3655c06f6b9e196/?start=5384&end=5
+GET /sequence/3332ed720ac7eaa9b3655c06f6b9e196/?start=5386&end=5
 ```
 
 ```
