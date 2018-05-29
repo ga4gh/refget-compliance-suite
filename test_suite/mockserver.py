@@ -52,9 +52,9 @@ class MockServerRequestHandler(BaseHTTPRequestHandler):
             self.send(416)
             return
         if fbs == 0 and lbs == seq_obj.size - 1:
-            self.send(200, bytes(seq_obj.sequence, "utf-8"))
+            self.send(200, seq_obj.sequence.encode("ascii"))
             return
-        self.send(206, bytes(seq_obj.sequence[fbs:lbs+1], "utf-8"))
+        self.send(206, seq_obj.sequence[fbs:lbs+1].encode("ascii"))
         return
 
     def handle_subsequence_query_start_end(self, seq_obj, args):
@@ -87,12 +87,12 @@ class MockServerRequestHandler(BaseHTTPRequestHandler):
                     else:
                         text = seq_obj.sequence[start:seq_obj.size] + \
                             seq_obj.sequence[0:end]
-                        self.send(200, bytes(text, "utf-8"), {})
+                        self.send(200, text.encode("ascii"), {})
             elif start < end:
                 text = seq_obj.sequence[start:end]
-                self.send(200, bytes(text, "utf-8"), {"Accept-Ranges": "none"})
+                self.send(200, text.encode("ascii"), {"Accept-Ranges": "none"})
             else:
-                self.send(200, bytes('', "utf-8"), {"Accept-Ranges": "none"})
+                self.send(200, "".encode("ascii"), {"Accept-Ranges": "none"})
         if 'start' in args and len(args) == 1:
             start = args['start'][0]
             if not start.isdigit():
@@ -103,7 +103,7 @@ class MockServerRequestHandler(BaseHTTPRequestHandler):
                 self.send(400)
                 return
             text = seq_obj.sequence[start:]
-            self.send(200, bytes(text, "utf-8"), {"Accept-Ranges": "none"})
+            self.send(200, text.encode("ascii"), {"Accept-Ranges": "none"})
             return
 
         if 'end' in args and len(args) == 1:
@@ -116,7 +116,7 @@ class MockServerRequestHandler(BaseHTTPRequestHandler):
                 self.send(400)
                 return
             text = seq_obj.sequence[:end]
-            self.send(200, bytes(text, "utf-8"), {"Accept-Ranges": "none"})
+            self.send(200, text.encode("ascii"), {"Accept-Ranges": "none"})
             return
 
     def get_seq_obj(self):
@@ -143,7 +143,7 @@ class MockServerRequestHandler(BaseHTTPRequestHandler):
             args = cgi.parse_qs(self.path[idx+1:])
         return args
 
-    def send(self, status_code, content=bytes('', "utf-8"), headers={}):
+    def send(self, status_code, content="".encode("ascii"), headers={}):
         '''send is a custom response function to remove repetitive code from
         the mock server. It takes three parameters as input i.e. status_code,
         content and  headers. This function is called from various functions
@@ -209,7 +209,7 @@ class MockServerRequestHandler(BaseHTTPRequestHandler):
                 return
 
             if 'Range' not in self.headers and args == {}:
-                self.send(200, bytes(seq_obj.sequence, "utf-8"))
+                self.send(200, seq_obj.sequence.encode("ascii"))
                 return
 
             if 'Range' in self.headers and args != {}:
@@ -225,7 +225,7 @@ class MockServerRequestHandler(BaseHTTPRequestHandler):
                 return
 
             else:
-                self.send(404, bytes('ATGC', "utf-8"))
+                self.send(404, "ATGC".encode("ascii"))
                 return
 
         elif self.METADATA_PATTERN.match(self.path):
@@ -247,7 +247,7 @@ class MockServerRequestHandler(BaseHTTPRequestHandler):
                 'Content-Type', content_type
             )
             self.end_headers()
-            self.wfile.write(metadata.encode('utf-8'))
+            self.wfile.write(metadata.encode("ascii"))
             return
 
         else:
