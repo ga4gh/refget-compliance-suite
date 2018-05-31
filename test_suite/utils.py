@@ -1,3 +1,9 @@
+import os
+
+TEST_SUITE = os.path.dirname(os.path.dirname(__file__))
+SEQUENCE_FILES = os.path.join(TEST_SUITE, 'docs/sequences/')
+
+
 class Sequence:
     '''Sequence model object used to store seqeunce data in a defined manner
     '''
@@ -14,7 +20,7 @@ class Sequence:
 
 
 def read_sequence(chr_name):
-    with open("../docs/sequences/" + chr_name + ".faa", "r") as sequence_file:
+    with open(SEQUENCE_FILES + chr_name + ".faa", "r") as sequence_file:
         next(sequence_file)
         sequence_data = sequence_file.read().replace('\n', '')
     return sequence_data
@@ -22,7 +28,7 @@ def read_sequence(chr_name):
 
 def read_sequence_data(chr_name):
     import json
-    with open("../docs/sequences/checksums.json", "r") as checksums_file:
+    with open(SEQUENCE_FILES + "checksums.json", "r") as checksums_file:
         checksums = json.load(checksums_file)
     return checksums[chr_name]
 
