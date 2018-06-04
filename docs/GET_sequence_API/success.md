@@ -69,6 +69,23 @@ Content-Length: 230218
 CCACA........GTGGG
 ```
 
+<h5> Case 4 </h5>
+Circular or Non-circular Sequences  
+Query parameters : NA  
+Checksum Algorithm : Truncated SHA512  
+`Accept : vnd.ga4gh.seq.v1.0.0+plain` (or any encoding supported by server)  
+`Range : NA`   
+**Description** : This is the case when the server redirects its request to AWS bucket. Server will repspond with an `301 Moved Permanently` and client will make request to the URL provided in the `Location` header.
+
+
+```
+GET /sequence/959cb1883fc1ca9ae1394ceb475a356ead1ecceff5824ae7/
+```
+```
+HTTP/1.1 301 Moved Permanently
+Location: ourbucket.aws.com/bucketname/959cb1883fc1ca9ae1394ceb475a356ead1ecceff5824ae7
+```
+
 ### Sub-Sequence Queries
 <h3> Using start / end query parameters </h3>
 Important Points:
