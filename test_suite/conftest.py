@@ -24,12 +24,16 @@ def data():
 
 def pytest_addoption(parser):
     '''pytest_addoption is used to define extra command line arguments. It
-    defines currently 2 i.e. server and cir (both optional)
+    defines currently 2 i.e. server, cir and redir(all optional)
     '''
     parser.addoption("--server", type="string")
     parser.addoption(
         "--cir",
         action="store_true", default="False", help="circular support")
+    parser.addoption(
+        "--redir",
+        action="store_true",
+        default="False", help="success queries redirection")
 
 
 @pytest.fixture(scope='session')
@@ -44,7 +48,8 @@ def server(request):
     if option.server is not None:
         return 'http://' + option.server + '/'
     circular_support = request.config.getoption("--cir")
+    redirection = request.config.getoption("--redir")
     port = get_free_port()
-    start_mock_server(port, circular_support)
+    start_mock_server(port, circular_support, redirection)
     server_base_url = 'http://localhost:' + str(port) + '/'
     return server_base_url

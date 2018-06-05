@@ -10,6 +10,7 @@ from utils import get_seq_obj
 
 DATA = []
 CIRCULAR_CHROMOSOME_SUPPORT = True
+REDIRECTION = False
 
 
 class MockServerRequestHandler(BaseHTTPRequestHandler):
@@ -52,7 +53,23 @@ class MockServerRequestHandler(BaseHTTPRequestHandler):
             self.send(416)
             return
         if fbs == 0 and lbs == seq_obj.size - 1:
+            if REDIRECTION:
+                '''
+                If the server is redirecting to aws it'll send 301 instead of a
+                200 or 206 in case of queries using Range header. Response will
+                also contain a `Location` header in which redirected URL will
+                be sent to the client.
+                '''
+                seq_id = self.path.split('/')[2].split('?')[0]
+                self.send(
+                    301, headers={'Location': 'aws.bucket.in/' + seq_id})
+                return
             self.send(200, seq_obj.sequence.encode("ascii"))
+            return
+        if REDIRECTION:
+            seq_id = self.path.split('/')[2].split('?')[0]
+            self.send(
+                301, headers={'Location': 'aws.bucket.in/' + seq_id})
             return
         self.send(206, seq_obj.sequence[fbs:lbs+1].encode("ascii"))
         return
@@ -209,6 +226,11 @@ class MockServerRequestHandler(BaseHTTPRequestHandler):
                 return
 
             if 'Range' not in self.headers and args == {}:
+                if REDIRECTION:
+                    seq_id = self.path.split('/')[2].split('?')[0]
+                    self.send(
+                        301, headers={'Location': 'aws.bucket.in/' + seq_id})
+                    return
                 self.send(200, seq_obj.sequence.encode("ascii"))
                 return
 
@@ -280,7 +302,7 @@ def get_free_port():
     return port
 
 
-def start_mock_server(port, circular_support, daemon=True):
+def start_mock_server(port, circular_support, redirection, daemon=True):
     ''' start_mock_server used by test suite's conftest.py file to run the server
     on the fly. It gets circular_support (a boolean variable) from conftest.py
     to set the global variable CIRCULAR_CHROMOSOME_SUPPORT in the server.
@@ -289,8 +311,9 @@ def start_mock_server(port, circular_support, daemon=True):
     running all the tests.
     '''
 
-    global CIRCULAR_CHROMOSOME_SUPPORT
+    global CIRCULAR_CHROMOSOME_SUPPORT, REDIRECTION
     CIRCULAR_CHROMOSOME_SUPPORT = circular_support
+    REDIRECTION = redirection
     set_data()
     mock_server = HTTPServer(('localhost', port), MockServerRequestHandler)
     mock_server_thread = Thread(target=mock_server.serve_forever)
@@ -300,4 +323,4 @@ def start_mock_server(port, circular_support, daemon=True):
 
 
 if __name__ == '__main__':
-    start_mock_server(5000, True, False)
+    start_mock_server(5000, True, True, False)
