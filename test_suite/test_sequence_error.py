@@ -1,5 +1,7 @@
 import pytest
 import requests
+from skipif_decorators import *
+
 
 '''This module will be testing error queries associated with GET sequence by
 checksum ID API. All the functions with 'test_' as prefix will be treated as
@@ -51,14 +53,11 @@ def test_sequence_generic_errors(server, data, _input, _output):
 
     # Edge cases depending on the implementation of the server tested and hence
     # skipif tag is used to skip tests appropriately
-    pytest.mark.skipif(
-        ("pytest.config.getoption('--cir') != 'False'"))((
+    circular_support_true_skip((
             ['6681ac2f62509cfc220d78751b8dc524', '?start=220218&end=671', {}], 501)),
-    pytest.mark.skipif(
-        ("pytest.config.getoption('--cir') != 'False'"))((
+    circular_support_true_skip((
             ['3332ed720ac7eaa9b3655c06f6b9e196', '?start=20&end=4', {}], 501)),
-    pytest.mark.skipif(
-        ("pytest.config.getoption('--cir') == 'False'"))((
+    circular_support_false_skip((
             ['6681ac2f62509cfc220d78751b8dc524', '?start=220218&end=671', {}], 416))
 ])
 def test_sequence_start_end_errors(server, data, _input, _output):

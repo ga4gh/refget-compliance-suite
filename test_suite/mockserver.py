@@ -53,21 +53,21 @@ class MockServerRequestHandler(BaseHTTPRequestHandler):
             self.send(416)
             return
         if fbs == 0 and lbs == seq_obj.size - 1:
-            if REDIRECTION:
+            if REDIRECTION is True:
                 '''
                 If the server is redirecting to aws it'll send 301 instead of a
                 200 or 206 in case of queries using Range header. Response will
                 also contain a `Location` header in which redirected URL will
                 be sent to the client.
                 '''
-                seq_id = self.path.split('/')[2].split('?')[0]
+                seq_id = self.get_seq_id()
                 self.send(
                     301, headers={'Location': 'aws.bucket.in/' + seq_id})
                 return
             self.send(200, seq_obj.sequence.encode("ascii"))
             return
-        if REDIRECTION:
-            seq_id = self.path.split('/')[2].split('?')[0]
+        if REDIRECTION is True:
+            seq_id = self.get_seq_id()
             self.send(
                 301, headers={'Location': 'aws.bucket.in/' + seq_id})
             return
@@ -136,13 +136,16 @@ class MockServerRequestHandler(BaseHTTPRequestHandler):
             self.send(200, text.encode("ascii"), {"Accept-Ranges": "none"})
             return
 
+    def get_seq_id(self):
+        return self.path.split('/')[2].split('?')[0]
+
     def get_seq_obj(self):
         '''
         get_seq_obj is used to get the sequence object based on the checksum
         identifier passed in the URL. This function is called from do_GET
         '''
 
-        seq_id = self.path.split('/')[2].split('?')[0]
+        seq_id = self.get_seq_id()
         for seq in DATA:
             if seq.md5 == seq_id or seq.sha512 == seq_id:
                 return seq
@@ -226,8 +229,8 @@ class MockServerRequestHandler(BaseHTTPRequestHandler):
                 return
 
             if 'Range' not in self.headers and args == {}:
-                if REDIRECTION:
-                    seq_id = self.path.split('/')[2].split('?')[0]
+                if REDIRECTION is True:
+                    seq_id = self.get_seq_id()
                     self.send(
                         301, headers={'Location': 'aws.bucket.in/' + seq_id})
                     return
@@ -261,7 +264,7 @@ class MockServerRequestHandler(BaseHTTPRequestHandler):
                 self.send(415)
                 return
 
-            seq_id = self.path.split('/')[2].split('?')[0]
+            seq_id = self.get_seq_id()
             metadata = self.get_metadata(seq_obj, seq_id)
             self.send_response(200)
             content_type = 'text/vnd.ga4gh.seq.v1.0.0+json'

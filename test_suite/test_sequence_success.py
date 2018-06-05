@@ -1,5 +1,6 @@
 import requests
 import pytest
+from skipif_decorators import *
 
 '''This module will be testing success queries associated with GET sequence by
 checksum ID API. All the functions with 'test_' as prefix will be treated as
@@ -22,6 +23,7 @@ def check_complete_sequence_response(response, seq):
     assert response.headers['content-length'] == str(seq.size)
 
 
+@redirection_true_skip
 def test_complete_sequence(server, data):
     '''test_complete_sequence tests all the possible scenarios of retrieving
     successfully retrieving complete sequences. It uses server and data fixture
@@ -77,8 +79,7 @@ def test_subsequence_start_end_I(server, data, _input, _output):
 
 
 @pytest.mark.parametrize("_input, _output", [
-    pytest.mark.skipif(
-        ("pytest.config.getoption('--cir') == 'False'"))(('?start=5374&end=5', [
+    circular_support_false_skip(('?start=5374&end=5', [
             'ATCCAACCTGCAGAGTT', 17]))
 ])
 def test_subsequence_start_end_NC(server, data, _input, _output):
@@ -101,6 +102,7 @@ def test_subsequence_start_end_NC(server, data, _input, _output):
 # Test cases for sub-sequence success queries using Range header
 
 
+@redirection_true_skip
 @pytest.mark.parametrize("_input, _output", [
     (['bytes=10-19', 10, 19], [206, 10]),
     (['bytes=10-230217', 10, 230217], [206, 230208]),
@@ -131,3 +133,25 @@ def test_subsequence_range_I(server, data, _input, _output):
     assert int(response.headers['content-length']) == _output[1]
     assert response.headers['content-type'] == \
         'text/vnd.ga4gh.seq.v1.0.0+plain; charset=us-ascii'
+
+
+###############################################################################
+# Test cases in case of redirection by the server
+
+@redirection_false_skip
+@pytest.mark.parametrize("_input, _output", [
+    (['6681ac2f62509cfc220d78751b8dc524', '', {}], 301),
+    (['6681ac2f62509cfc220d78751b8dc524', '', {'Range': 'bytes=0-20'}], 301),
+    (['6681ac2f62509cfc220d78751b8dc524', '', {'Range': 'bytes=0-10'}], 301),
+
+])
+def test_sequence_generic_errors(server, data, _input, _output):
+    '''test_sequence_generic_errors tests generic error codes associated with
+    unknown checksum ID, unsupported encoding request in Accept header or both
+    and using Range header and start - end query parameter simultaneously
+    '''
+    api = 'sequence/'
+    response = requests.get(
+        server + api + _input[0] + _input[1], headers=_input[2],
+        allow_redirects=False)
+    assert response.status_code == _output
