@@ -6,6 +6,7 @@ Important Points
  * Servers may or may not support other encodings(JSON, fasta etc) but must support a response type of `text/vnd.ga4gh.seq.v1.0.0+plain`.
  * Client can query for a sub-sequence and the server MUST honour.
  * `Accept` header in the requests is optional, if not given default is `text/vnd.ga4gh.seq.v1.0.0+plain` but reponse MUST have a `Content-type` header
+ * Server can support redirection and redirect success requests to an external resource using `301` status code
 
 These are all the possible success responses associated with this API.
 ### Complete Sequence Queries
@@ -265,6 +266,7 @@ Important Points:
  * Sub-sequences of a circular sequences across the origin must not be requested via the Range header. Refer first point.
  * More information can be found [here](https://tools.ietf.org/html/rfc7233)
  * **If last-byte-spec equals or more than size of sequence, server MUST replace the value of last-byte-spec with (size - 1).**
+ <!-- * If the server redirects to some external resource, then server will respond with `301 Moved Permanently` along with a header `Location` with the redirected URL as per given in case 3. -->
 
 <h5> Case 1 </h5>
 Circular or Non-circular Sequences  
@@ -383,4 +385,35 @@ Content-Length: 230218
 
 CCACA........GTGGG
 ```
+<!--
+<h5> Case 3 </h5>
+Circular or Non-circular Sequences  
+Query parameters : NIL  
+Checksum Algorithm : MD5
+`Accept : text/vnd.ga4gh.seq.v1.0.0+plain` (or any encoding supported by server)  
+**Conditions** : Valid Range header (as per the conditions given in the above two cases)   
+**Description** : Server will respond with `301 Moved Permanently`
+Size of the sequence is 230218
+
+```
+GET /sequence/6681ac2f62509cfc220d78751b8dc524/
+Range: bytes=0-230217
+
+```
+
+```
+HTTP/1.1 301 Moved Permanently
+Location: aws.bitbucket.in/6681ac2f62509cfc220d78751b8dc524/
+```
+
+```
+GET /sequence/6681ac2f62509cfc220d78751b8dc524/
+Range: bytes=0-999999999
+
+```
+
+```
+HTTP/1.1 301 Moved Permanently
+Location: aws.bitbucket.in/6681ac2f62509cfc220d78751b8dc524/
+``` -->
 *Note : More details on the API specification are available [here](HTTP/1.1HTTP/1.1  s://docs.google.com/document/d/1q2ZE9YewJTpaqQg82Nrz_jVy8KsDpKoG1T8RvCAAsbI/edit#heading=h.pr8uvsa1k8iy)*

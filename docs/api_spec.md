@@ -9,7 +9,7 @@ Important points :
 
  * Server **MAY** or **MAY NOT** support circular sequences
  * Server **MUST** implement MD5 while truncated SHA512 is optional
- * Server can redirect to AWS s3 buckets and respond with a `301 Moved Permanently`response which provides redirected URL in `Location` header.
+ * Server can support redirection and redirect success requests to an external resource using `301 Moved Permanently` response which provides redirected URL in `Location` header.
 
 
 
