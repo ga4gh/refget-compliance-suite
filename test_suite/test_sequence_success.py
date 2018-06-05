@@ -145,10 +145,9 @@ def test_subsequence_range_I(server, data, _input, _output):
     (['6681ac2f62509cfc220d78751b8dc524', '', {'Range': 'bytes=0-10'}], 301),
 
 ])
-def test_sequence_generic_errors(server, data, _input, _output):
-    '''test_sequence_generic_errors tests generic error codes associated with
-    unknown checksum ID, unsupported encoding request in Accept header or both
-    and using Range header and start - end query parameter simultaneously
+def test_sequence_redirect(server, data, _input, _output):
+    '''test_sequence_redirect tests if the server sending a 301 status code on
+    redirecting the request to some other URL (eg aws s3 bucket)
     '''
     api = 'sequence/'
     response = requests.get(

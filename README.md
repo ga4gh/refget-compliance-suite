@@ -38,3 +38,16 @@ and if it doesn't support circular sequences then run
 ```
 py.test --server <your-server-base-url-without-http://-prefix>
 ```
+
+
+If the server to be tested redirects success queries then run
+
+```
+py.test --server <your-server-base-url-without-http://-prefix> --redir
+```
+
+and if it doesn't redirects then run
+
+```
+py.test --server <your-server-base-url-without-http://-prefix>
+```
