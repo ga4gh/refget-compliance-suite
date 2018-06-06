@@ -58,8 +58,7 @@ HTTP/1.1 400 Bad Request
 ```
 
 <h5> Case 2 </h5>  
-start and end are 32 bit-unsigned integers, when recieve any value other than that, server MUST throw a `400 Bad Request` error.  
-On recieving only one of the start / end parameters, server MUST throw a `400 Bad Request` error.
+start and end are 32 bit-unsigned integers, when recieve any value other than those, server MUST throw a `400 Bad Request` error.
 
 
 ```
