@@ -30,7 +30,7 @@ When media type requested by the client in the `Accept` header is not supported 
 
 ```
 GET /sequence/6681ac2f62509cfc220d78751b8dc524
-Accept : text/<some-encoding-not-supported-by-server>
+Accept : text/exotic-encoding
 ```
 
 ```
