@@ -8,7 +8,7 @@ Important Points
  * An `Accept` header in the requests is optional, if not given default is `text/vnd.ga4gh.seq.v1.0.0+plain` but reponse MUST have a `Content-Type` header
  * Server may support redirection for sequence retrieval using `301` status code
 
-These are all the possible success responses associated with this API.
+These are possible success responses associated with this API.
 ### Complete Sequence Queries
 <h5> Case 1 </h5>  
 Circular or Non-circular sequences  
