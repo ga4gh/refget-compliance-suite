@@ -3,7 +3,7 @@ API : `/sequence/:id`
 Important Points
 
  * Servers may or may not support circular sequence.
- * Servers may or may not support other encodings(JSON, fasta etc) but must support a response type of `text/vnd.ga4gh.seq.v1.0.0+plain`.
+ * Servers may or may not support other encodings (JSON, fasta etc) but must support a response type of `text/vnd.ga4gh.seq.v1.0.0+plain`.
  * Client can query for a sub-sequence and the server MUST honour.
  * `Accept` header in the requests is optional, if not given default is `text/vnd.ga4gh.seq.v1.0.0+plain` but reponse MUST have a `Content-type` header
  * Server can support redirection and redirect success requests to an external resource using `301` status code
