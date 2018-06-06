@@ -10,12 +10,14 @@ Important Points
 
 These are possible success responses associated with this API.
 ### Complete Sequence Queries
+
+
 <h5> Case 1 </h5>  
 Circular or Non-circular sequences  
 Query parameters : NA  
 Checksum Algorithm : MD5  
-Request Headers : Accept
-**Description** : Complete sequence will be retrieved regardless the type (circular/non-circular), encoding explicitly defined.
+Request Headers : Accept  
+**Description** : Complete sequence will be retrieved regardless the type (circular or non-circular), encoding explicitly defined.
 
 ```
 GET /sequence/6681ac2f62509cfc220d78751b8dc524/
@@ -32,8 +34,8 @@ CCACA........GTGGG
 Circular or Non-circular Sequences  
 Query parameters : NA  
 Checksum Algorithm : MD5  
-Request Headers: None
-**Description** : Complete sequence will be retrieved regardless of the type (circular/non-circular), using the default encoding.  
+Request Headers : None  
+**Description** : Complete sequence will be retrieved regardless of the type (circular or non-circular), using the default encoding.  
 
 ```
 GET /sequence/6681ac2f62509cfc220d78751b8dc524/
@@ -50,8 +52,8 @@ CCACA........GTGGG
 Circular or Non-circular Sequences  
 Query parameters : NA  
 Checksum Algorithm : Truncated SHA512  
-Request Headers: Accept
-**Description** : Complete sequence will be retrieved regardless of the type (circular/non-circular). Checksum algorithm must be supported by the server, otherwise server will result in a `404 Not  Found` error.
+Request Headers : Accept  
+**Description** : Complete sequence will be retrieved regardless of the type (circular or non-circular). Checksum algorithm must be supported by the server, otherwise server will result in a `404 Not  Found` error.
 
 ```
 GET /sequence/959cb1883fc1ca9ae1394ceb475a356ead1ecceff5824ae7/
@@ -69,8 +71,8 @@ CCACA........GTGGG
 Circular or Non-circular Sequences  
 Query parameters : NA  
 Checksum Algorithm : Truncated SHA512  
-Request Header: Accept
-**Description** : Redirects request to retrieve sequence from an alternative location (eg an AWS S3 bucket). Server will repspond with an `301 Moved Permanently` and client must follow the redirect.
+Request Header : Accept  
+**Description** : Redirects request to retrieve sequence from an alternative location (eg an AWS S3 bucket). Server will repspond with `301 Moved Permanently` and client must follow the redirect.
 
 
 ```
@@ -88,17 +90,19 @@ Important Points:
 
  * start is 0-based inclusive while end is 0-based exclusive
  * start and end both are 32 bit unsigned integers
- * start / end parameters must not be used along with `Range`
- * While using start / end, responses must have a `Accept-Ranges` header set to none.
- * **CASE 3** of this section is only for servers which support circular sequences
+ * start - end parameters must not be used along with `Range`
+ * While using start - end, responses must have a `Accept-Ranges` header set to none.
+ * **CASE 4** of this section is only for servers which support circular sequences
+
 
 <h5> Case 1 </h5>
 Circular or Non-circular Sequences  
-Query parameters : start and end
+Query parameters : start and end  
 Checksum Algorithm : MD5  
-Request Headers : Accept
+Request Headers : Accept  
 **Conditions** : start < end ; start < size of sequence;   
-**Description** : Sub sequence will be retrieved regardless of the type (circular/non-circular).
+**Description** : Sub sequence will be retrieved regardless of the type (circular or non-circular).  
+Size of the sequence is 230218
 
 ```
 GET /sequence/6681ac2f62509cfc220d78751b8dc524/?start=10&end=20
@@ -142,7 +146,6 @@ Accept-Ranges: none
 C
 ```
 
-
 ```
 GET /sequence/6681ac2f62509cfc220d78751b8dc524/?start=230217&end=230218
 Accept: text/vnd.ga4gh.seq.v1.0.0+plain
@@ -159,9 +162,9 @@ G
 
 <h5> Case 2 </h5>
 Circular or Non-circular Sequences  
-Query parameters : start and end
+Query parameters : start and end  
 Checksum Algorithm : MD5  
-Request Headers : None
+Request Headers : NA  
 **Conditions** : start = end ; start < size of sequence;  
 **Description** : Sub sequence of length 0 will be return (i.e. an empty string), as start is inclusive but end is exclusive.
 
@@ -178,40 +181,14 @@ Accept-Ranges: none
 
 ```
 
-
 <h5> Case 3 </h5>
-Circular Sequences  
-Query parameters : start and end given  
-Checksum Algorithm : MD5  
-Request Headers: None
-**Conditions** : start > end ;  start < size of sequence; end <= size of sequence   
-Circular sequences **must** be supported by the server (This support is optional. Server will throw a Not Implemented error if support for circular sequences is not there,which  will be covered in **Error** section)  
-**Description** : Sub sequence will be retrieved, from start till the last byte of the sequence then immediately from first byte till the end.  
-For example :  
-Sequence : ATGCATGCATGCATGC ; start = 10 & end = 2  
-Response : GCATGC + AT -> GCATGCAT
-
-```
-GET /sequence/3332ed720ac7eaa9b3655c06f6b9e196/?start=5374&end=5
-
-```
-
-```
-HTTP/1.1 200 OK
-Content-Type: text/vnd.ga4gh.seq.v1.0.0+plain; charset=us-ascii
-Content-Length: 17
-Accept-Ranges: none
-
-ATCCAACCTGCAGAGTT
-```
-
-<h5> Case 4 </h5>
 Non-circular Sequences  
 Query parameters : Either start or end  
 Checksum Algorithm : MD5  
-Request Headers: None
-**Conditions** :  Either start or end given; start < size of the sequence; end <= size of the sequence
+Request Headers: NA   
+**Conditions** :  Either start or end given; start < size of the sequence; end <= size of the sequence  
 **Description** : Sub sequence will be retrieved. If only start is given, end will be assumed to have a value equals to `size of the sequence`. If only end is given, start will be assumed to have a value equals to `0`.  
+Size of the sequence is 230218  
 For example :  
 Sequence : ATGCATGCATGCATGC ; start = 1    
 Response : TGCATGCATGCATGC
@@ -245,6 +222,62 @@ Accept-Ranges: none
 CCACA
 ```
 
+When start = 0
+```
+GET /sequence/6681ac2f62509cfc220d78751b8dc524/?start=0
+```
+
+```
+HTTP/1.1 200 OK
+Content-Type: text/vnd.ga4gh.seq.v1.0.0+plain; charset=us-ascii
+Content-Length: 230218
+Accept-Ranges: none
+
+CCACA......TGTGGG
+```
+
+When end = size of sequence
+```
+GET /sequence/6681ac2f62509cfc220d78751b8dc524/?end=230218
+```
+
+```
+HTTP/1.1 200 OK
+Content-Type: text/vnd.ga4gh.seq.v1.0.0+plain; charset=us-ascii
+Content-Length: 230218
+Accept-Ranges: none
+
+CCACA......TGTGGG
+```
+
+<h5> Case 4 </h5>
+**Note : Only for servers with circular sequence support**  
+Circular Sequences  
+Query parameters : start and end    
+Checksum Algorithm : MD5  
+Request Headers: None  
+**Conditions** : start > end ;  start < size of sequence; end <= size of sequence   
+Circular sequences must be supported by the server (This support is optional. Server will throw a Not Implemented error if support for circular sequences is not there,which  will be covered in **Error** section)  
+**Description** : Sub sequence will be retrieved, from start till the last byte of the sequence then immediately from first byte till the end.  
+Size of the sequence is 5386  
+For example :  
+Sequence : ATGCATGCATGCATGC ; start = 10 & end = 2  
+Response : GCATGC + AT -> GCATGCAT
+
+```
+GET /sequence/3332ed720ac7eaa9b3655c06f6b9e196/?start=5374&end=5
+
+```
+
+```
+HTTP/1.1 200 OK
+Content-Type: text/vnd.ga4gh.seq.v1.0.0+plain; charset=us-ascii
+Content-Length: 17
+Accept-Ranges: none
+
+ATCCAACCTGCAGAGTT
+```
+
 <h3> Using Range Header </h3>
 Notation:
     `Range: bytes=first-byte-spec - last-byte-spec`  
@@ -253,7 +286,7 @@ Notation:
 Important Points:
 
  * Range header's unit will be bytes. first-byte-spec and last-byte-spec can be integer values only and last-byte-spec >= first-byte-spec MUST be True.
- * first-byte-spec and last-byte-spec are both 0-based inclusive as opposed to start / end where end was exclusive.
+ * first-byte-spec and last-byte-spec are both 0-based inclusive as opposed to start - end where end was exclusive.
  * Sub-sequences of a circular sequences across the origin must not be requested via the Range header. Refer first point.
  * More information can be found [RFC 7233 Sec. 3](https://tools.ietf.org/html/rfc7233)
  * **If last-byte-spec equals or more than size of sequence, server MUST replace the value of last-byte-spec with (size - 1).**
@@ -261,12 +294,12 @@ Important Points:
 
 <h5> Case 1 </h5>
 Circular or Non-circular Sequences  
-Query parameters : NIL  
-Checksum Algorithm : MD5 (or truncated SHA512 if supported by the server)  
-`Accept : text/vnd.ga4gh.seq.v1.0.0+plain` (or any encoding supported by server)  
-**Conditions** : first-byte-spec <= last-byte-spec < (size - 1) (if first-byte-spec is 0, last-byte-spec can not be (size - 1))    
-**Description** : Sub sequence will be retrieved no matter the type (circular/non-circular).
-If first-byte-spec is not 0 and last-byte-spec is not (size - 1) or more, (i.e. complete sequence is not being queried) response should be a `206` otherwise `200` ([case 2](#case-2-2))  
+Query parameters : NA  
+Checksum Algorithm : MD5   
+Request Header: Range    
+**Conditions** : first-byte-spec <= last-byte-spec < 'size - 1' (if first-byte-spec is 0, last-byte-spec can not be 'size - 1')    
+**Description** : Sub sequence will be retrieved regardless of the type (circular or non-circular).
+If first-byte-spec is not 0 and last-byte-spec is not (size - 1) or more, (i.e. complete sequence is not being queried) response should be a `206` otherwise `200` as per Case 2    
 Size of sequence is 230218
 
 ```
@@ -296,7 +329,6 @@ Content-Length: 230208
 
 CCCAC.....GTGGG
 ```
-
 
 ```
 GET /sequence/6681ac2f62509cfc220d78751b8dc524/
@@ -342,11 +374,11 @@ C
 
 <h5> Case 2 </h5>
 Circular or Non-circular Sequences  
-Query parameters : NIL  
-Checksum Algorithm : MD5 (or truncated SHA512 if supported by the server)  
-`Accept : text/vnd.ga4gh.seq.v1.0.0+plain` (or any encoding supported by server)  
+Query parameters : NA  
+Checksum Algorithm : MD5  
+Request Header: Accept   
 **Conditions** : first-byte-spec = 0 and last-byte-spec => size of - 1   
-**Description** : Complete sequence will be retrieved no matter the type (circular/non-circular) hence ignoring the Range header.  
+**Description** : Complete sequence will be retrieved regardless of the type (circular or non-circular) hence ignoring the Range header.  
 Size of the sequence is 230218
 
 ```
@@ -376,35 +408,3 @@ Content-Length: 230218
 
 CCACA........GTGGG
 ```
-<!--
-<h5> Case 3 </h5>
-Circular or Non-circular Sequences  
-Query parameters : NIL  
-Checksum Algorithm : MD5
-`Accept : text/vnd.ga4gh.seq.v1.0.0+plain` (or any encoding supported by server)  
-**Conditions** : Valid Range header (as per the conditions given in the above two cases)   
-**Description** : Server will respond with `301 Moved Permanently`
-Size of the sequence is 230218
-
-```
-GET /sequence/6681ac2f62509cfc220d78751b8dc524/
-Range: bytes=0-230217
-
-```
-
-```
-HTTP/1.1 301 Moved Permanently
-Location: aws.bitbucket.in/6681ac2f62509cfc220d78751b8dc524/
-```
-
-```
-GET /sequence/6681ac2f62509cfc220d78751b8dc524/
-Range: bytes=0-999999999
-
-```
-
-```
-HTTP/1.1 301 Moved Permanently
-Location: aws.bitbucket.in/6681ac2f62509cfc220d78751b8dc524/
-``` -->
-*Note : More details on the API specification are available [here](HTTP/1.1HTTP/1.1  s://docs.google.com/document/d/1q2ZE9YewJTpaqQg82Nrz_jVy8KsDpKoG1T8RvCAAsbI/edit#heading=h.pr8uvsa1k8iy)*
