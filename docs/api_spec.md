@@ -7,9 +7,9 @@ Detailed specifications regarding these APIs are covered in the doc, available [
 
 Important points :
 
- * Server **MAY** or **MAY NOT** support circular sequences
- * Server **MUST** implement MD5 while truncated SHA512 is optional
- * Server can support redirection and redirect success requests to an external resource using `301 Moved Permanently` response which provides redirected URL in `Location` header.
+ * Servers **MAY** or **MAY NOT** support circular sequences
+ * Servers **MUST** implement MD5 while truncated SHA512 is optional
+ * Server **MAY** support a `301 Moved Permanently` and `Location` header redirecting the client to retrieve sequence data from an alternative location.
 
 
 
