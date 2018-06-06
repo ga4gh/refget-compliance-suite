@@ -47,8 +47,6 @@ Important Points:
 <h5> Case 1 </h5>
 When Range header is also passed along with start / end parameters, server must throw a `400 Bad Request` error even if both are retrieving the same sequence or sub-sequence with a valid identifier and valid encoding.
 
-_Note: Only one of the two ways should be used to query a sub-sequence._
-
 ```
 GET /sequence/6681ac2f62509cfc220d78751b8dc524/?start=10&end=20
 Range: bytes=10-19
