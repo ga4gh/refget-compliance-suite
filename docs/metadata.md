@@ -10,7 +10,7 @@ Important Points :
 
 ## Success Conditions
 <h5> Case 1 </h5>
-Identifier can be MD5 or truncated SHA512(if supported by the server) or any alias for the sequence, supported by the server.
+Identifier can be MD5 or truncated SHA512 (if supported by the server) or any alias for the sequence, supported by the server.
 
 ```
 GET  /sequence/3332ed720ac7eaa9b3655c06f6b9e196/metadata/
