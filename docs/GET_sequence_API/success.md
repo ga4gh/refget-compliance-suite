@@ -83,26 +83,26 @@ Location: s3.aws.com/bucketname/959cb1883fc1ca9ae1394ceb475a356ead1ecceff5824ae7
 ```
 
 ### Sub-Sequence Queries
-<h3> Using start / end query parameters </h3>
+<h3> Using start / end query string parameters </h3>
 Important Points:
 
  * start is 0-based inclusive while end is 0-based exclusive
  * start and end both are 32 bit unsigned integers
  * start / end parameters must not be used along with `Range`
- * While using start / end, response must have a `Accept-Ranges` header set to none.
+ * While using start / end, responses must have a `Accept-Ranges` header set to none.
  * **CASE 3** of this section is only for servers which support circular sequences
 
 <h5> Case 1 </h5>
 Circular or Non-circular Sequences  
-Query parameters : start and end given  
+Query parameters : start and end
 Checksum Algorithm : MD5  
-`Accept : text/vnd.ga4gh.seq.v1.0.0+plain`  
-`Range : NA`  
+Request Headers : Accept
 **Conditions** : start < end ; start < size of sequence;   
-**Description** : Sub sequence will be retrieved no matter the type (circular/non-circular).
+**Description** : Sub sequence will be retrieved regardless of the type (circular/non-circular).
 
 ```
 GET /sequence/6681ac2f62509cfc220d78751b8dc524/?start=10&end=20
+Accept: text/vnd.ga4gh.seq.v1.0.0+plain
 ```
 
 ```
@@ -116,6 +116,7 @@ CCCACACACC
 
 ```
 GET /sequence/6681ac2f62509cfc220d78751b8dc524/?start=10&end=11
+Accept: text/vnd.ga4gh.seq.v1.0.0+plain
 ```
 
 ```
@@ -129,6 +130,7 @@ C
 
 ```
 GET /sequence/6681ac2f62509cfc220d78751b8dc524/?start=0&end=1
+Accept: text/vnd.ga4gh.seq.v1.0.0+plain
 ```
 
 ```
@@ -143,6 +145,7 @@ C
 
 ```
 GET /sequence/6681ac2f62509cfc220d78751b8dc524/?start=230217&end=230218
+Accept: text/vnd.ga4gh.seq.v1.0.0+plain
 ```
 
 ```
@@ -154,14 +157,11 @@ Accept-Ranges: none
 G
 ```
 
-
-
 <h5> Case 2 </h5>
 Circular or Non-circular Sequences  
-Query parameters : start and end given  
+Query parameters : start and end
 Checksum Algorithm : MD5  
-`Accept : text/vnd.ga4gh.seq.v1.0.0+plain`  
-`Range : NA`  
+Request Headers : None
 **Conditions** : start = end ; start < size of sequence;  
 **Description** : Sub sequence of length 0 will be return (i.e. an empty string), as start is inclusive but end is exclusive.
 
@@ -183,10 +183,9 @@ Accept-Ranges: none
 Circular Sequences  
 Query parameters : start and end given  
 Checksum Algorithm : MD5  
-`Accept : text/vnd.ga4gh.seq.v1.0.0+plain`  
-`Range : NA`  
+Request Headers: None
 **Conditions** : start > end ;  start < size of sequence; end <= size of sequence   
-Circular sequences **must** be supported by the server (This support is optional. Server will throw a Not Implemented error if support for circular sequences is not there,which will be covered in **Error** section)  
+Circular sequences **must** be supported by the server (This support is optional. Server will throw a Not Implemented error if support for circular sequences is not there,which  will be covered in **Error** section)  
 **Description** : Sub sequence will be retrieved, from start till the last byte of the sequence then immediately from first byte till the end.  
 For example :  
 Sequence : ATGCATGCATGCATGC ; start = 10 & end = 2  
@@ -208,13 +207,10 @@ ATCCAACCTGCAGAGTT
 
 <h5> Case 4 </h5>
 Non-circular Sequences  
-Query parameters : Either start or end given  
+Query parameters : Either start or end  
 Checksum Algorithm : MD5  
-`Accept : text/vnd.ga4gh.seq.v1.0.0+plain`  
-`Range : NA`  
-**Conditions** :  
-Either start or end given; start < size of the sequence; end <= size of the sequence
-
+Request Headers: None
+**Conditions** :  Either start or end given; start < size of the sequence; end <= size of the sequence
 **Description** : Sub sequence will be retrieved. If only start is given, end will be assumed to have a value equals to `size of the sequence`. If only end is given, start will be assumed to have a value equals to `0`.  
 For example :  
 Sequence : ATGCATGCATGCATGC ; start = 1    
