@@ -56,14 +56,9 @@ When media type requested by the client in the `Accept` header is not supported 
 
 ```
 GET /sequence/3332ed720ac7eaa9b3655c06f6b9e196/metadata/
-Accept : text/<some-encoding-not-supported-by-server>
+Accept : text/exotic-encoding
 ```
 
 ```
 HTTP/1.1 415 Unsupported Media Type
 ```
-
-
-
-
-*Note : More details on the API specification are available [here](https://docs.google.com/document/d/1q2ZE9YewJTpaqQg82Nrz_jVy8KsDpKoG1T8RvCAAsbI/edit#heading=h.gx07qh8j1d00)*
