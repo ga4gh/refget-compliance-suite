@@ -14,13 +14,11 @@ These are possible success responses associated with this API.
 Circular or Non-circular sequences  
 Query parameters : NA  
 Checksum Algorithm : MD5  
-`Accept : text/vnd.ga4gh.seq.v1.0.0+plain`  
-`Range : NA`   
-**Description** : Complete sequence will be retrieved no matter the type (circular/non-circular)
+Request Headers : Accept
+**Description** : Complete sequence will be retrieved regardless the type (circular/non-circular), encoding explicitly defined.
 
 ```
 GET /sequence/6681ac2f62509cfc220d78751b8dc524/
-
 Accept: text/vnd.ga4gh.seq.v1.0.0+plain
 ```
 ```
@@ -34,9 +32,8 @@ CCACA........GTGGG
 Circular or Non-circular Sequences  
 Query parameters : NA  
 Checksum Algorithm : MD5  
-`Accept : NIL`  
-`Range : NA`   
-**Description** : Complete sequence will be retrieved no matter the type (circular/non-circular). If encoding is not provided, server will assume it to be `text/vnd.ga4gh.seq.v1.0.0+plain`.  
+Request Headers: None
+**Description** : Complete sequence will be retrieved regardless of the type (circular/non-circular), using the default encoding.  
 
 ```
 GET /sequence/6681ac2f62509cfc220d78751b8dc524/
@@ -53,14 +50,12 @@ CCACA........GTGGG
 Circular or Non-circular Sequences  
 Query parameters : NA  
 Checksum Algorithm : Truncated SHA512  
-`Accept : vnd.ga4gh.seq.v1.0.0+plain` (or any encoding supported by server)  
-`Range : NA`   
-**Description** : Complete sequence will be retrieved no matter the type (circular/non-circular). Checksum algorithm must be supported by the server, otherwise server will result in a `404 Not  Found` error.
-
-_Note : Identifier in the API requsted can also be derived using truncated SHA512, provided, the server supports it._
+Request Headers: Accept
+**Description** : Complete sequence will be retrieved regardless of the type (circular/non-circular). Checksum algorithm must be supported by the server, otherwise server will result in a `404 Not  Found` error.
 
 ```
 GET /sequence/959cb1883fc1ca9ae1394ceb475a356ead1ecceff5824ae7/
+Accept: text/vnd.ga4gh.seq.v1.0.0+plain
 ```
 ```
 HTTP/1.1 200 OK
@@ -74,17 +69,17 @@ CCACA........GTGGG
 Circular or Non-circular Sequences  
 Query parameters : NA  
 Checksum Algorithm : Truncated SHA512  
-`Accept : vnd.ga4gh.seq.v1.0.0+plain` (or any encoding supported by server)  
-`Range : NA`   
-**Description** : This is the case when the server redirects its request to AWS bucket. Server will repspond with an `301 Moved Permanently` and client will make request to the URL provided in the `Location` header.
+Request Header: Accept
+**Description** : Redirects request to retrieve sequence from an alternative location (eg an AWS S3 bucket). Server will repspond with an `301 Moved Permanently` and client must follow the redirect.
 
 
 ```
 GET /sequence/959cb1883fc1ca9ae1394ceb475a356ead1ecceff5824ae7/
+Accept: text/vnd.ga4gh.seq.v1.0.0+plain
 ```
 ```
 HTTP/1.1 301 Moved Permanently
-Location: ourbucket.aws.com/bucketname/959cb1883fc1ca9ae1394ceb475a356ead1ecceff5824ae7
+Location: s3.aws.com/bucketname/959cb1883fc1ca9ae1394ceb475a356ead1ecceff5824ae7
 ```
 
 ### Sub-Sequence Queries
