@@ -19,7 +19,6 @@ GET  /sequence/3332ed720ac7eaa9b3655c06f6b9e196/metadata/
 HTTP/1.1 200 OK
 Content-Type: application/vnd.ga4gh.seq.v1.0.0+json
 
-<JSON object shown below>
 ```
 ```json
 {
