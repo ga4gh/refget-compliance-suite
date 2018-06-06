@@ -252,10 +252,10 @@ Notation:
 
 Important Points:
 
- * Range header's unit will be bytes. first-byte-spec and last-byte-spec can be integral values only and last-byte-spec >= first-byte-spec MUST be True.
+ * Range header's unit will be bytes. first-byte-spec and last-byte-spec can be integer values only and last-byte-spec >= first-byte-spec MUST be True.
  * first-byte-spec and last-byte-spec are both 0-based inclusive as opposed to start / end where end was exclusive.
  * Sub-sequences of a circular sequences across the origin must not be requested via the Range header. Refer first point.
- * More information can be found [here](https://tools.ietf.org/html/rfc7233)
+ * More information can be found [RFC 7233 Sec. 3](https://tools.ietf.org/html/rfc7233)
  * **If last-byte-spec equals or more than size of sequence, server MUST replace the value of last-byte-spec with (size - 1).**
  <!-- * If the server redirects to some external resource, then server will respond with `301 Moved Permanently` along with a header `Location` with the redirected URL as per given in case 3. -->
 
