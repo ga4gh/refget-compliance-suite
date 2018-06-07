@@ -251,7 +251,7 @@ CCACA......TGTGGG
 ```
 
 <h5> Case 4 </h5>
-**Note : Only for servers with circular sequence support**  
+**Note : Only for servers which support circular sequence**  
 Circular Sequences  
 Query parameters : start and end    
 Checksum Algorithm : MD5  
