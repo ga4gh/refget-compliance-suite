@@ -30,7 +30,6 @@ Content-Length: 230218
 
 CCACA........GTGGG
 ```
-</br>
 <h5> Case 2 </h5>
 Circular or Non-circular Sequences  
 Query parameters : NA  
