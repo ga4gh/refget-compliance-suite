@@ -12,7 +12,7 @@ These are possible success responses associated with this API.
 ### Complete Sequence Queries
 
 
-<h5> Case 1 </h5>  
+<h5> Case 1 </h5>
 Circular or Non-circular sequences  
 Query parameters : NA  
 Checksum Algorithm : MD5  
@@ -30,6 +30,7 @@ Content-Length: 230218
 
 CCACA........GTGGG
 ```
+</br>
 <h5> Case 2 </h5>
 Circular or Non-circular Sequences  
 Query parameters : NA  
