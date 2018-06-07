@@ -1,6 +1,7 @@
 import requests
 import pytest
-from skipif_decorators import *
+from skipif_decorators import circular_support_false_skip,\
+    redirection_true_skip, redirection_false_skip
 
 '''This module will be testing success queries associated with GET sequence by
 checksum ID API. All the functions with 'test_' as prefix will be treated as
@@ -79,8 +80,36 @@ def test_subsequence_start_end_I(server, data, _input, _output):
 
 
 @pytest.mark.parametrize("_input, _output", [
-    circular_support_false_skip(('?start=5374&end=5', [
-            'ATCCAACCTGCAGAGTT', 17]))
+    (['?start=0', 0, None], 230218),
+    (['?&end=230218', None, 230218], 230218),
+    (['?start=0&end=230218', 0, 230218], 230218),
+    (['?start=1&end=230218', 1, 230218], 230217),
+    (['?start=230217', 230217, None], 1),
+    (['?end=0', None, 0], 0)
+])
+def test_subsequence_start_end_I_from_db(server, data, _input, _output):
+    '''test_subsequence_start_end_I tests all the possible scenarios of
+    successfully retrieving sub-sequences using start and end query parameters.
+    It uses server and data fixture values from conftest.py module.
+    'parametrize' is also implemented to reuse same test code on different
+    inputs.
+    '''
+
+    api = 'sequence/'
+    response = requests.get(server + api + data[0].md5 + _input[0])
+    assert response.text == data[0].sequence[_input[1]:_input[2]]
+    assert response.status_code == 200
+    assert int(response.headers['content-length']) == _output
+    assert response.headers['content-type'] == \
+        'text/vnd.ga4gh.seq.v1.0.0+plain; charset=us-ascii'
+    assert response.headers['accept-ranges'] == "none"
+
+
+@circular_support_false_skip
+@pytest.mark.parametrize("_input, _output", [
+    ('?start=5374&end=5', ['ATCCAACCTGCAGAGTT', 17]),
+    ('?start=5374&end=0', ['ATCCAACCTGCA', 12]),
+    ('?start=5380&end=25', ['CCTGCAGAGTTTTATCGCTTCCATGACGCAG', 31]),
 ])
 def test_subsequence_start_end_NC(server, data, _input, _output):
     '''test_subsequence_start_end_NC tests a specific case when the server
