@@ -3,6 +3,13 @@ import pytest
 from skipif_decorators import circular_support_false_skip,\
     redirection_true_skip, redirection_false_skip
 
+
+def is_ascii(text):
+    '''Checks if text is ascii
+    '''
+    return all(ord(char) < 128 for char in text)
+
+
 '''This module will be testing success queries associated with GET sequence by
 checksum ID API. All the functions with 'test_' as prefix will be treated as
 test cases by pytest.
@@ -18,6 +25,7 @@ def check_complete_sequence_response(response, seq):
     status code and content
     '''
     assert response.text == seq.sequence
+    assert is_ascii(response.text) is True
     assert response.status_code == 200
     assert response.headers['content-type'] == \
         'text/vnd.ga4gh.seq.v1.0.0+plain; charset=us-ascii'
@@ -72,6 +80,7 @@ def test_subsequence_start_end_I(server, data, _input, _output):
     api = 'sequence/'
     response = requests.get(server + api + data[0].md5 + _input)
     assert response.text == _output[0]
+    assert is_ascii(response.text) is True
     assert response.status_code == 200
     assert int(response.headers['content-length']) == _output[1]
     assert response.headers['content-type'] == \
@@ -98,6 +107,7 @@ def test_subsequence_start_end_I_from_db(server, data, _input, _output):
     api = 'sequence/'
     response = requests.get(server + api + data[0].md5 + _input[0])
     assert response.text == data[0].sequence[_input[1]:_input[2]]
+    assert is_ascii(response.text) is True
     assert response.status_code == 200
     assert int(response.headers['content-length']) == _output
     assert response.headers['content-type'] == \
@@ -121,6 +131,7 @@ def test_subsequence_start_end_NC(server, data, _input, _output):
     api = 'sequence/'
     response = requests.get(server + api + data[2].md5 + _input)
     assert response.text == _output[0]
+    assert is_ascii(response.text) is True
     assert response.status_code == 200
     assert int(response.headers['content-length']) == _output[1]
     assert response.headers['content-type'] == \
@@ -158,6 +169,7 @@ def test_subsequence_range_I(server, data, _input, _output):
         _input[2] = data[0].size - 1
 
     assert response.text == data[0].sequence[_input[1]:_input[2]+1]
+    assert is_ascii(response.text) is True
     assert response.status_code == _output[0]
     assert int(response.headers['content-length']) == _output[1]
     assert response.headers['content-type'] == \
