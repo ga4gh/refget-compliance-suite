@@ -250,6 +250,18 @@ Accept-Ranges: none
 CCACA......TGTGGG
 ```
 
+```
+GET /sequence/6681ac2f62509cfc220d78751b8dc524/?end=0
+```
+
+```
+HTTP/1.1 200 OK
+Content-Type: text/vnd.ga4gh.seq.v1.0.0+plain; charset=us-ascii
+Content-Length: 0
+Accept-Ranges: none
+
+```
+
 <h5> Case 4 </h5>
 **Note : Only for servers which support circular sequence**  
 Circular Sequences  
