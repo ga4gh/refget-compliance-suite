@@ -218,7 +218,8 @@ class MockServerRequestHandler(BaseHTTPRequestHandler):
 
         if self.SEQUENCE_PATTERN.match((self.path).split('?')[0]):
             args = self.get_args()
-            SUPPORTED_ENCODINGS = ['*/*', 'text/vnd.ga4gh.seq.v1.0.0+plain']
+            SUPPORTED_ENCODINGS = [
+                '*/*', 'text/plain', 'text/vnd.ga4gh.seq.v1.0.0+plain']
             seq_obj = self.get_seq_obj()
             if seq_obj is None:
                 self.send(404)
@@ -254,7 +255,9 @@ class MockServerRequestHandler(BaseHTTPRequestHandler):
                 return
 
         elif self.METADATA_PATTERN.match(self.path):
-            SUPPORTED_ENCODINGS = ['*/*', 'application/vnd.ga4gh.seq.v1.0.0+json']
+            SUPPORTED_ENCODINGS = [
+                '*/*',
+                'application/json', 'application/vnd.ga4gh.seq.v1.0.0+json']
             seq_obj = self.get_seq_obj()
             if seq_obj is None:
                 self.send(404)
