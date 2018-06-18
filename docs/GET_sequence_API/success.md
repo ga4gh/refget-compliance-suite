@@ -6,7 +6,7 @@ Important Points
  * Servers may or may not support other encodings (JSON, fasta etc) but must support a response type of `text/vnd.ga4gh.seq.v1.0.0+plain`.
  * Client can query for a sub-sequence and the server MUST honour the request.
  * An `Accept` header in the requests is optional, if not given default is `text/vnd.ga4gh.seq.v1.0.0+plain` but reponse MUST have a `Content-Type` header
- * Server may support redirection for sequence retrieval using `301` status code
+ * Server may support redirection for sequence retrieval using `302` status code
 
 These are possible success responses associated with this API.
 ### Complete Sequence Queries
@@ -72,7 +72,7 @@ Circular or Non-circular Sequences
 Query parameters : NA  
 Checksum Algorithm : Truncated SHA512  
 Request Header : Accept  
-**Description** : Redirects request to retrieve sequence from an alternative location (eg an AWS S3 bucket). Server will repspond with `301 Moved Permanently` and client must follow the redirect.
+**Description** : Redirects request to retrieve sequence from an alternative location (eg an AWS S3 bucket). Server will repspond with `302 Found` and client must follow the redirect.
 
 
 ```
@@ -80,7 +80,7 @@ GET /sequence/959cb1883fc1ca9ae1394ceb475a356ead1ecceff5824ae7/
 Accept: text/vnd.ga4gh.seq.v1.0.0+plain
 ```
 ```
-HTTP/1.1 301 Moved Permanently
+HTTP/1.1 302 Found
 Location: s3.aws.com/bucketname/959cb1883fc1ca9ae1394ceb475a356ead1ecceff5824ae7
 ```
 
@@ -302,7 +302,7 @@ Important Points:
  * Sub-sequences of a circular sequences across the origin must not be requested via the Range header. Refer first point.
  * More information can be found [RFC 7233 Sec. 3](https://tools.ietf.org/html/rfc7233)
  * **If last-byte-spec equals or more than size of sequence, server MUST replace the value of last-byte-spec with (size - 1).**
- <!-- * If the server redirects to some external resource, then server will respond with `301 Moved Permanently` along with a header `Location` with the redirected URL as per given in case 3. -->
+ <!-- * If the server redirects to some external resource, then server will respond with `302 Found` along with a header `Location` with the redirected URL as per given in case 3. -->
 
 <h5> Case 1 </h5>
 Circular or Non-circular Sequences  

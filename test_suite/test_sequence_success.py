@@ -181,13 +181,13 @@ def test_subsequence_range_I(server, data, _input, _output):
 
 @redirection_false_skip
 @pytest.mark.parametrize("_input, _output", [
-    (['6681ac2f62509cfc220d78751b8dc524', '', {}], 301),
-    (['6681ac2f62509cfc220d78751b8dc524', '', {'Range': 'bytes=0-20'}], 301),
-    (['6681ac2f62509cfc220d78751b8dc524', '', {'Range': 'bytes=0-10'}], 301),
+    (['6681ac2f62509cfc220d78751b8dc524', '', {}], 302),
+    (['6681ac2f62509cfc220d78751b8dc524', '', {'Range': 'bytes=0-20'}], 302),
+    (['6681ac2f62509cfc220d78751b8dc524', '', {'Range': 'bytes=0-10'}], 302),
 
 ])
 def test_sequence_redirect(server, data, _input, _output):
-    '''test_sequence_redirect tests if the server sending a 301 status code on
+    '''test_sequence_redirect tests if the server sending a 302 status code on
     redirecting the request to some other URL (eg aws s3 bucket)
     '''
     api = 'sequence/'

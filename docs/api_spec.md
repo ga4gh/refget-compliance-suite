@@ -9,4 +9,4 @@ Important points :
 
  * Servers **MAY** or **MAY NOT** support circular sequences
  * Servers **MUST** implement MD5 while truncated SHA512 is optional
- * Server **MAY** support a `301 Moved Permanently` and `Location` header redirecting the client to retrieve sequence data from an alternative location.
+ * Server **MAY** support a `302 Found` and `Location` header redirecting the client to retrieve sequence data from an alternative location.

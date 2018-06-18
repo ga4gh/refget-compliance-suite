@@ -55,21 +55,21 @@ class MockServerRequestHandler(BaseHTTPRequestHandler):
         if fbs == 0 and lbs == seq_obj.size - 1:
             if REDIRECTION is True:
                 '''
-                If the server is redirecting to aws it'll send 301 instead of a
+                If the server is redirecting to aws it'll send 302 instead of a
                 200 or 206 in case of queries using Range header. Response will
                 also contain a `Location` header in which redirected URL will
                 be sent to the client.
                 '''
                 seq_id = self.get_seq_id()
                 self.send(
-                    301, headers={'Location': 'aws.bucket.in/' + seq_id})
+                    302, headers={'Location': 'aws.bucket.in/' + seq_id})
                 return
             self.send(200, seq_obj.sequence.encode("ascii"))
             return
         if REDIRECTION is True:
             seq_id = self.get_seq_id()
             self.send(
-                301, headers={'Location': 'aws.bucket.in/' + seq_id})
+                302, headers={'Location': 'aws.bucket.in/' + seq_id})
             return
         self.send(206, seq_obj.sequence[fbs:lbs+1].encode("ascii"))
         return
@@ -233,7 +233,7 @@ class MockServerRequestHandler(BaseHTTPRequestHandler):
                 if REDIRECTION is True:
                     seq_id = self.get_seq_id()
                     self.send(
-                        301, headers={'Location': 'aws.bucket.in/' + seq_id})
+                        302, headers={'Location': 'aws.bucket.in/' + seq_id})
                     return
                 self.send(200, seq_obj.sequence.encode("ascii"))
                 return
