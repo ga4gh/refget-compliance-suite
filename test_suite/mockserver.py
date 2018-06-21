@@ -329,4 +329,4 @@ def start_mock_server(port, circular_support, redirection, daemon=True):
 
 
 if __name__ == '__main__':
-    start_mock_server(5000, True, True, False)
+    start_mock_server(5000, True, False, False)
