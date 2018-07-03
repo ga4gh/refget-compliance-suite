@@ -184,20 +184,19 @@ class MockServerRequestHandler(BaseHTTPRequestHandler):
         self.wfile.write(content)
         return
 
-    def get_metadata(self, seq, checksum):
+    def get_metadata(self, seq):
         '''get_metadata returns the metadata of a sequence in json format to be
         sent on a metadata API call. This function is called from do_GET
         '''
 
         response = {
             "metadata": {
-                "id": checksum,
+                "md5": seq.md5,
+                "trunc512": seq.sha512,
                 "length": seq.size,
-                "alias": []
+                "aliases": []
             }
         }
-        response["metadata"]["alias"].append({"alias": seq.md5})
-        response["metadata"]["alias"].append({"alias": seq.sha512})
         return json.dumps(response)
 
     def do_GET(self):
@@ -268,7 +267,7 @@ class MockServerRequestHandler(BaseHTTPRequestHandler):
                 return
 
             seq_id = self.get_seq_id()
-            metadata = self.get_metadata(seq_obj, seq_id)
+            metadata = self.get_metadata(seq_obj)
             self.send_response(200)
             content_type = 'application/vnd.ga4gh.seq.v1.0.0+json'
             self.send_header(

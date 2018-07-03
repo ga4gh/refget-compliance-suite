@@ -10,16 +10,15 @@ treated as test cases by pytest.
 # Successful Conditions
 
 
-def get_metadata(seq, checksum):
+def get_metadata(seq):
     response = {
         "metadata": {
-            "id": checksum,
+            "md5": seq.md5,
+            "trunc512": seq.sha512,
             "length": seq.size,
-            "alias": []
+            "aliases": []
         }
     }
-    response["metadata"]["alias"].append({"alias": seq.md5})
-    response["metadata"]["alias"].append({"alias": seq.sha512})
     return json.dumps(response)
 
 
@@ -29,8 +28,7 @@ def check_complete_metdata_response(response, seq, checksum):
     response se,q object and checksum ID used to query as input parameter and
     assert for reponse header, status code and content
     '''
-
-    assert response.text == get_metadata(seq, checksum)
+    assert response.text == get_metadata(seq)
     assert response.status_code == 200
     assert response.headers['content-type'] == 'application/vnd.ga4gh.seq.v1.0.0+json'
 
