@@ -18,11 +18,12 @@ class MockServerRequestHandler(BaseHTTPRequestHandler):
     It contains all the required functions and methods to handle requests.
     '''
 
-    '''Regex patterns for sequence api and metadata api. These regex pattern
+    '''Regex patterns for sequence, metadata and service api. These regex pattern
     will be used in do_GET method to determine which API is being called.
     '''
     SEQUENCE_PATTERN = re.compile(r'/sequence/[a-z0-9A-Z]*/?$')
     METADATA_PATTERN = re.compile(r'/sequence/[a-z0-9A-Z]*/metadata/?$')
+    SERVICE_INFO_PATTERN = re.compile(r'/sequence/service-info/?$')
 
     '''This is the regex pattern for Range header. It is used to check if the
     value passed in the Range header is valid.
@@ -199,6 +200,22 @@ class MockServerRequestHandler(BaseHTTPRequestHandler):
         }
         return json.dumps(response)
 
+    def get_service_info(self):
+        '''get_service_info returns the service info of a sequence in json
+        format to be sent on a service-info API call. This function is called
+        from do_GET
+        '''
+        circular_support = "true" if CIRCULAR_CHROMOSOME_SUPPORT is True else "false"
+        response = {
+            "service": {
+                "circular_supported": circular_support,
+                "algorithms": ["md5", "trunc512"],
+                "subsequence_limit": 4000000,
+                "supported_api_versions": ["1.0"]
+                }
+        }
+        return json.dumps(response)
+
     def do_GET(self):
         '''do_GET is the first function which gets called on a GET request. It
         then checks using regex patterns defined above whether its a sequence
@@ -276,6 +293,22 @@ class MockServerRequestHandler(BaseHTTPRequestHandler):
             self.end_headers()
             self.wfile.write(metadata.encode("ascii"))
             return
+
+        elif self.SERVICE_INFO_PATTERN.match(self.path):
+            SUPPORTED_ENCODINGS = [
+                '*/*',
+                'application/json', 'application/vnd.ga4gh.seq.v1.0.0+json']
+            if self.headers['Accept'] not in SUPPORTED_ENCODINGS:
+                self.send(415)
+                return
+            service_info = self.get_service_info()
+            self.send_response(200)
+            content_type = 'application/vnd.ga4gh.seq.v1.0.0+json'
+            self.send_header(
+                'Content-Type', content_type
+            )
+            self.end_headers()
+            self.wfile.write(service_info.encode("ascii"))
 
         else:
             print(self.path)
