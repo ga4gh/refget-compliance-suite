@@ -10,7 +10,8 @@ Important Points :
 
 ## Success Conditions
 <h5> Case 1 </h5>
-Identifier can be MD5 or truncated SHA512 (if supported by the server) or any alias for the sequence, supported by the server.
+Identifier can be MD5 or truncated SHA512 (if supported by the server) or any alias for the sequence, supported by the server.  
+
 
 ```
 GET  /sequence/3332ed720ac7eaa9b3655c06f6b9e196/metadata/
@@ -23,18 +24,29 @@ Content-Type: application/vnd.ga4gh.seq.v1.0.0+json
 ```json
 {
     "metadata" : {
-        "id" : "3332ed720ac7eaa9b3655c06f6b9e196",
-        "length": 5384,
+        "md5" : "3332ed720ac7eaa9b3655c06f6b9e196",
+        "trunc512" : "2085c82d80500a91dd0b8aa9237b0e43f1c07809bd6e6785",
+        "length" : 5384,
         "aliases" : [
-            {
-                "alias": "3332ed720ac7eaa9b3655c06f6b9e196"
-            },
-            {
-                "alias":   "2085c82d80500a91dd0b8aa9237b0e43f1c07809bd6e6785"
-            }
+
         ]
     }
 }
+```
+Array under `aliases` key will contain objects of aliases in the form given below with an example
+```json
+"aliases" : [
+    {
+        "alias": "CH003448.1",
+        "naming_authority" : "INSDC"
+    },
+    {
+        "alias": "chr1",
+        "naming_authority" : "UCSC"
+    }
+
+]
+
 ```
 
 ## Error Conditions
