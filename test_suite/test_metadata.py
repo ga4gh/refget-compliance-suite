@@ -30,7 +30,7 @@ def check_complete_metdata_response(response, seq, checksum):
     assert for reponse header, status code and content
     '''
 
-    # assert response.text == get_metadata(seq, checksum)
+    assert response.text == get_metadata(seq, checksum)
     assert response.status_code == 200
     assert response.headers['content-type'] == 'application/vnd.ga4gh.seq.v1.0.0+json'
 

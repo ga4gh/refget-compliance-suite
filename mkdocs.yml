@@ -12,6 +12,7 @@ pages:
         - 'Success Conditions': 'GET_sequence_API/success.md'
         - 'Error Conditions': 'GET_sequence_API/errors.md'
     - 'GET Metadata API': 'metadata.md'
+    - 'GET service-info API': 'service_info.md'
 
 markdown_extensions:
     - toc:
