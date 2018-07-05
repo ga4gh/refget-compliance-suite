@@ -39,6 +39,19 @@ and if it doesn't support circular sequences then run
 py.test --server <your-server-base-url-without-http://-prefix>
 ```
 
+If the server to be tested supports trunc512 algorithm then run
+
+```
+py.test --server <your-server-base-url-without-http://-prefix> --trunc512
+```
+
+and if it doesn't support trunc512 algorithm then run
+
+```
+py.test --server <your-server-base-url-without-http://-prefix>
+```
+
+
 
 If the server to be tested redirects success queries then run
 
@@ -50,4 +63,17 @@ and if it doesn't redirects then run
 
 ```
 py.test --server <your-server-base-url-without-http://-prefix>
+```
+
+You can try multiple combinations of these flags as per the server implementation for example
+
+```bash
+py.test --server <your-server-base-url-without-http://-prefix> --cir --trunc512
+
+py.test --server <your-server-base-url-without-http://-prefix> --cir --redir
+
+py.test --server <your-server-base-url-without-http://-prefix> --redir --trunc512
+
+py.test --server <your-server-base-url-without-http://-prefix> --cir --trunc512 --redir
+
 ```
