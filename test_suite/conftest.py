@@ -34,6 +34,10 @@ def pytest_addoption(parser):
         "--redir",
         action="store_true",
         default="False", help="success queries redirection")
+    parser.addoption(
+        "--trunc512",
+        action="store_true",
+        default="False", help="trunc512 support")
 
 
 @pytest.fixture(scope='session')
@@ -49,7 +53,9 @@ def server(request):
         return 'http://' + option.server + '/'
     circular_support = request.config.getoption("--cir")
     redirection = request.config.getoption("--redir")
+    trunc512 = request.config.getoption("--trunc512")
+    print(trunc512)
     port = get_free_port()
-    start_mock_server(port, circular_support, redirection)
+    start_mock_server(port, circular_support, redirection, trunc512=trunc512)
     server_base_url = 'http://localhost:' + str(port) + '/'
     return server_base_url

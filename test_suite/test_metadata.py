@@ -53,10 +53,6 @@ def test_complete_metadata(server, data):
         response = requests.get(server + api + seq.md5 + '/metadata')
         check_complete_metdata_response(response, seq, seq.md5)
 
-        # using truncated sha512 without Accept header
-        response = requests.get(server + api + seq.sha512 + '/metadata')
-        check_complete_metdata_response(response, seq, seq.sha512)
-
 
 ###############################################################################
 # Error Conditions

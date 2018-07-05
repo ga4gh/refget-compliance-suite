@@ -35,6 +35,14 @@ def test_sequence_generic_errors(server, data, _input, _output):
     assert response.status_code == _output
 
 
+@trunc512_support_true_skip
+def test_404_no_support_trunc512(server, data):
+    api = 'sequence/'
+    response = requests.get(
+        server + api + data[0].sha512)
+    assert response.status_code == 404
+
+
 ###############################################################################
 # start End error conditions
 
@@ -103,3 +111,24 @@ def test_sequence_range_errors(server, data, _input, _output):
     response = requests.get(
         server + api + _input[0] + _input[1], headers=_input[2])
     assert response.status_code == _output
+
+
+def test_max_limit_subsequence(server, data):
+    '''test_max_limit_subsequence tests if the queried for more than the
+    subsequence limit
+    '''
+    import json
+
+    api = 'sequence/service-info'
+    response = requests.get(server + api)
+    assert response.status_code == 200
+    assert "subsequence_limit" in json.loads(response.text)['service']
+    lim = json.loads(response.text)['service']['subsequence_limit']
+
+    for seq in data:
+        if seq.size > lim:
+            api = 'sequence/'
+            response = requests.get(server + api + seq.md5)
+            assert response.status_code == 416
+
+    assert True

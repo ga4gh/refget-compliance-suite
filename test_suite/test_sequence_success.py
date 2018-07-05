@@ -1,7 +1,7 @@
 import requests
 import pytest
 from skipif_decorators import circular_support_false_skip,\
-    redirection_true_skip, redirection_false_skip
+    redirection_true_skip, redirection_false_skip, trunc512_support_false_skip
 
 
 def is_ascii(text):
@@ -52,10 +52,19 @@ def test_complete_sequence(server, data):
         response = requests.get(server + api + seq.md5)
         check_complete_sequence_response(response, seq)
 
-        # checking support for truncated sha512 without Accept header
-        response = requests.get(server + api + seq.sha512)
-        check_complete_sequence_response(response, seq)
 
+@redirection_true_skip
+@trunc512_support_false_skip
+def test_complete_sequence_trunc512(server, data):
+        '''test_complete_sequence tests successfully retrieving complete
+        sequences using trunc512 algorithm. It uses server and data fixture
+        values from conftest.py module.
+        '''
+
+        api = 'sequence/'
+        for seq in data:
+            response = requests.get(server + api + seq.sha512)
+            check_complete_sequence_response(response, seq)
 
 ###############################################################################
 # Test cases for sub-sequence success queries using start-end parameters

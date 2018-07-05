@@ -11,6 +11,8 @@ from utils import get_seq_obj
 DATA = []
 CIRCULAR_CHROMOSOME_SUPPORT = True
 REDIRECTION = False
+SUBSEQUENCE_LIMIT = 400000
+TRUNC512 = True
 
 
 class MockServerRequestHandler(BaseHTTPRequestHandler):
@@ -147,8 +149,11 @@ class MockServerRequestHandler(BaseHTTPRequestHandler):
         '''
 
         seq_id = self.get_seq_id()
+        print(TRUNC512)
         for seq in DATA:
-            if seq.md5 == seq_id or seq.sha512 == seq_id:
+            if seq.md5 == seq_id:
+                return seq
+            if TRUNC512 is True and seq.sha512 == seq_id:
                 return seq
         return None
 
@@ -171,6 +176,9 @@ class MockServerRequestHandler(BaseHTTPRequestHandler):
         such as do_GET, handle_subsequence_query_range and
         handle_subsequence_query_start_end
         '''
+        if len(content) > SUBSEQUENCE_LIMIT:
+            self.send(416)
+            return
 
         self.send_response(status_code)
         for key in headers:
@@ -210,7 +218,7 @@ class MockServerRequestHandler(BaseHTTPRequestHandler):
             "service": {
                 "circular_supported": circular_support,
                 "algorithms": ["md5", "trunc512"],
-                "subsequence_limit": 4000000,
+                "subsequence_limit": SUBSEQUENCE_LIMIT,
                 "supported_api_versions": ["1.0"]
                 }
         }
@@ -340,7 +348,7 @@ def get_free_port():
     return port
 
 
-def start_mock_server(port, circular_support, redirection, daemon=True):
+def start_mock_server(port, circular_support, redirection, daemon=True, trunc512=True):
     ''' start_mock_server used by test suite's conftest.py file to run the server
     on the fly. It gets circular_support (a boolean variable) from conftest.py
     to set the global variable CIRCULAR_CHROMOSOME_SUPPORT in the server.
@@ -349,9 +357,11 @@ def start_mock_server(port, circular_support, redirection, daemon=True):
     running all the tests.
     '''
 
-    global CIRCULAR_CHROMOSOME_SUPPORT, REDIRECTION
+    global CIRCULAR_CHROMOSOME_SUPPORT, REDIRECTION, TRUNC512
     CIRCULAR_CHROMOSOME_SUPPORT = circular_support
     REDIRECTION = redirection
+    print("heelo" + str(trunc512))
+    TRUNC512 = trunc512
     set_data()
     mock_server = HTTPServer(('localhost', port), MockServerRequestHandler)
     mock_server_thread = Thread(target=mock_server.serve_forever)
@@ -361,4 +371,4 @@ def start_mock_server(port, circular_support, redirection, daemon=True):
 
 
 if __name__ == '__main__':
-    start_mock_server(5000, True, False, False)
+    start_mock_server(5000, True, False, False, True)

@@ -18,3 +18,14 @@ circular_support_false_skip = pytest.mark.skipif(
 # server
 circular_support_true_skip = pytest.mark.skipif(
     "pytest.config.getoption('--cir') != 'False'")
+
+
+# decorator for tests to be skipped if trunc512 is not
+# supported by the server
+trunc512_support_false_skip = pytest.mark.skipif(
+    ("pytest.config.getoption('--trunc512') == 'False'"))
+
+# decorator for tests to be skipped if trunc512 is supported by the
+# server
+trunc512_support_true_skip = pytest.mark.skipif(
+    "pytest.config.getoption('--trunc512') != 'False'")
