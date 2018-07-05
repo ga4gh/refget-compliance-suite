@@ -16,9 +16,6 @@ def data():
     data.append(get_seq_obj("I"))
     data.append(get_seq_obj("VI"))
     data.append(get_seq_obj("NC"))
-    # print(data[0].size)
-    # print(data[1].size)
-    print(data[2].sequence)
     return data
 
 
@@ -54,7 +51,6 @@ def server(request):
     circular_support = request.config.getoption("--cir")
     redirection = request.config.getoption("--redir")
     trunc512 = request.config.getoption("--trunc512")
-    print(trunc512)
     port = get_free_port()
     start_mock_server(port, circular_support, redirection, trunc512=trunc512)
     server_base_url = 'http://localhost:' + str(port) + '/'

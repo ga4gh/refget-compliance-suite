@@ -149,7 +149,6 @@ class MockServerRequestHandler(BaseHTTPRequestHandler):
         '''
 
         seq_id = self.get_seq_id()
-        print(TRUNC512)
         for seq in DATA:
             if seq.md5 == seq_id:
                 return seq
@@ -319,7 +318,6 @@ class MockServerRequestHandler(BaseHTTPRequestHandler):
             self.wfile.write(service_info.encode("ascii"))
 
         else:
-            print(self.path)
             self.send_response(404)
 
 
@@ -360,7 +358,6 @@ def start_mock_server(port, circular_support, redirection, daemon=True, trunc512
     global CIRCULAR_CHROMOSOME_SUPPORT, REDIRECTION, TRUNC512
     CIRCULAR_CHROMOSOME_SUPPORT = circular_support
     REDIRECTION = redirection
-    print("heelo" + str(trunc512))
     TRUNC512 = trunc512
     set_data()
     mock_server = HTTPServer(('localhost', port), MockServerRequestHandler)
