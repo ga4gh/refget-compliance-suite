@@ -1,35 +1,42 @@
 from tests import initiate_tests
 
 
-def recurse_label_tests(root):
-    label = root.label + 1
-    for child in root.children:
-        if label > child.label:
-            child.label = label
-        if len(child.children) != 0:
-            recurse_label_tests(child)
-
-
 class TestRunner():
     def __init__(self, base_url):
         self.root = None
         self.session_params = {
-            'info_implement': None,
-            'metadata_implement': None,
             'limit': None,
             'trunc512': None,
             'circular': None,
             'redirection': None
         }
-
-        self.test_results = []
+        self.total_tests = 0
+        self.total_tests_passed = 0
+        self.total_tests_skipped = 0
+        self.total_tests_failed = 0
         self.base_url = base_url
+
+    def recurse_label_tests(self, root):
+        label = root.label + 1
+        for child in root.children:
+            if label > child.label:
+                self.total_tests = self.total_tests + 1
+                child.label = label
+            if len(child.children) != 0:
+                self.recurse_label_tests(child)
 
     def generate_report(self, node):
         label = node.label + 1
         for child in node.children:
             if child.label == label:
-                print(child.algorithm.__name__ + ' ' + str(child.label) + ' ' + str(child.result))
+                print('.')
+                if child.result == 1:
+                    print('PASSED: ' + str(child))
+                elif child.result == -1:
+                    print('FAILED: ' + str(child))
+                else:
+                    print('SKIPPED: ' + str(child))
+                print(child.toecho())
                 if len(child.children) != 0:
                     self.generate_report(child)
 
@@ -43,31 +50,28 @@ class TestRunner():
 
     def run_tests(self):
         self.root = initiate_tests()
-        recurse_label_tests(self.root)
+        self.root.run(self)
+        self.recurse_label_tests(self.root)
         self.recurse_run_tests(self.root)
+
+        print('SERVER: ' + self.base_url)
+        print('VARIABLES: ' + str(self.session_params))
+        print('TOTAL TEST CASES: ' + str(self.total_tests))
+        print('TOTAL TEST CASES PASSED: ' + str(self.total_tests_passed))
+        print('TOTAL TEST CASES SKIPPED: ' + str(self.total_tests_skipped))
+        print('TOTAL TEST CASES FAILED: ' + str(self.total_tests_failed))
+
         self.generate_report(self.root)
 
 
 tests = [
-    'info_implementation'
-    'info_default_encoding',
-    'info_content_type',
-    'info_circular',
-    'info_subsequence_limit',
-    'info_alorithms',
-    'info_api_version',
-
-    'metadata_implementation',
-    'metadata_default_encoding',
-    'metadata_md5',
-    'metadata_trunc512',
-    'metadata_length',
-    'metadata_aliases'
-    'metadata_trunc512',
-    'metadata_content_type',
-    'metadata_invalid_checksum_404_error'
 ]
 
 if __name__ == "__main__":
+    tr = TestRunner('https://www.ebi.ac.uk/ena/cram/')
+    tr.run_tests()
+
+    print('--------------')
+
     tr = TestRunner('http://localhost:5000/')
     tr.run_tests()
