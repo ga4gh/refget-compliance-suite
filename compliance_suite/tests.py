@@ -103,8 +103,8 @@ def initiate_tests():
     test_metadata_implement_default.set_fail_text('Metadata endpoint not implemented with default encoding')
 
     test_metadata_query_by_trunc512 = Test(metadata_query_by_trunc512)
-    test_metadata_query_by_trunc512.set_pass_text('TRUNC512 algorithm is working in the server')
-    test_metadata_query_by_trunc512.set_fail_text('TRUNC512 algorithm is not working in the server even though info endpoint indicates it"s support')
+    test_metadata_query_by_trunc512.set_pass_text('TRUNC512 algorithm is working in the server for metadata endpoint')
+    test_metadata_query_by_trunc512.set_fail_text('TRUNC512 algorithm is not working in the server for metadata endpoint even though info endpoint indicates it"s support')
 
     test_metadata_query_circular_sequence = Test(metadata_query_circular_sequence)
     test_metadata_query_circular_sequence.set_pass_text('Circular sequence metadata can be retrived')
@@ -133,6 +133,41 @@ def initiate_tests():
     test_metadata_invalid_encoding_415_error = Test(metadata_invalid_encoding_415_error)
     test_metadata_invalid_encoding_415_error.set_pass_text('Server is correctly sending 415 on invalid encoding')
     test_metadata_invalid_encoding_415_error.set_fail_text('Server is not sending 415 on invalid encoding')
+
+    # Sequence endpoint test cases
+
+    test_sequence_implement = Test(sequence_implement)
+    test_sequence_implement.set_pass_text('Sequence endpoint implemented in the server')
+    test_sequence_implement.set_fail_text('Sequence endpoint not implemented in the server')
+
+    test_sequence_implement_default = Test(sequence_implement_default)
+    test_sequence_implement_default.set_pass_text('Sequence endpoint implemented with default encoding')
+    test_sequence_implement_default.set_fail_text('Sequence endpoint not implemented with default encoding')
+
+    test_sequence_query_by_trunc512 = Test(sequence_query_by_trunc512)
+    test_sequence_query_by_trunc512.set_pass_text('TRUNC512 algorithm is working in the server for sequence endpoint')
+    test_sequence_query_by_trunc512.set_fail_text('TRUNC512 algorithm is not working in the server for sequence endpoint even though info endpoint indicates it"s support')
+
+    test_sequence_invalid_checksum_404_error = Test(sequence_invalid_checksum_404_error)
+    test_sequence_invalid_checksum_404_error.set_pass_text('Server is correctly sending 404 on invalid checksum')
+    test_sequence_invalid_checksum_404_error.set_pass_text('Server is not sending 404 on invalid checksum')
+
+    test_sequence_invalid_encoding_415_error = Test(sequence_invalid_encoding_415_error)
+    test_sequence_invalid_encoding_415_error.set_pass_text('Server is correctly sending 415 on invalid encoding')
+    test_sequence_invalid_encoding_415_error.set_pass_text('Server is not sending 415 on invalid encoding')
+
+    test_sequence_start_end = Test(sequence_start_end)
+    test_sequence_start_end.set_pass_text('Server supports start end query params')
+    test_sequence_start_end.set_fail_text('Server does not support start end query params')
+
+    test_sequence_range = Test(sequence_range)
+    test_sequence_range.set_pass_text('Server supports range header')
+    test_sequence_range.set_fail_text('Server does not support range header')
+
+    test_sequence_circular = Test(sequence_circular)
+    test_sequence_circular.set_pass_text('Circular sequence can be rertieved successfully')
+    test_sequence_circular.set_fail_text('Circular sequences can not be retreived even though info endpoint indicates its support')
+
 
     # generating test graph
 
