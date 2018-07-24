@@ -15,6 +15,7 @@ class TestRunner():
         self.total_tests_skipped = 0
         self.total_tests_failed = 0
         self.base_url = base_url
+        self.results = []
 
     def recurse_label_tests(self, root):
         label = root.label + 1
@@ -25,20 +26,20 @@ class TestRunner():
             if len(child.children) != 0:
                 self.recurse_label_tests(child)
 
-    def generate_report(self, node):
+    def recurse_generate_json(self, node):
         label = node.label + 1
         for child in node.children:
             if child.label == label:
-                print('.')
-                if child.result == 1:
-                    print('PASSED: ' + str(child))
-                elif child.result == -1:
-                    print('FAILED: ' + str(child))
-                else:
-                    print('SKIPPED: ' + str(child))
-                print(child.toecho())
+                test_result_object = {
+                    'name': str(child),
+                    'result': child.result,
+                    'text': child.toecho(),
+                    'parents': child.parents,
+                    'children': child.children
+                }
+                self.results.append(test_result_object)
                 if len(child.children) != 0:
-                    self.generate_report(child)
+                    self.recurse_generate_json(child)
 
     def recurse_run_tests(self, node):
         label = node.label + 1
@@ -53,15 +54,7 @@ class TestRunner():
         self.root.run(self)
         self.recurse_label_tests(self.root)
         self.recurse_run_tests(self.root)
-
-        print('SERVER: ' + self.base_url)
-        print('VARIABLES: ' + str(self.session_params))
-        print('TOTAL TEST CASES: ' + str(self.total_tests))
-        print('TOTAL TEST CASES PASSED: ' + str(self.total_tests_passed))
-        print('TOTAL TEST CASES SKIPPED: ' + str(self.total_tests_skipped))
-        print('TOTAL TEST CASES FAILED: ' + str(self.total_tests_failed))
-
-        self.generate_report(self.root)
+        self.recurse_generate_json(self.root)
 
 
 tests = [
@@ -73,5 +66,5 @@ if __name__ == "__main__":
 
     print('--------------')
 
-    tr = TestRunner('http://localhost:5000/')
-    tr.run_tests()
+    # tr = TestRunner('http://localhost:5000/')
+    # tr.run_tests()

@@ -43,6 +43,7 @@ def info_circular(test, runner):
             session_params['circular_supported'] = False
     except:
         test.result = -1
+        test.fail_text = test.fail_text + str(service_info_object)
 
 
 def info_algorithms(test, runner):
@@ -58,6 +59,7 @@ def info_algorithms(test, runner):
             session_params['trunc512'] = False
     except:
         test.result = -1
+        test.fail_text = test.fail_text + str(service_info_object)
 
 
 def info_subsequence(test, runner):
@@ -70,6 +72,7 @@ def info_subsequence(test, runner):
         test.result = 1
     except:
         test.result = -1
+        test.fail_text = test.fail_text + str(service_info_object)
 
 
 def info_api_version(test, runner):
@@ -81,3 +84,4 @@ def info_api_version(test, runner):
             test.result = 1
     except:
         test.result = -1
+        test.fail_text = test.fail_text + str(service_info_object)

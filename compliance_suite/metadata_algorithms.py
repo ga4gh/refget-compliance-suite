@@ -65,7 +65,7 @@ def metadata_md5(test, runner):
         if "md5" in metadata_object:
             test.result = 1
     except:
-        pass
+        test.fail_text = test.fail_text + str(metadata_object)
 
 
 def metadata_trunc512(test, runner):
@@ -82,7 +82,7 @@ def metadata_trunc512(test, runner):
         if "trunc512" in metadata_object:
             test.result = 1
     except:
-        pass
+        test.fail_text = test.fail_text + str(metadata_object)
 
 
 def metadata_length(test, runner):
@@ -94,7 +94,7 @@ def metadata_length(test, runner):
         if "length" in metadata_object and metadata_object['length'] == 230218:
             test.result = 1
     except:
-        pass
+        test.fail_text = test.fail_text + str(metadata_object)
 
 
 def metadata_aliases(test, runner):
@@ -106,7 +106,7 @@ def metadata_aliases(test, runner):
         if "aliases" in metadata_object:
             test.result = 1
     except:
-        pass
+        test.fail_text = test.fail_text + str(metadata_object)
 
 
 def metadata_invalid_checksum_404_error(test, runner):
@@ -116,6 +116,7 @@ def metadata_invalid_checksum_404_error(test, runner):
         test.result = 1
     else:
         test.result = -1
+        test.fail_text = test.fail_text + response.status_code
 
 
 def metadata_invalid_encoding_415_error(test, runner):
@@ -127,3 +128,4 @@ def metadata_invalid_encoding_415_error(test, runner):
         test.result = 1
     else:
         test.result = -1
+        test.fail_text = test.fail_text + response.status_code
