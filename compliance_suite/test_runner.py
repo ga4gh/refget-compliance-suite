@@ -33,10 +33,17 @@ class TestRunner():
                 test_result_object = {
                     'name': str(child),
                     'result': child.result,
+                    # 'test_description': child.description,
                     'text': child.toecho(),
                     'parents': child.parents,
                     'children': child.children
                 }
+                if child.result == 1:
+                    self.total_tests_passed = self.total_tests_passed + 1
+                elif child.result == -1:
+                    self.total_tests_failed = self.total_tests_failed + 1
+                else:
+                    self.total_tests_skipped = self.total_tests_skipped + 1
                 self.results.append(test_result_object)
                 if len(child.children) != 0:
                     self.recurse_generate_json(child)
@@ -56,9 +63,6 @@ class TestRunner():
         self.recurse_run_tests(self.root)
         self.recurse_generate_json(self.root)
 
-
-tests = [
-]
 
 if __name__ == "__main__":
     tr = TestRunner('https://www.ebi.ac.uk/ena/cram/')
