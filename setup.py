@@ -18,7 +18,7 @@ setuptools.setup(
     install_requires=install_requires,
     entry_points='''
         [console_scripts]
-        compliance_utility_report=compliance_suite.cli:main
+        compliance_utility=compliance_suite.cli:main
     ''',
     classifiers=(
         "Programming Language :: Python :: 3",

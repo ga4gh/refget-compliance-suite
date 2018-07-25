@@ -13,6 +13,7 @@ pages:
         - 'Error Conditions': 'GET_sequence_API/errors.md'
     - 'GET Metadata API': 'metadata.md'
     - 'GET service-info API': 'service_info.md'
+    - 'Compliance Utility Report system': 'utility.md'
 
 markdown_extensions:
     - toc:
