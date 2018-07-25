@@ -12,6 +12,7 @@ class Test():
         self.skip_text = ''
         self.parents = []
         self.children = []
+        self.warning = False
 
     def __str__(self):
         return 'test_' + self.algorithm.__name__
@@ -47,9 +48,12 @@ class Test():
 
     def run(self, test_runner):
         if self.toskip() is True:
+            self.warning = True
             self.result = 0
             return
         self.algorithm(self, test_runner)
+        if self.result == -1:
+            self.warning = True
 
     def toecho(self):
         if self.result == 1:
@@ -57,7 +61,7 @@ class Test():
         elif self.result == -1:
             return self.fail_text
         elif self.skip_text == '':
-                self.skip_text = self.generate_skip_text()
+            self.skip_text = self.generate_skip_text()
         return self.skip_text
 
 

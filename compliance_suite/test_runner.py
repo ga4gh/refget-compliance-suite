@@ -14,6 +14,7 @@ class TestRunner():
         self.total_tests_passed = 0
         self.total_tests_skipped = 0
         self.total_tests_failed = 0
+        self.total_tests_warning = 0
         self.base_url = base_url
         self.results = []
 
@@ -44,6 +45,8 @@ class TestRunner():
                     self.total_tests_failed = self.total_tests_failed + 1
                 else:
                     self.total_tests_skipped = self.total_tests_skipped + 1
+                if self.warning is True:
+                    self.total_tests_warning = self.total_tests_warning + 1
                 self.results.append(test_result_object)
                 if len(child.children) != 0:
                     self.recurse_generate_json(child)
