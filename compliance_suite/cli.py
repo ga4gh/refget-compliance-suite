@@ -19,6 +19,22 @@ def main():
 @click.option('--html', '-ht', default=None, help='generate html file')
 @click.option('--json', '-js', defult=None, help='generate json file')
 def report(server, veryverbose, verbose, html, json):
+    '''
+    CLI command report to execute the report session and generate report on
+    terminal, html file and json file if provided by the user
+
+    Required arguments:
+        server - Atleast one server is required. Multiple can be provided
+
+    Optional arguments:
+        --html - html file name for compliance matrix generation on html
+        --json - json file name for machine readability
+
+    Optional flags:
+        -v - verbose for descriptive report on terminal
+        --vv - veryverbose for even more description on terminal
+        --of - only failure cases in the report on terminal
+    '''
     final_json = []
     for s in server:
         tr = TestRunner(s)

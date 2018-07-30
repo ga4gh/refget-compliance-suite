@@ -95,6 +95,9 @@ class TestRunner():
                     self.recurse_run_tests(child)
 
     def generate_final_json(self):
+        '''
+        Generate final report object for this session
+        '''
         now = datetime.datetime.now()
         report_object = {
             'server': self.base_url,
