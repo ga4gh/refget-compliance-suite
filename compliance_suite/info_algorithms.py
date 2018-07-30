@@ -1,6 +1,8 @@
 import requests
 import json
 
+# Some variables for not repeating the same thing
+
 INFO_ACCEPT_HEADER = {
     'Accept': 'application/vnd.ga4gh.seq.v1.0.0+json'
 }
@@ -13,6 +15,9 @@ def base_algorithm(test, runner):
 
 
 def info_implement(test, runner):
+    '''
+    Test to check if info-endpoint returns 200 OK with appropriate headers
+    '''
     base_url = str(runner.base_url)
     response = requests.get(base_url + INFO_API, headers=INFO_ACCEPT_HEADER)
     if response.status_code == 200:
@@ -22,6 +27,9 @@ def info_implement(test, runner):
 
 
 def info_implement_default(test, runner):
+    '''
+    Test to check if info-endpoint returns 200 OK without headers
+    '''
     base_url = str(runner.base_url)
     response = requests.get(base_url + INFO_API)
     if response.status_code == 200:
@@ -31,6 +39,10 @@ def info_implement_default(test, runner):
 
 
 def info_circular(test, runner):
+    '''
+    Test to check if info-endpoint has circular in the reponse object. And if
+    it is there it upates session_params['circular'] as per the value
+    '''
     base_url = str(runner.base_url)
     session_params = runner.session_params
     response = requests.get(base_url + INFO_API, headers=INFO_ACCEPT_HEADER)
@@ -47,6 +59,10 @@ def info_circular(test, runner):
 
 
 def info_algorithms(test, runner):
+    '''
+    Test to check if info-endpoint has algorithms in the reponse object. And if
+    it is there it upates session_params['trunc512'] as per the value
+    '''
     base_url = str(runner.base_url)
     session_params = runner.session_params
     response = requests.get(base_url + INFO_API, headers=INFO_ACCEPT_HEADER)
@@ -63,6 +79,11 @@ def info_algorithms(test, runner):
 
 
 def info_subsequence(test, runner):
+    '''
+    Test to check if info-endpoint has subsequence_limit in the reponse object.
+    And if it is there it upates session_params['subsequence_limit'] as per the
+    value
+    '''
     base_url = str(runner.base_url)
     session_params = runner.session_params
     response = requests.get(base_url + INFO_API, headers=INFO_ACCEPT_HEADER)
@@ -76,6 +97,10 @@ def info_subsequence(test, runner):
 
 
 def info_api_version(test, runner):
+    '''
+    Test to check if info-endpoint has supported_api_versions in the reponse
+    object.
+    '''
     base_url = str(runner.base_url)
     response = requests.get(base_url + INFO_API, headers=INFO_ACCEPT_HEADER)
     try:
