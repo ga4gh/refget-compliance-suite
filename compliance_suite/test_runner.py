@@ -1,4 +1,7 @@
 from tests import initiate_tests
+import datetime
+
+
 
 
 class TestRunner():
@@ -90,6 +93,20 @@ class TestRunner():
                 child.run(self)
                 if len(child.children) != 0:
                     self.recurse_run_tests(child)
+
+    def generate_final_json(self):
+        now = datetime.datetime.now()
+        report_object = {
+            'server': self.base_url,
+            'date_time': str(now),
+            'test_results': self.results,
+            'total_tests': self.total_tests,
+            'total_tests_passed': self.total_tests_passed,
+            'total_tests_skipped': self.total_tests_skipped,
+            'total_tests_failed': self.total_tests_failed,
+            'total_warnings': self.total_warnings
+        }
+        return report_object
 
     def run_tests(self):
         '''
