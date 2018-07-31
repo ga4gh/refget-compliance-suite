@@ -12,14 +12,14 @@ python setup.py sdist bdist_wininst upload
 # Usage
 Multiple servers can be tested at once by providing multiple `--server` or `-s` arguments
 
-## Example
+<h2> Example </h2>
 
 ```base
 compliance_utility report --help
 ```
 
 
-## Optional Arguments
+<h3> Optional Arguments </h3>
 
 <h3> verbose -v</h3>
 
