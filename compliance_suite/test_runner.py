@@ -1,7 +1,6 @@
 from tests import initiate_tests
+from utils import data
 import datetime
-
-
 
 
 class TestRunner():
@@ -33,6 +32,7 @@ class TestRunner():
             'circular': None,
             'redirection': None
         }
+        self.test_data = data()
         self.total_tests = 0
         self.total_tests_passed = 0
         self.total_tests_skipped = 0

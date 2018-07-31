@@ -19,7 +19,7 @@ def main():
 @click.option('--html', '-ht', default=None, help='generate html file')
 @click.option('--json', '-js', default=None, help='generate json file')
 @click.option('--only_failures', '-of', default=None, help='show only failed cases in terminal report')
-def report(server, veryverbose, verbose, html, json):
+def report(server, veryverbose, verbose, html, json, only_failures):
     '''
     CLI command report to execute the report session and generate report on
     terminal, html file and json file if provided by the user

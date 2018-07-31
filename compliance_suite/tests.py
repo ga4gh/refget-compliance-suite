@@ -5,7 +5,7 @@ from metadata_algorithms import *
 class Test():
     '''
     Test Case class. All the test cases are intances of this class.
-    
+
     label - used in graph algorithms to label the test case graph
     alogorithm - Strategy design pattern in used here. It is the underlying algorithm used in the test case
     result - 0 indicates skipped, 1 indicates passed, -1 indicates failed and 2 is not yet ran
@@ -15,6 +15,7 @@ class Test():
     parents - dependencies of the test case to run
     children - test cases which have this test case as dependency
     warning - if the result of this test case is warning for the server implementation
+    cases - multiple edge cases of same test object
     '''
     def __init__(self, algorithm):
         '''
@@ -29,6 +30,8 @@ class Test():
         self.parents = []
         self.children = []
         self.warning = False
+        self.cases = []
+        self.case_ouputs = []
 
     def __str__(self):
         '''
@@ -222,13 +225,49 @@ def initiate_tests():
     test_sequence_start_end.set_pass_text('Server supports start end query params')
     test_sequence_start_end.set_fail_text('Server does not support start end query params')
 
+    test_sequence_start_end_success_cases = Test(sequence_start_end_success_cases)
+    test_sequence_start_end_success_cases.set_pass_text('Server passed all the success edge cases with start end query params')
+    test_sequence_start_end_success_cases.set_fail_text('Server did not pass all the success edge cases with start end query params')
+    test_sequence_start_end_success_cases.cases = [
+        (['?start=10&end=10', 10, 10], 0),
+        (['?start=10&end=20', 10, 20], 10),
+        (['?start=10&end=11', 10, 11], 1),
+        (['?start=230208', 230208, None], 10),
+        (['?end=5', None, 5], 5),
+        (['?start=230217&end=230218'], 1),
+        (['?start=0', 0, None], 230218),
+        (['?&end=230218', None, 230218], 230218),
+        (['?start=0&end=230218', 0, 230218], 230218),
+        (['?start=1&end=230218', 1, 230218], 230217),
+        (['?start=230217', 230217, None], 1),
+        (['?end=0', None, 0], 0)
+    ]
+
     test_sequence_range = Test(sequence_range)
     test_sequence_range.set_pass_text('Server supports range header')
     test_sequence_range.set_fail_text('Server does not support range header')
 
-    test_sequence_circular = Test(sequence_circular)
-    test_sequence_circular.set_pass_text('Circular sequence can be rertieved successfully')
-    test_sequence_circular.set_fail_text('Circular sequences can not be retreived even though info endpoint indicates its support')
+    test_sequence_range_success_cases = Test(sequence_range_success_cases)
+    test_sequence_range_success_cases.set_pass_text('Server passed all the success edge cases with range header query')
+    test_sequence_range_success_cases.set_fail_text('Server did not pass all the success edge cases with range header query')
+    test_sequence_range_success_cases.cases = [
+        (['bytes=10-19', 10, 19], [206, 10]),
+        (['bytes=10-230217', 10, 230217], [206, 230208]),
+        (['bytes=10-999999', 10, 999999], [206, 230208]),
+        (['bytes=0-230217', 0, 230217], [200, 230218]),
+        (['bytes=0-999999', 0, 999999], [200, 230218]),
+        (['bytes=0-0', 0, 0], [206, 1]),
+        (['bytes=230217-230217', 230217, 230217], [206, 1])
+    ]
+
+    # test_sequence_circular = Test(sequence_circular)
+    # test_sequence_circular.set_pass_text('Circular sequence can be rertieved successfully passing all the edge cases')
+    # test_sequence_circular.set_fail_text('Circular sequences can not be retreived even though info endpoint indicates its support')
+    # test_sequence_cirular.cases = [
+    #     ('?start=5374&end=5', ['ATCCAACCTGCAGAGTT', 17]),
+    #     ('?start=5374&end=0', ['ATCCAACCTGCA', 12]),
+    #     ('?start=5380&end=25', ['CCTGCAGAGTTTTATCGCTTCCATGACGCAG', 31]),
+    # ]
 
 
     # generating test graph
@@ -261,4 +300,19 @@ def initiate_tests():
     test_metadata_implement.add_child(test_metadata_invalid_checksum_404_error)
     test_metadata_implement.add_child(test_metadata_invalid_encoding_415_error)
 
+    test_base.add_child(test_sequence_implement)
+
+    test_sequence_implement.add_child(test_sequence_implement_default)
+    test_sequence_implement.add_child(test_sequence_start_end)
+    test_sequence_implement.add_child(test_sequence_range)
+
+    test_sequence_implement.add_child(test_sequence_query_by_trunc512)
+    test_info_algorithms.add_child(test_sequence_query_by_trunc512)
+
+    test_sequence_implement.add_child(test_sequence_invalid_checksum_404_error)
+    test_sequence_implement.add_child(test_sequence_invalid_encoding_415_error)
+
+    test_sequence_start_end.add_child(test_sequence_start_end_success_cases)
+    test_sequence_range.add_child(test_sequence_range_success_cases)
+    
     return test_base
