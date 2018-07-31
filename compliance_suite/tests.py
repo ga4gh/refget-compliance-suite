@@ -67,6 +67,10 @@ class Test():
 
 def initiate_tests():
 
+    def base_algorithm(test, runner):
+        if True is True:
+            test.result = 1
+
     # Base test case
     test_base = Test(base_algorithm)
 

@@ -7,11 +7,6 @@ INFO_ACCEPT_HEADER = {
 INFO_API = 'sequence/service-info'
 
 
-def base_algorithm(test, runner):
-    if True is True:
-        test.result = 1
-
-
 def info_implement(test, runner):
     base_url = str(runner.base_url)
     response = requests.get(base_url + INFO_API, headers=INFO_ACCEPT_HEADER)
