@@ -46,7 +46,7 @@ def report(server, veryverbose, verbose, html, json, only_failures):
         tr.run_tests()
         final_json.append(tr.generate_final_json())
 
-    print(final_json)
+    # print(final_json)
 
     if html is not None:
         generate_html_file(final_json, html)

@@ -115,6 +115,8 @@ class Test():
             return self.pass_text
         elif self.result == -1:
             return self.fail_text
+        elif self.result == 2:
+            return 'Fuck'
         elif self.skip_text == '':
             self.skip_text = self.generate_skip_text()
         return self.skip_text
@@ -216,11 +218,11 @@ def initiate_tests():
 
     test_sequence_invalid_checksum_404_error = Test(sequence_invalid_checksum_404_error)
     test_sequence_invalid_checksum_404_error.set_pass_text('Server is correctly sending 404 on invalid checksum')
-    test_sequence_invalid_checksum_404_error.set_pass_text('Server is not sending 404 on invalid checksum instead sends ')
+    test_sequence_invalid_checksum_404_error.set_fail_text('Server is not sending 404 on invalid checksum instead sends ')
 
     test_sequence_invalid_encoding_415_error = Test(sequence_invalid_encoding_415_error)
     test_sequence_invalid_encoding_415_error.set_pass_text('Server is correctly sending 415 on invalid encoding')
-    test_sequence_invalid_encoding_415_error.set_pass_text('Server is not sending 415 on invalid encoding instead sends ')
+    test_sequence_invalid_encoding_415_error.set_fail_text('Server is not sending 415 on invalid encoding instead sends ')
 
     test_sequence_start_end = Test(sequence_start_end)
     test_sequence_start_end.set_pass_text('Server supports start end query params')

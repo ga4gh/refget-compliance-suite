@@ -66,12 +66,12 @@ class TestRunner():
                 test_result_object = {
                     'name': str(child),
                     'result': child.result,
-                    # 'test_description': child.description,
+                    'test_description': child.algorithm.__doc__,
                     'text': child.toecho(),
                     'parents': [str(parent) for parent in child.parents],
                     'children': [str(child) for child in child.children]
                 }
-                print(child.toecho())
+                print(test_result_object)
                 if child.result == 1:
                     self.total_tests_passed = self.total_tests_passed + 1
                 elif child.result == -1:
@@ -92,8 +92,9 @@ class TestRunner():
         for child in node.children:
             if child.label == label:
                 child.run(self)
-                if len(child.children) != 0:
-                    self.recurse_run_tests(child)
+        for child in node.children:
+            if len(child.children) != 0:
+                self.recurse_run_tests(child)
 
     def generate_final_json(self):
         '''
