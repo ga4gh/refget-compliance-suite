@@ -10,6 +10,9 @@ SEQUENCE_CIRCULAR = 'sequence/3332ed720ac7eaa9b3655c06f6b9e196'
 
 
 def sequence_implement(test, runner):
+    '''Test to check if server returns 200 using I test sequence and
+    appropriate headers
+    '''
     base_url = str(runner.base_url)
     response = requests.get(base_url + SEQUENCE_MD5, headers=SEQUENCE_ACCEPT_HEADER)
     if response.status_code == 200:
@@ -19,6 +22,9 @@ def sequence_implement(test, runner):
 
 
 def sequence_implement_default(test, runner):
+    '''Test to check if server returns 200 using I test sequence and
+    no headers
+    '''
     base_url = str(runner.base_url)
     response = requests.get(base_url + SEQUENCE_MD5, headers=SEQUENCE_ACCEPT_HEADER)
     if response.status_code == 200:
@@ -28,6 +34,9 @@ def sequence_implement_default(test, runner):
 
 
 def sequence_query_by_trunc512(test, runner):
+    '''Test to check if server returns 200 using I test sequence trunc512 and
+    appropriate headers if the server supports trunc512
+    '''
     base_url = str(runner.base_url)
     session_params = runner.session_params
     if session_params['trunc512'] is False:
@@ -42,6 +51,9 @@ def sequence_query_by_trunc512(test, runner):
 
 
 def sequence_invalid_checksum_404_error(test, runner):
+    '''Test to check if server returns 404 using some garbage checksum and
+    appropriate headers
+    '''
     base_url = str(runner.base_url)
     response = requests.get(base_url + 'sequence/Garbagechecksum', headers=SEQUENCE_ACCEPT_HEADER)
     if response.status_code == 404:
@@ -51,6 +63,9 @@ def sequence_invalid_checksum_404_error(test, runner):
 
 
 def sequence_invalid_encoding_415_error(test, runner):
+    '''Test to check if server returns 200 using I test sequence and
+    grabage encoding in Accept header
+    '''
     base_url = str(runner.base_url)
     response = requests.get(
         base_url + SEQUENCE_MD5,
@@ -62,6 +77,9 @@ def sequence_invalid_encoding_415_error(test, runner):
 
 
 def sequence_start_end(test, runner):
+    '''Test to check if server returns 200 and appropriate text using I test
+    sequence and start/end query params set to 10 and 20 repectively
+    '''
     base_url = str(runner.base_url)
     response = requests.get(
         base_url + SEQUENCE_MD5 + '?start=10&end=20',
@@ -73,6 +91,9 @@ def sequence_start_end(test, runner):
 
 
 def sequence_start_end_success_cases(test, runner):
+    '''Test to check if server passes all the edge cases related to success
+    queries using start/end params
+    '''
     data = runner.test_data
     base_url = str(runner.base_url)
     test.result = 1
@@ -99,6 +120,9 @@ def sequence_start_end_success_cases(test, runner):
 
 
 def sequence_range(test, runner):
+    '''Test to check if server returns 200 and appropriate text using I test
+    sequence and range header set to 10 and 19 repectively
+    '''
     base_url = str(runner.base_url)
     header = {
         'Accept': 'text/vnd.ga4gh.seq.v1.0.0+plain',
@@ -113,6 +137,9 @@ def sequence_range(test, runner):
 
 
 def sequence_range_success_cases(test, runner):
+    '''Test to check if server passesall the edge cases related to range header
+    success queries
+    '''
     data = runner.test_data
     header = {
         'Accept': 'text/vnd.ga4gh.seq.v1.0.0+plain',

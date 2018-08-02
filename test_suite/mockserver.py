@@ -216,7 +216,7 @@ class MockServerRequestHandler(BaseHTTPRequestHandler):
         response = {
             "service": {
                 "circular_supported": circular_support,
-                "algorithms": ["md5", "trunc512"],
+                "algorithms": ["md5"],
                 "subsequence_limit": SUBSEQUENCE_LIMIT,
                 "supported_api_versions": ["1.0"]
                 }
@@ -368,4 +368,4 @@ def start_mock_server(port, circular_support, redirection, daemon=True, trunc512
 
 
 if __name__ == '__main__':
-    start_mock_server(5000, True, False, False, True)
+    start_mock_server(5000, False, False, False, True)
