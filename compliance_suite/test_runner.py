@@ -68,16 +68,17 @@ class TestRunner():
                     'result': child.result,
                     # 'test_description': child.description,
                     'text': child.toecho(),
-                    'parents': child.parents,
-                    'children': child.children
+                    'parents': [str(parent) for parent in child.parents],
+                    'children': [str(child) for child in child.children]
                 }
+                print(child.toecho())
                 if child.result == 1:
                     self.total_tests_passed = self.total_tests_passed + 1
                 elif child.result == -1:
                     self.total_tests_failed = self.total_tests_failed + 1
                 else:
                     self.total_tests_skipped = self.total_tests_skipped + 1
-                if self.warning is True:
+                if child.warning is True:
                     self.total_tests_warning = self.total_tests_warning + 1
                 self.results.append(test_result_object)
                 if len(child.children) != 0:
@@ -107,7 +108,7 @@ class TestRunner():
             'total_tests_passed': self.total_tests_passed,
             'total_tests_skipped': self.total_tests_skipped,
             'total_tests_failed': self.total_tests_failed,
-            'total_warnings': self.total_warnings
+            'total_warnings': self.total_tests_warning
         }
         return report_object
 

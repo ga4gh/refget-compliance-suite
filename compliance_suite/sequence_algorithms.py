@@ -2,7 +2,7 @@ import requests
 
 
 SEQUENCE_ACCEPT_HEADER = {
-    'Accept': 'application/vnd.ga4gh.seq.v1.0.0+json'
+    'Accept': 'text/vnd.ga4gh.seq.v1.0.0+plain'
 }
 SEQUENCE_MD5 = 'sequence/6681ac2f62509cfc220d78751b8dc524'
 SEQUENCE_TRUNC512 = 'sequence/959cb1883fc1ca9ae1394ceb475a356ead1ecceff5824ae7'
@@ -43,7 +43,7 @@ def sequence_query_by_trunc512(test, runner):
 
 def sequence_invalid_checksum_404_error(test, runner):
     base_url = str(runner.base_url)
-    response = requests.get(base_url + 'Garbagechecksum', headers=SEQUENCE_ACCEPT_HEADER)
+    response = requests.get(base_url + 'sequence/Garbagechecksum', headers=SEQUENCE_ACCEPT_HEADER)
     if response.status_code == 404:
         test.result = 1
     else:
@@ -53,9 +53,9 @@ def sequence_invalid_checksum_404_error(test, runner):
 def sequence_invalid_encoding_415_error(test, runner):
     base_url = str(runner.base_url)
     response = requests.get(
-        base_url + 'Garbagechecksum',
+        base_url + SEQUENCE_MD5,
         headers={'Accept': 'embl/some_json'})
-    if response.status_code == 404:
+    if response.status_code == 415:
         test.result = 1
     else:
         test.result = -1
@@ -101,7 +101,7 @@ def sequence_start_end_success_cases(test, runner):
 def sequence_range(test, runner):
     base_url = str(runner.base_url)
     header = {
-        'Accept': 'application/vnd.ga4gh.seq.v1.0.0+json',
+        'Accept': 'text/vnd.ga4gh.seq.v1.0.0+plain',
         'Range': 'bytes=10-19'
     }
     response = requests.get(
@@ -115,7 +115,7 @@ def sequence_range(test, runner):
 def sequence_range_success_cases(test, runner):
     data = runner.test_data
     header = {
-        'Accept': 'application/vnd.ga4gh.seq.v1.0.0+json',
+        'Accept': 'text/vnd.ga4gh.seq.v1.0.0+plain',
     }
     base_url = str(runner.base_url)
     test.result = 1

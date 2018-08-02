@@ -1,5 +1,6 @@
 from info_algorithms import *
 from metadata_algorithms import *
+from sequence_algorithms import *
 
 
 class Test():
@@ -65,7 +66,7 @@ class Test():
         text = str(self) + ' is skipped because' + '\n'
         for test in self.parents:
             if test.result != 1:
-                text = text + test.toecho()
+                text = text + '\t' + test.toecho()
         return text
 
     def add_parent(self, parent_test_case):
@@ -310,9 +311,9 @@ def initiate_tests():
     test_info_algorithms.add_child(test_sequence_query_by_trunc512)
 
     test_sequence_implement.add_child(test_sequence_invalid_checksum_404_error)
-    test_sequence_implement.add_child(test_sequence_invalid_encoding_415_error)
+    # test_sequence_implement.add_child(test_sequence_invalid_encoding_415_error)
 
-    test_sequence_start_end.add_child(test_sequence_start_end_success_cases)
+    # test_sequence_start_end.add_child(test_sequence_start_end_success_cases)
     test_sequence_range.add_child(test_sequence_range_success_cases)
-    
+
     return test_base

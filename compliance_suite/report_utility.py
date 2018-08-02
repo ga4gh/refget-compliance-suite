@@ -9,7 +9,7 @@ def generate_json_file(final_json, json_file_name):
     '''
     if json is None:
         return
-    with open(REPORTS_DIR + json_file_name + '.json', 'w') as outfile:
+    with open(json_file_name + '.json', 'w+') as outfile:
         json.dump(final_json, outfile)
 
 

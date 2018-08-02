@@ -43,14 +43,16 @@ def report(server, veryverbose, verbose, html, json, only_failures):
         raise Exception('No server url provided. Provide atleast one')
     for s in server:
         tr = TestRunner(s)
-        tr.run(verbose, veryverbose, only_failures)
+        tr.run_tests()
         final_json.append(tr.generate_final_json())
+
+    print(final_json)
 
     if html is not None:
         generate_html_file(final_json, html)
 
-    if json is not None:
-        generate_json_file(final_json, json)
+    json = 'test'
+    generate_json_file(final_json, json)
 
 
 if __name__ == "__main__":
