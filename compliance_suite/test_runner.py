@@ -69,7 +69,8 @@ class TestRunner():
                     'test_description': child.algorithm.__doc__,
                     'text': child.toecho(),
                     'parents': [str(parent) for parent in child.parents],
-                    'children': [str(child) for child in child.children]
+                    'children': [str(child) for child in child.children],
+                    # 'edge_cases': child.case_ouputs
                 }
                 print(test_result_object)
                 if child.result == 1:

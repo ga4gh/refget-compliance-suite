@@ -146,19 +146,19 @@ def initiate_tests():
 
     test_info_circular = Test(info_circular)
     test_info_circular.set_pass_text('"circular" key in info response object')
-    test_info_circular.set_fail_text('"circular" key not in info response object instead sends ')
+    test_info_circular.set_fail_text('"circular" key not in info response object. It sends ')
 
     test_info_algorithms = Test(info_algorithms)
     test_info_algorithms.set_pass_text('"algorithms" key in info response object')
-    test_info_algorithms.set_fail_text('"algorithms" key not in info response object instead sends ')
+    test_info_algorithms.set_fail_text('"algorithms" key not in info response object. It sends ')
 
     test_info_subsequence_limit = Test(info_subsequence)
     test_info_subsequence_limit.set_pass_text('"subsequence_limit" key in info response object')
-    test_info_subsequence_limit.set_fail_text('"subsequence_limit" key not in info response object instead sends ')
+    test_info_subsequence_limit.set_fail_text('"subsequence_limit" key not in info response object. It sends ')
 
     test_info_api_version = Test(info_api_version)
     test_info_api_version.set_pass_text('"supported_api_versions" key in info response object')
-    test_info_api_version.set_fail_text('"supported_api_versions" key not in info response object instead sends ')
+    test_info_api_version.set_fail_text('"supported_api_versions" key not in info response object. It sends ')
 
     # Metadata Success Test Cases
 
@@ -237,7 +237,7 @@ def initiate_tests():
         (['?start=10&end=11', 10, 11], 1),
         (['?start=230208', 230208, None], 10),
         (['?end=5', None, 5], 5),
-        (['?start=230217&end=230218'], 1),
+        (['?start=230217&end=230218', 230217, 230218], 1),
         (['?start=0', 0, None], 230218),
         (['?&end=230218', None, 230218], 230218),
         (['?start=0&end=230218', 0, 230218], 230218),
@@ -313,9 +313,9 @@ def initiate_tests():
     test_info_algorithms.add_child(test_sequence_query_by_trunc512)
 
     test_sequence_implement.add_child(test_sequence_invalid_checksum_404_error)
-    # test_sequence_implement.add_child(test_sequence_invalid_encoding_415_error)
+    test_sequence_implement.add_child(test_sequence_invalid_encoding_415_error)
 
-    # test_sequence_start_end.add_child(test_sequence_start_end_success_cases)
+    test_sequence_start_end.add_child(test_sequence_start_end_success_cases)
     test_sequence_range.add_child(test_sequence_range_success_cases)
 
     return test_base

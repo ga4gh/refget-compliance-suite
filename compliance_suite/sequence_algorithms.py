@@ -100,6 +100,8 @@ def sequence_start_end_success_cases(test, runner):
     for case in test.cases:
         _input = case[0]
         _output = case[1]
+        print(_input)
+        print(_output)
         response = requests.get(
             base_url + SEQUENCE_MD5 + _input[0],
             headers=SEQUENCE_ACCEPT_HEADER)
@@ -130,7 +132,7 @@ def sequence_range(test, runner):
     }
     response = requests.get(
         base_url + SEQUENCE_MD5, headers=header)
-    if response.status_code == 200 and response.text == 'CCCACACACC':
+    if response.status_code == 206 and response.text == 'CCCACACACC':
         test.result = 1
     else:
         test.result = -1
@@ -149,6 +151,8 @@ def sequence_range_success_cases(test, runner):
     for case in test.cases:
         _input = case[0]
         _output = case[1]
+        print(_input)
+        print(_output)
         header['Range'] = _input[0]
         response = requests.get(
             base_url + SEQUENCE_MD5, headers=header)
