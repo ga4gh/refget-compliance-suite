@@ -65,7 +65,6 @@ def info_algorithms(test, runner):
         service_info_object = json.loads(response.text)["service"]
         test.result = 1
         if 'trunc512' in service_info_object['algorithms']:
-            print('yoooooooooooooooo')
             session_params['trunc512'] = True
         else:
             session_params['trunc512'] = False

@@ -1,6 +1,11 @@
 from tests import initiate_tests
 from utils import data
 import datetime
+import re
+
+
+def processed_func_descrp(text):
+    return re.sub(' +', ' ', text.replace('\n', '')).strip()
 
 
 class TestRunner():
@@ -66,13 +71,15 @@ class TestRunner():
                 test_result_object = {
                     'name': str(child),
                     'result': child.result,
-                    'test_description': child.algorithm.__doc__,
+                    'test_description': processed_func_descrp(child.algorithm.__doc__),
                     'text': child.toecho(),
                     'parents': [str(parent) for parent in child.parents],
                     'children': [str(child) for child in child.children],
-                    # 'edge_cases': child.case_ouputs
+                    'warning': child.warning,
+                    # 'edge_cases': child.case_ouputs,
+                    # 'edge_cases': [case for case in child.case_ouputs if case['result'] == -1]
                 }
-                print(test_result_object)
+                # print(test_result_object)
                 if child.result == 1:
                     self.total_tests_passed = self.total_tests_passed + 1
                 elif child.result == -1:

@@ -63,10 +63,10 @@ class Test():
         Skip text is generated if there is no skip text (the case when test is skipped when the parent test cases fail or skip)
         To track down the root cause of this skip.
         '''
-        text = str(self) + ' is skipped because' + '\n'
+        text = str(self) + ' is skipped because '
         for test in self.parents:
             if test.result != 1:
-                text = text + '\t' + test.toecho()
+                text = text + test.toecho()
         return text
 
     def add_parent(self, parent_test_case):
@@ -145,20 +145,20 @@ def initiate_tests():
     test_info_implement_default.set_fail_text('Info endpoint not implemented with default encoding')
 
     test_info_circular = Test(info_circular)
-    test_info_circular.set_pass_text('"circular" key in info response object')
+    test_info_circular.set_pass_text('circular key in info response object')
     test_info_circular.set_fail_text('"circular" key not in info response object. It sends ')
 
     test_info_algorithms = Test(info_algorithms)
-    test_info_algorithms.set_pass_text('"algorithms" key in info response object')
+    test_info_algorithms.set_pass_text('algorithms key in info response object')
     test_info_algorithms.set_fail_text('"algorithms" key not in info response object. It sends ')
 
     test_info_subsequence_limit = Test(info_subsequence)
-    test_info_subsequence_limit.set_pass_text('"subsequence_limit" key in info response object')
+    test_info_subsequence_limit.set_pass_text('subsequence_limit key in info response object')
     test_info_subsequence_limit.set_fail_text('"subsequence_limit" key not in info response object. It sends ')
 
     test_info_api_version = Test(info_api_version)
-    test_info_api_version.set_pass_text('"supported_api_versions" key in info response object')
-    test_info_api_version.set_fail_text('"supported_api_versions" key not in info response object. It sends ')
+    test_info_api_version.set_pass_text('supported_api_versions key in info response object')
+    test_info_api_version.set_fail_text('supported_api_versions key not in info response object. It sends ')
 
     # Metadata Success Test Cases
 
@@ -179,20 +179,20 @@ def initiate_tests():
     test_metadata_query_circular_sequence.set_fail_text('Circular sequence metadata can not be retrived even though info endpoint indicates it"s support')
 
     test_metadata_md5 = Test(metadata_md5)
-    test_metadata_md5.set_pass_text('"md5" key in metadata response object')
-    test_metadata_md5.set_fail_text('"md5" key not in metadata response object instead sends ')
+    test_metadata_md5.set_pass_text('md5 key in metadata response object')
+    test_metadata_md5.set_fail_text('md5 key not in metadata response object instead sends ')
 
     test_metadata_trunc512 = Test(metadata_trunc512)
-    test_metadata_trunc512.set_pass_text('"trunc512" key in metadata response object')
-    test_metadata_trunc512.set_fail_text('"trunc512" key not in metadata response object even though info endpoint indicates it"s support instead sends ')
+    test_metadata_trunc512.set_pass_text('trunc512 key in metadata response object')
+    test_metadata_trunc512.set_fail_text('trunc512 key not in metadata response object even though info endpoint indicates it"s support instead sends ')
 
     test_metadata_length = Test(metadata_length)
-    test_metadata_length.set_pass_text('"length" key in metadata response object')
-    test_metadata_length.set_fail_text('"length" key not in metadata response object or incorrect value in "length" key instead sends ')
+    test_metadata_length.set_pass_text('length key in metadata response object')
+    test_metadata_length.set_fail_text('length key not in metadata response object or incorrect value in "length" key instead sends ')
 
     test_metadata_aliases = Test(metadata_aliases)
-    test_metadata_aliases.set_pass_text('"aliases" key in metadata response object')
-    test_metadata_aliases.set_fail_text('"aliases" key not in metadata response object')
+    test_metadata_aliases.set_pass_text('aliases key in metadata response object')
+    test_metadata_aliases.set_fail_text('aliases key not in metadata response object')
 
     test_metadata_invalid_checksum_404_error = Test(metadata_invalid_checksum_404_error)
     test_metadata_invalid_checksum_404_error.set_pass_text('Server is correctly sending 404 on invalid checksum')
