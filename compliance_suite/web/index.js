@@ -15,13 +15,21 @@ function load() {
             $.each(report['test_results'], function (index, result){
                 console.log(result)
                 if(result["result"] == 1){
-                    text_report += "<p class='text-success'>" + result['name'] + ": " +  "pass</p>"
+                    text_report += "<p class='text-success'>" + result['name'] + ": " +  "PASSED</p>"
                 }
-                else{
-                    text_report += "<h4>" + result['name'] + "</h4>"
+                else if (result["result"] == 0 && result["warning"] == true){
+                    text_report += "<p class='text-warning'>" + result['name'] + ": " +  "SKIPPED | WARNING</p>"
+                }
+                else if (result["result"] == 0 && result["warning"] == false){
+                    text_report += "<p class='text-info'>" + result['name'] + ": " +  "SKIPPED</p>"
+                }
+                else {
+                    text_report += "<p class='text-danger'>" + result['name'] + ": " +  "FAILED | WARNING</p>"
                 }
                 text_report += "<p>--->" + result['text'] + "</p>&nbsp";
             });
+
+            text_report += "-----------------------------------------------------------------"
         });
 
         $("#text").html(text_report)
