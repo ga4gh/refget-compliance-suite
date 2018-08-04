@@ -1,10 +1,14 @@
 import click
+import os
+import json
+
 try:
     from compliance_suite.test_runner import TestRunner
-    from compliance_suite.report_utility import *
+    from compliance_suite.report_server import start_mock_server
 except:
     from test_runner import TestRunner
-    from report_utility import *
+    from report_server import start_mock_server
+
 
 
 @click.group()
@@ -16,10 +20,10 @@ def main():
 @click.option('--server', '-s', multiple=True, help='base_url')
 @click.option('--verbose', '-v', is_flag=True, help='to view the description and failure stack')
 @click.option('--veryverbose', '-vv', is_flag=True, help='to view the description and failure stack')
-@click.option('--html', '-ht', default=None, help='generate html file')
-@click.option('--json', '-js', default=None, help='generate json file')
+# @click.option('--html', '-ht', default=None, help='generate html file')
+# @click.option('--json', '-js', default=None, help='generate json file')
 @click.option('--only_failures', '-of', default=None, help='show only failed cases in terminal report')
-def report(server, veryverbose, verbose, html, json, only_failures):
+def report(server, veryverbose, verbose, only_failures):
     '''
     CLI command report to execute the report session and generate report on
     terminal, html file and json file if provided by the user
@@ -46,13 +50,12 @@ def report(server, veryverbose, verbose, html, json, only_failures):
         tr.run_tests()
         final_json.append(tr.generate_final_json())
 
-    # print(final_json)
+    WEB_DIR = os.path.join(os.path.dirname(__file__), 'web')
 
-    if html is not None:
-        generate_html_file(final_json, html)
+    with open(os.path.join(WEB_DIR, 'temp_result' + '.json'), 'w+') as outfile:
+        json.dump(final_json, outfile)
 
-    json = 'test'
-    generate_json_file(final_json, json)
+    start_mock_server()
 
 
 if __name__ == "__main__":
