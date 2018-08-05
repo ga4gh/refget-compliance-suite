@@ -1,11 +1,11 @@
 function load() {
     $.getJSON("temp_result.json", function (data) {
-        var text_report = "";
+        var text_report = "<h3>Compliance Report Text</h3>";
         var num_reports = data.length;
         var num_tests = data[0]["test_results"].length
         console.log(data)
         $.each(data, function (index, report) {
-            text_report += "<h3>Server: " + report['server'] + "</h3>"
+            text_report += "<h4>Server: " + report['server'] + "</h4>"
             text_report += "<p>Total tests: " + report["total_tests"] + "</p>"
             text_report += "<p>Total tests passed: " + report["total_tests_passed"] + "</p>"
             text_report += "<p>Total tests failed: " + report["total_tests_failed"] + "</p>"
@@ -66,9 +66,17 @@ function load() {
         }
         $("#compliance_matrix").find("tbody").html(t_body)
 
+        var json_container = $('#json')
+        json_container
+            .jsonPresenter('destroy')
+            .jsonPresenter({
+                    json: data, // JSON objects here
+                })
 
-
+        var data_str = "text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(data));
+        $('<a href="data:' + data_str + '" download="data.json"><button style="margin:10px; width:100%" class="btn"><i class="fa fa-download"></i> Download</button></a>').prependTo('#json');
     });
+
 
 
 

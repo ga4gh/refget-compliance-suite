@@ -4,10 +4,24 @@
   <title>Compliance Report</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <link rel="stylesheet" href="jquery.jsonPresenter.css">
+  <script src="//code.jquery.com/jquery.min.js"></script>
+<script src="jquery.jsonPresenter.js"></script>
+
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   <script type="text/javascript" src="index.js"></script>
+  <style>
+    .btn {
+        background-color: DodgerBlue;
+        border: none;
+        color: white;
+        padding: 12px 30px;
+        cursor: pointer;
+        font-size: 20px;
+    }
+</style>
 </head>
 <body onload="load()">
 
@@ -16,17 +30,16 @@
   <ul class="nav nav-tabs">
     <li class="active"><a data-toggle="tab" href="#text">Text</a></li>
     <li><a data-toggle="tab" href="#matrix">Matrix</a></li>
-    <li><a data-toggle="tab" href="#json">JSON</a></li>
+    <li><a data-toggle="tab" href="#json_container">JSON</a></li>
     <li><a data-toggle="tab" href="#about">About</a></li>
   </ul>
 
   <div class="tab-content">
-    <div id="text" class="tab-pane fade in active" style="margin-top:5px">
+      <div id="text" class="tab-pane fade in active" style="margin-top:5px">
     </div>
     <div id="matrix" class="tab-pane fade">
         <div class="container">
             <h3>Compliance Matrix</h3>
-            <p>Contextual classes can be used to color table rows or table cells. The classes that can be used are: .active, .success, .info, .warning, and .danger.</p>
             <table id="compliance_matrix" class="table">
               <thead>
               </thead>
@@ -36,9 +49,12 @@
             </table>
         </div>
     </div>
-    <div id="json" class="tab-pane fade">
-      <h3>Menu 2</h3>
-      <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.</p>
+    <div id="json_container" class="tab-pane fade">
+        <div class="container">
+            <h3>Compliance Report JSON</h3>
+            <div id="json">
+            </div>
+        </div>
     </div>
     <div id="about" class="tab-pane fade">
       <h3>Menu 3</h3>
