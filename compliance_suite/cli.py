@@ -1,6 +1,7 @@
 import click
 import os
 import json
+import tarfile
 
 try:
     from compliance_suite.test_runner import TestRunner
@@ -10,6 +11,13 @@ except:
     from report_server import start_mock_server
 
 
+def valid_file_name(file_name, val):
+    if os.path.exists(file_name):
+        print('yo')
+        new_file_name = file_name + '_' + str(val)
+        valid_file_name(new_file_name, val+1)
+    return file_name
+
 
 @click.group()
 def main():
@@ -18,12 +26,12 @@ def main():
 
 @main.command(help='run compliance utility report using base urls')
 @click.option('--server', '-s', multiple=True, help='base_url')
-@click.option('--verbose', '-v', is_flag=True, help='to view the description and failure stack')
-@click.option('--veryverbose', '-vv', is_flag=True, help='to view the description and failure stack')
-# @click.option('--html', '-ht', default=None, help='generate html file')
-# @click.option('--json', '-js', default=None, help='generate json file')
-@click.option('--only_failures', '-of', default=None, help='show only failed cases in terminal report')
-def report(server, veryverbose, verbose, only_failures):
+@click.option(
+    '--output_filename',
+    '-fn', default='web', help='to create a tar.gz file')
+@click.option(
+    '--serve', is_flag=True, help='spin up a server')
+def report(server, output_filename, serve):
     '''
     CLI command report to execute the report session and generate report on
     terminal, html file and json file if provided by the user
@@ -32,17 +40,9 @@ def report(server, veryverbose, verbose, only_failures):
         server - Atleast one server is required. Multiple can be provided
 
     Optional arguments:
-        --html - html file name for compliance matrix generation on html
-        --json - json file name for machine readability
-
-    Optional flags:
-        -v - verbose for descriptive report on terminal
-        --vv - veryverbose for even more description on terminal
-        --of - only failure cases in the report on terminal
+        --output_filename - file name for w:gz file of web folder. Default is web
     '''
     final_json = []
-    if verbose is True and veryverbose is True:
-        raise Exception('Only one of -v and -vv can be used')
     if len(server) == 0:
         raise Exception('No server url provided. Provide atleast one')
     for s in server:
@@ -55,7 +55,14 @@ def report(server, veryverbose, verbose, only_failures):
     with open(os.path.join(WEB_DIR, 'temp_result' + '.json'), 'w+') as outfile:
         json.dump(final_json, outfile)
 
-    start_mock_server()
+    index = 0
+    while(os.path.exists(output_filename + '_' + str(index) + '.tar.gz')):
+        index = index + 1
+    with tarfile.open(output_filename + '_' + str(index) + '.tar.gz', "w:gz") as tar:
+        tar.add(WEB_DIR, arcname=os.path.basename(WEB_DIR))
+
+    if serve is True:
+        start_mock_server()
 
 
 if __name__ == "__main__":
