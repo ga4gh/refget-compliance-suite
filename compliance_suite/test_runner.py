@@ -1,5 +1,5 @@
-from tests import initiate_tests
-from utils import data
+from compliance_suite.tests import initiate_tests
+from compliance_suite.utils import data
 import datetime
 import re
 

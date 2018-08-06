@@ -3,12 +3,15 @@ import os
 import json
 import tarfile
 
-try:
-    from compliance_suite.test_runner import TestRunner
-    from compliance_suite.report_server import start_mock_server
-except:
-    from test_runner import TestRunner
-    from report_server import start_mock_server
+from compliance_suite.test_runner import TestRunner
+from compliance_suite.report_server import start_mock_server
+
+# try:
+#     from compliance_suite.test_runner import TestRunner
+#     from compliance_suite.report_server import start_mock_server
+# except:
+#     from test_runner import TestRunner
+#     from report_server import start_mock_server
 
 
 def valid_file_name(file_name, val):

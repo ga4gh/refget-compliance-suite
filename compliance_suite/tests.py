@@ -1,6 +1,6 @@
-from info_algorithms import *
-from metadata_algorithms import *
-from sequence_algorithms import *
+from compliance_suite.info_algorithms import *
+from compliance_suite.metadata_algorithms import *
+from compliance_suite.sequence_algorithms import *
 
 
 class Test():

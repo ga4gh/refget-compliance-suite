@@ -1,7 +1,7 @@
 import os
 
-TEST_SUITE = os.path.dirname(os.path.dirname(__file__))
-SEQUENCE_FILES = os.path.join(TEST_SUITE, 'docs/sequences/')
+TEST_SUITE = os.path.dirname(__file__)
+SEQUENCE_FILES = os.path.join(TEST_SUITE, 'sequences/')
 
 
 class Sequence:
