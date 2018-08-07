@@ -28,6 +28,23 @@ function load() {
                     text_report += "<p class='text-danger'>" + result['name'] + ": " +  "FAILED | WARNING</p>"
                 }
                 text_report += "<p>--->" + result['text'] + "</p>&nbsp";
+                if(result['edge_cases'] != 0){
+                    var table = '<table style="margin-left:20px" class="table"><thead><tr><th>API</th><th>Result</th></tr></thead><tbody>'
+
+                    $.each(result['edge_cases'], function(index, edge_case){
+                        var row = '<tr><td>'
+                        row += edge_case['api'] + '</td>'
+                        if(edge_case['result'] == 1){
+                            row += '<td class="text-success">PASSED</td></tr>'
+                        }
+                        else{
+                            row += '<td class="text-warning">FAILED</td></tr>'
+                        }
+                        table += row
+                    })
+                    table += '</tbody></table>'
+                    text_report += table
+                }
             });
 
             text_report += "-----------------------------------------------------------------"

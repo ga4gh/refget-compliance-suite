@@ -76,7 +76,7 @@ class TestRunner():
                     'parents': [str(parent) for parent in child.parents],
                     'children': [str(child) for child in child.children],
                     'warning': child.warning,
-                    # 'edge_cases': child.case_ouputs,
+                    'edge_cases': child.case_ouputs,
                     # 'edge_cases': [case for case in child.case_ouputs if case['result'] == -1]
                 }
                 # print(test_result_object)

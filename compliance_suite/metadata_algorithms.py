@@ -150,7 +150,7 @@ def metadata_invalid_checksum_404_error(test, runner):
         test.result = 1
     else:
         test.result = -1
-        test.fail_text = test.fail_text + response.status_code
+        test.fail_text = test.fail_text + str(response.status_code)
 
 
 def metadata_invalid_encoding_415_error(test, runner):
@@ -165,4 +165,4 @@ def metadata_invalid_encoding_415_error(test, runner):
         test.result = 1
     else:
         test.result = -1
-        test.fail_text = test.fail_text + response.status_code
+        test.fail_text = test.fail_text + str(response.status_code)
