@@ -99,6 +99,7 @@ class TestRunner():
         label = node.label + 1
         for child in node.children:
             if child.label == label:
+                print(str(child))
                 child.run(self)
         for child in node.children:
             if len(child.children) != 0:

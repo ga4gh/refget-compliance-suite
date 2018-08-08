@@ -88,6 +88,7 @@ class Test():
         '''
         for test in self.parents:
             if test.result != 1:
+                print(str(test) + 'yoooo' + str(test.result))
                 return True
         return False
 
@@ -263,14 +264,14 @@ def initiate_tests():
         (['bytes=230217-230217', 230217, 230217], [206, 1])
     ]
 
-    # test_sequence_circular = Test(sequence_circular)
-    # test_sequence_circular.set_pass_text('Circular sequence can be rertieved successfully passing all the edge cases')
-    # test_sequence_circular.set_fail_text('Circular sequences can not be retreived even though info endpoint indicates its support')
-    # test_sequence_cirular.cases = [
-    #     ('?start=5374&end=5', ['ATCCAACCTGCAGAGTT', 17]),
-    #     ('?start=5374&end=0', ['ATCCAACCTGCA', 12]),
-    #     ('?start=5380&end=25', ['CCTGCAGAGTTTTATCGCTTCCATGACGCAG', 31]),
-    # ]
+    test_sequence_circular = Test(sequence_circular)
+    test_sequence_circular.set_pass_text('Circular sequence can be rertieved successfully passing all the edge cases')
+    test_sequence_circular.set_fail_text('Circular sequences can not be retreived even though info endpoint indicates its support')
+    test_sequence_circular.cases = [
+        ('?start=5374&end=5', ['ATCCAACCTGCAGAGTT', 17]),
+        ('?start=5374&end=0', ['ATCCAACCTGCA', 12]),
+        ('?start=5380&end=25', ['CCTGCAGAGTTTTATCGCTTCCATGACGCAG', 31]),
+    ]
 
 
     # generating test graph
@@ -313,9 +314,13 @@ def initiate_tests():
     test_info_algorithms.add_child(test_sequence_query_by_trunc512)
 
     test_sequence_implement.add_child(test_sequence_invalid_checksum_404_error)
+
     test_sequence_implement.add_child(test_sequence_invalid_encoding_415_error)
 
     test_sequence_start_end.add_child(test_sequence_start_end_success_cases)
     test_sequence_range.add_child(test_sequence_range_success_cases)
+
+    test_sequence_implement.add_child(test_sequence_circular)
+    test_info_circular.add_child(test_sequence_circular)
 
     return test_base

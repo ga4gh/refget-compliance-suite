@@ -162,3 +162,29 @@ def sequence_range_success_cases(test, runner):
             case_output_object['result'] = -1
             test.result = -1
         test.case_ouputs.append(case_output_object)
+
+
+def sequence_circular(test, runner):
+    '''Test to check if server passesall the edge cases related to circular queries
+    '''
+    session_params = runner.session_params
+    if session_params['circular_supported'] is False:
+        test.result = 0
+        test.set_skip_text(str(test) + ' is skipped because server does not support circular sequences')
+        return
+    base_url = str(runner.base_url)
+    test.result = 1
+    for case in test.cases:
+        _input = case[0]
+        _output = case[1]
+        response = requests.get(
+            base_url + SEQUENCE_CIRCULAR + _input, headers=SEQUENCE_ACCEPT_HEADER)
+        case_output_object = {'api': SEQUENCE_CIRCULAR + _input + ':' + str(SEQUENCE_ACCEPT_HEADER)}
+        if response.status_code == 200 and \
+                response.text == _output[0] \
+                and int(response.headers['content-length']) == _output[1]:
+            case_output_object['result'] = 1
+        else:
+            case_output_object['result'] = -1
+            test.result = -1
+        test.case_ouputs.append(case_output_object)
