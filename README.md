@@ -77,3 +77,9 @@ py.test --server <your-server-base-url-without-http://-prefix> --redir --trunc51
 py.test --server <your-server-base-url-without-http://-prefix> --cir --trunc512 --redir
 
 ```
+
+## Compliance Report Utiltiy
+Compliance Report Utility generates detailed report to debug failing test cases along with a compliance matrix and a json file. All the related code is in Compliance Suite directory.  
+
+To know more follow [docs](http://compliancedoc.readthedocs.io/en/latest/utility/)
+```
