@@ -2,6 +2,10 @@ import http.server
 import socketserver
 import os
 import socket
+import webbrowser
+
+
+
 
 WEB_DIR = os.path.join(os.path.dirname(__file__), 'web')
 
@@ -25,5 +29,6 @@ def start_mock_server(port=7878):
     port = get_free_port()
     Handler = http.server.SimpleHTTPRequestHandler
     httpd = socketserver.TCPServer(("", port), Handler)
-    print("serving at localhost:", port)
+    print("serving at http://localhost:" + str(port))
+    webbrowser.open("http://localhost:" + str(port))
     httpd.serve_forever()
