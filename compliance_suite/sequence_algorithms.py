@@ -188,3 +188,49 @@ def sequence_circular(test, runner):
             case_output_object['result'] = -1
             test.result = -1
         test.case_ouputs.append(case_output_object)
+
+
+def sequence_start_end_errors(test, runner):
+    '''Test to check if server passes all the edge cases related start-end
+    error cases
+    '''
+    base_url = str(runner.base_url)
+    test.result = 1
+    for case in test.cases:
+        _input = case[0]
+        _output = case[1]
+        response = requests.get(
+            base_url + 'sequence/' + _input[0] + _input[1], headers=SEQUENCE_ACCEPT_HEADER)
+        case_output_object = {'api': 'sequence/' + _input[0] + ':' + _input[1]}
+        if response.status_code == _output:
+            case_output_object['result'] = 1
+        else:
+            case_output_object['result'] = -1
+            test.result = -1
+        test.case_ouputs.append(case_output_object)
+
+
+def sequence_range_errors(test, runner):
+    '''Test to check if server passes all the edge cases related range
+    error cases
+    '''
+    header = {
+        'Accept': 'text/vnd.ga4gh.seq.v1.0.0+plain',
+    }
+    base_url = str(runner.base_url)
+    test.result = 1
+    for case in test.cases:
+        _input = case[0]
+        _output = case[1]
+        # print(_input)
+        # print(_output)
+        header['Range'] = _input[1]
+        response = requests.get(
+            base_url + 'sequence/' + _input[0], headers=header)
+        case_output_object = {'api': _input[0] + ':' + _input[1]}
+        if response.status_code == _output:
+            case_output_object['result'] = 1
+        else:
+            case_output_object['result'] = -1
+            test.result = -1
+        test.case_ouputs.append(case_output_object)

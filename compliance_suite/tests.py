@@ -273,6 +273,43 @@ def initiate_tests():
         ('?start=5380&end=25', ['CCTGCAGAGTTTTATCGCTTCCATGACGCAG', 31]),
     ]
 
+    test_sequence_start_end_errors = Test(sequence_start_end_errors)
+    test_sequence_start_end_errors.set_pass_text('server is correctly throwing errors for start-end error cases')
+    test_sequence_start_end_errors.set_fail_text('server is not correctly throwing errors for start-end error cases')
+    test_sequence_start_end_errors.cases = [
+
+        (['6681ac2f62509cfc220d78751b8dc524', '?start=abc&end=20'], 400),
+        (['6681ac2f62509cfc220d78751b8dc524', '?start=-10&end=-29', {}], 400),
+        (['6681ac2f62509cfc220d78751b8dc524', '?start=abc'], 400),
+
+        # Range out of bounds. Size of the sequence being tested is 5386.
+        (['3332ed720ac7eaa9b3655c06f6b9e196', '?start=67&end=5387'], 416),
+        (['3332ed720ac7eaa9b3655c06f6b9e196', '?start=5386&end=5375'], 416),
+        (['3332ed720ac7eaa9b3655c06f6b9e196', '?start=5386&end=5386'], 416),
+        (['3332ed720ac7eaa9b3655c06f6b9e196', '?start=5386&end=5'], 416),
+    ]
+
+    test_sequence_range_errors = Test(sequence_range_errors)
+    test_sequence_range_errors.set_pass_text('server is correctly throwing errors for range error cases')
+    test_sequence_range_errors.set_fail_text('server is not correctly throwing errors for range error cases')
+    test_sequence_range_errors.cases = [
+        (['6681ac2f62509cfc220d78751b8dc524', 'units=20-30'], 400),
+        (['6681ac2f62509cfc220d78751b8dc524', 'bytes=ab-19'], 400),
+        (['6681ac2f62509cfc220d78751b8dc524', 'bytes=-10--19'], 400),
+        (['6681ac2f62509cfc220d78751b8dc524', 'bytes=10--19'], 400),
+        (['6681ac2f62509cfc220d78751b8dc524', 'bytes=-10-'], 400),
+        (['6681ac2f62509cfc220d78751b8dc524', 'bytes==10-19'], 400),
+
+        # Range out of bounds as fbs > lbs which is not allowed
+        (['3332ed720ac7eaa9b3655c06f6b9e196', 'bytes=5200-19'], 416),
+        (['3332ed720ac7eaa9b3655c06f6b9e196', 'bytes=59-50'], 416),
+        (['3332ed720ac7eaa9b3655c06f6b9e196', 'bytes=5385-5382'], 416),
+
+        # Range out of bounds. Size of the sequence tested is 5386
+        (['3332ed720ac7eaa9b3655c06f6b9e196', 'bytes=5387-5391'], 400),
+        (['3332ed720ac7eaa9b3655c06f6b9e196', 'bytes=5386-5387'], 400),
+        (['3332ed720ac7eaa9b3655c06f6b9e196', 'bytes=9999-99999'], 400)
+    ]
 
     # generating test graph
 
@@ -322,5 +359,9 @@ def initiate_tests():
 
     test_sequence_implement.add_child(test_sequence_circular)
     test_info_circular.add_child(test_sequence_circular)
+
+    test_sequence_start_end.add_child(test_sequence_start_end_errors)
+
+    test_sequence_range.add_child(test_sequence_range_errors)
 
     return test_base
