@@ -231,7 +231,7 @@ def initiate_tests():
 
     test_sequence_start_end_success_cases = Test(sequence_start_end_success_cases)
     test_sequence_start_end_success_cases.set_pass_text('Server passed all the success edge cases with start end query params')
-    test_sequence_start_end_success_cases.set_fail_text('Server did not pass all the success edge cases with start end query params')
+    test_sequence_start_end_success_cases.set_fail_text('Server did not pass all the success edge cases with start end query params. Check http://compliancedoc.readthedocs.io/en/latest/GET_sequence_API/success/#sub-sequence-queries')
     test_sequence_start_end_success_cases.cases = [
         (['?start=10&end=10', 10, 10], 0),
         (['?start=10&end=20', 10, 20], 10),
@@ -253,7 +253,7 @@ def initiate_tests():
 
     test_sequence_range_success_cases = Test(sequence_range_success_cases)
     test_sequence_range_success_cases.set_pass_text('Server passed all the success edge cases with range header query')
-    test_sequence_range_success_cases.set_fail_text('Server did not pass all the success edge cases with range header query')
+    test_sequence_range_success_cases.set_fail_text('Server did not pass all the success edge cases with range header query. Check http://compliancedoc.readthedocs.io/en/latest/GET_sequence_API/success/#sub-sequence-queries')
     test_sequence_range_success_cases.cases = [
         (['bytes=10-19', 10, 19], [206, 10]),
         (['bytes=10-230217', 10, 230217], [206, 230208]),
@@ -275,7 +275,7 @@ def initiate_tests():
 
     test_sequence_start_end_errors = Test(sequence_start_end_errors)
     test_sequence_start_end_errors.set_pass_text('server is correctly throwing errors for start-end error cases')
-    test_sequence_start_end_errors.set_fail_text('server is not correctly throwing errors for start-end error cases')
+    test_sequence_start_end_errors.set_fail_text('server is not correctly throwing errors for start-end error cases. Check http://compliancedoc.readthedocs.io/en/latest/GET_sequence_API/errors/#error-conditions-while-using-start-end-parameters')
     test_sequence_start_end_errors.cases = [
 
         (['6681ac2f62509cfc220d78751b8dc524', '?start=abc&end=20'], 400),
@@ -291,7 +291,7 @@ def initiate_tests():
 
     test_sequence_range_errors = Test(sequence_range_errors)
     test_sequence_range_errors.set_pass_text('server is correctly throwing errors for range error cases')
-    test_sequence_range_errors.set_fail_text('server is not correctly throwing errors for range error cases')
+    test_sequence_range_errors.set_fail_text('server is not correctly throwing errors for range error cases. Check http://compliancedoc.readthedocs.io/en/latest/GET_sequence_API/errors/#error-conditions-while-using-range-header')
     test_sequence_range_errors.cases = [
         (['6681ac2f62509cfc220d78751b8dc524', 'units=20-30'], 400),
         (['6681ac2f62509cfc220d78751b8dc524', 'bytes=ab-19'], 400),
