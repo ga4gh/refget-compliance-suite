@@ -30,11 +30,11 @@ def main():
 @main.command(help='run compliance utility report using base urls')
 @click.option('--server', '-s', multiple=True, help='base_url')
 @click.option(
-    '--output_filename',
-    '-fn', default='web', help='to create a tar.gz file')
+    '--file_path_name',
+    '-fpn', default='web', help='to create a tar.gz file')
 @click.option(
     '--serve', is_flag=True, help='spin up a server')
-def report(server, output_filename, serve):
+def report(server, file_path_name, serve):
     '''
     CLI command report to execute the report session and generate report on
     terminal, html file and json file if provided by the user
@@ -43,7 +43,8 @@ def report(server, output_filename, serve):
         server - Atleast one server is required. Multiple can be provided
 
     Optional arguments:
-        --output_filename - file name for w:gz file of web folder. Default is web
+        --file_path_name - file name for w:gz file of web folder. Default is
+        web_<int>.tar.gz
     '''
     final_json = []
     if len(server) == 0:
@@ -59,9 +60,9 @@ def report(server, output_filename, serve):
         json.dump(final_json, outfile)
 
     index = 0
-    while(os.path.exists(output_filename + '_' + str(index) + '.tar.gz')):
+    while(os.path.exists(file_path_name + '_' + str(index) + '.tar.gz')):
         index = index + 1
-    with tarfile.open(output_filename + '_' + str(index) + '.tar.gz', "w:gz") as tar:
+    with tarfile.open(file_path_name + '_' + str(index) + '.tar.gz', "w:gz") as tar:
         tar.add(WEB_DIR, arcname=os.path.basename(WEB_DIR))
 
     if serve is True:

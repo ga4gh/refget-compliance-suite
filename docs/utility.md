@@ -1,6 +1,8 @@
 Compliance Utility Report tool generates a detailed compliance report on the server using interdependent test cases on command line interface. It can also generate a comppliance matrix on a html page and a json file for machine readablity and extensibly.
 
-# Installation
+# Getting Started
+
+## Installation
 Installation is a simple three step process.
 
 ```base
@@ -9,24 +11,38 @@ cd gsoc2018-ref-retrieval-api
 python setup.py sdist bdist_wininst upload
 ```
 
-# Usage
-Multiple servers can be tested at once by providing multiple `--server` or `-s` arguments
-
-<h2> Example </h2>
+## First test report
 
 ```base
-compliance_utility report --help
+compliance_utility report -s http://localhost:5000/
+```
+Note : prefixing with '**http://**' or '**https://**' (as per the server) and trailing slash '**/**' is important
+
+Multiple servers can be tested at once by providing multiple `--server` or `-s` arguments
+
+```base
+compliance_utility report -s http://localhost:5000/ -s http://localhost:6000 - http://localhost:7000
 ```
 
+## Arguments
 
-<h3> Optional Arguments </h3>
+### -s | --server
+Required argument specifying server to be tested and for report to be generated. Can be multiple but must be atleast one.
 
-<h3> verbose -v</h3>
+### -fpn | --file_path_name
+Optional argument to specify the path of tar.gz file to be stored. Path should be of the format `path/to/file/file_name.tar.gz`.  
+By default it'll get stored by the name web_<some_integer>.tar.gz eg web_0.tar.gz, web_1.tar.gz etc.
 
-<h3> very verbose -vv </h3>
+### --serve
+Optional flag to spin up a local server showing reports on web browser
 
-<h3> html -ht </h3>
+## Sample Reports
 
-<h3> json -js </h3>
+### Text Report
+![Alt text](assets/text.png?raw=true "Text Report")
 
-<h3> only failures -of </h3>
+### Compliance Matrix
+![Alt text](assets/matrix.png?raw=true "Text Report")
+
+### JSON Report
+![Alt text](assets/json.png?raw=true "Text Report")
