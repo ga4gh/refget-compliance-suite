@@ -5,8 +5,6 @@ import socket
 import webbrowser
 
 
-
-
 WEB_DIR = os.path.join(os.path.dirname(__file__), 'web')
 
 

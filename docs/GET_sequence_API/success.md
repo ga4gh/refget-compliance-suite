@@ -311,7 +311,7 @@ Checksum Algorithm : MD5
 Request Header: Range    
 **Conditions** : first-byte-spec <= last-byte-spec < 'size - 1' (if first-byte-spec is 0, last-byte-spec can not be 'size - 1')    
 **Description** : Sub sequence will be retrieved regardless of the type (circular or non-circular).
-If first-byte-spec is not 0 and last-byte-spec is not (size - 1) or more, (i.e. complete sequence is not being queried) response should be a `206` otherwise `200` as per Case 2    
+Repons code should be `206` while using range header   
 Size of sequence is 230218
 
 ```
@@ -400,7 +400,7 @@ Range: bytes=0-230217
 ```
 
 ```
-HTTP/1.1 200 OK
+HTTP/1.1 206 OK
 Content-Type: text/vnd.ga4gh.seq.v1.0.0+plain; charset=us-ascii
 Content-Length: 230218
 
@@ -414,7 +414,7 @@ Range: bytes=0-999999999
 ```
 
 ```
-HTTP/1.1 200 OK
+HTTP/1.1 206 OK
 Content-Type: text/vnd.ga4gh.seq.v1.0.0+plain; charset=us-ascii
 Content-Length: 230218
 
