@@ -313,7 +313,7 @@ def initiate_tests():
 
     test_sequence_circular_support_false_errors = Test(sequence_circular_support_false_errors)
     test_sequence_circular_support_false_errors.set_pass_text('Server is correctly throwing for error cases of circular sequences when server does not support circular sequences')
-    test_sequence_circular_support_false_errors.set_fail_text('Server is not correctly throwing for error cases of circular sequences when server does not support circular sequences')
+    test_sequence_circular_support_false_errors.set_fail_text('Server is not correctly throwing for error cases of circular sequences when server does not support circular sequences. Check http://compliancedoc.readthedocs.io/en/latest/GET_sequence_API/errors/#error-conditions-while-using-start-end-parameters')
     test_sequence_circular_support_false_errors.cases = [
         (['6681ac2f62509cfc220d78751b8dc524', '?start=220218&end=671'], 501),
         (['3332ed720ac7eaa9b3655c06f6b9e196', '?start=20&end=4'], 501)
@@ -321,7 +321,7 @@ def initiate_tests():
 
     test_sequence_circular_support_true_errors = Test(sequence_circular_support_true_errors)
     test_sequence_circular_support_true_errors.set_pass_text('Server is correctly throwing for error cases of circular sequences when server supports circular sequences')
-    test_sequence_circular_support_true_errors.set_fail_text('Server is not correctly throwing for error cases of circular sequences when server supports circular sequences')
+    test_sequence_circular_support_true_errors.set_fail_text('Server is not correctly throwing for error cases of circular sequences when server supports circular sequences. Check http://compliancedoc.readthedocs.io/en/latest/GET_sequence_API/errors/#error-conditions-while-using-start-end-parameters')
     test_sequence_circular_support_true_errors.cases = [
         (['6681ac2f62509cfc220d78751b8dc524', '?start=220218&end=671'], 416)
     ]
