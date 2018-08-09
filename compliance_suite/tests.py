@@ -311,6 +311,21 @@ def initiate_tests():
         (['3332ed720ac7eaa9b3655c06f6b9e196', 'bytes=9999-99999'], 400)
     ]
 
+    test_sequence_circular_support_false_errors = Test(sequence_circular_support_false_errors)
+    test_sequence_circular_support_false_errors.set_pass_text('Server is correctly throwing for error cases of circular sequences when server does not support circular sequences')
+    test_sequence_circular_support_false_errors.set_fail_text('Server is not correctly throwing for error cases of circular sequences when server does not support circular sequences')
+    test_sequence_circular_support_false_errors.cases = [
+        (['6681ac2f62509cfc220d78751b8dc524', '?start=220218&end=671'], 501),
+        (['3332ed720ac7eaa9b3655c06f6b9e196', '?start=20&end=4'], 501)
+    ]
+
+    test_sequence_circular_support_true_errors = Test(sequence_circular_support_true_errors)
+    test_sequence_circular_support_true_errors.set_pass_text('Server is correctly throwing for error cases of circular sequences when server supports circular sequences')
+    test_sequence_circular_support_true_errors.set_fail_text('Server is not correctly throwing for error cases of circular sequences when server supports circular sequences')
+    test_sequence_circular_support_true_errors.cases = [
+        (['6681ac2f62509cfc220d78751b8dc524', '?start=220218&end=671'], 416)
+    ]
+
     # generating test graph
 
     test_base.add_child(test_info_implement)
@@ -363,5 +378,11 @@ def initiate_tests():
     test_sequence_start_end.add_child(test_sequence_start_end_errors)
 
     test_sequence_range.add_child(test_sequence_range_errors)
+
+    test_sequence_implement.add_child(test_sequence_circular_support_false_errors)
+    test_info_circular.add_child(test_sequence_circular_support_false_errors)
+
+    test_sequence_implement.add_child(test_sequence_circular_support_true_errors)
+    test_info_circular.add_child(test_sequence_circular_support_true_errors)
 
     return test_base
