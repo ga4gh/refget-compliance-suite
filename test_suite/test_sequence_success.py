@@ -29,7 +29,9 @@ def check_complete_sequence_response(response, seq):
     assert response.status_code == 200
     assert response.headers['content-type'] == \
         'text/vnd.ga4gh.refget.v1.0.0+plain; charset=us-ascii'
-    assert response.headers['content-length'] == str(seq.size)
+    # Only check content length if we didn't have a length set
+    if 'transfer-encoding' not in response.headers or 'content-encoding' not in response.headers:
+        assert int(response.headers['content-length']) == seq.size
 
 
 @redirection_true_skip
