@@ -184,7 +184,7 @@ class MockServerRequestHandler(BaseHTTPRequestHandler):
             self.send_header(key, headers[key])
         if status_code is 200 or status_code is 206:
             self.send_header('Content-Length', len(content))
-            content_type = 'text/vnd.ga4gh.seq.v1.0.0+plain; charset=us-ascii'
+            content_type = 'text/vnd.ga4gh.refget.v1.0.0+plain; charset=us-ascii'
             self.send_header(
                 'Content-Type', content_type
             )
@@ -242,7 +242,7 @@ class MockServerRequestHandler(BaseHTTPRequestHandler):
         if self.SEQUENCE_PATTERN.match((self.path).split('?')[0]):
             args = self.get_args()
             SUPPORTED_ENCODINGS = [
-                '*/*', 'text/plain', 'text/vnd.ga4gh.seq.v1.0.0+plain']
+                '*/*', 'text/plain', 'text/vnd.ga4gh.refget.v1.0.0+plain']
             seq_obj = self.get_seq_obj()
             if seq_obj is None:
                 self.send(404)
@@ -280,7 +280,7 @@ class MockServerRequestHandler(BaseHTTPRequestHandler):
         elif self.METADATA_PATTERN.match(self.path):
             SUPPORTED_ENCODINGS = [
                 '*/*',
-                'application/json', 'application/vnd.ga4gh.seq.v1.0.0+json']
+                'application/json', 'application/vnd.ga4gh.refget.v1.0.0+json']
             seq_obj = self.get_seq_obj()
             if seq_obj is None:
                 self.send(404)
@@ -293,7 +293,7 @@ class MockServerRequestHandler(BaseHTTPRequestHandler):
             seq_id = self.get_seq_id()
             metadata = self.get_metadata(seq_obj)
             self.send_response(200)
-            content_type = 'application/vnd.ga4gh.seq.v1.0.0+json'
+            content_type = 'application/vnd.ga4gh.refget.v1.0.0+json'
             self.send_header(
                 'Content-Type', content_type
             )
@@ -304,13 +304,13 @@ class MockServerRequestHandler(BaseHTTPRequestHandler):
         elif self.SERVICE_INFO_PATTERN.match(self.path):
             SUPPORTED_ENCODINGS = [
                 '*/*',
-                'application/json', 'application/vnd.ga4gh.seq.v1.0.0+json']
+                'application/json', 'application/vnd.ga4gh.refget.v1.0.0+json']
             if self.headers['Accept'] not in SUPPORTED_ENCODINGS:
                 self.send(415)
                 return
             service_info = self.get_service_info()
             self.send_response(200)
-            content_type = 'application/vnd.ga4gh.seq.v1.0.0+json'
+            content_type = 'application/vnd.ga4gh.refget.v1.0.0+json'
             self.send_header(
                 'Content-Type', content_type
             )

@@ -18,8 +18,8 @@ test cases by pytest.
     (['some1111garbage1111ID', '?start=1&end=10', {'Accept': 'text/embl'}], 404),
 
     (['6681ac2f62509cfc220d78751b8dc524', '', {'Accept': 'text/embl'}], 415),
-    (['6681ac2f62509cfc220d78751b8dc524', '?start=0&end=abc', {'Accept': 'text/embl'}], 415),
-    (['6681ac2f62509cfc220d78751b8dc524', '?start=0&end=20', {'Accept': 'text/embl', 'Range':'bytes=0-20'}], 415),
+    (['6681ac2f62509cfc220d78751b8dc524', '?start=0&end=abc', {'Accept': 'text/embl'}], 400),
+    (['6681ac2f62509cfc220d78751b8dc524', '?start=0&end=20', {'Accept': 'text/plain', 'Range':'bytes=0-20'}], 400),
 
     (['6681ac2f62509cfc220d78751b8dc524', '?start=0&end=10', {'Range': 'bytes=0-10'}], 400),
 
@@ -98,9 +98,9 @@ def test_sequence_start_end_errors(server, data, _input, _output):
     (['3332ed720ac7eaa9b3655c06f6b9e196', '', {'Range': 'bytes=5385-5382'}], 416),
 
     # Range out of bounds. Size of the sequence tested is 5386
-    (['3332ed720ac7eaa9b3655c06f6b9e196', '', {'Range': 'bytes=5387-5391'}], 400),
-    (['3332ed720ac7eaa9b3655c06f6b9e196', '', {'Range': 'bytes=5386-5387'}], 400),
-    (['3332ed720ac7eaa9b3655c06f6b9e196', '', {'Range': 'bytes=9999-99999'}], 400)
+    (['3332ed720ac7eaa9b3655c06f6b9e196', '', {'Range': 'bytes=5387-5391'}], 416),
+    (['3332ed720ac7eaa9b3655c06f6b9e196', '', {'Range': 'bytes=5386-5387'}], 416),
+    (['3332ed720ac7eaa9b3655c06f6b9e196', '', {'Range': 'bytes=9999-99999'}], 416)
 ])
 def test_sequence_range_errors(server, data, _input, _output):
     '''test_sequence_range_errors tests all the error edge cases associated
@@ -125,10 +125,12 @@ def test_max_limit_subsequence(server, data):
     assert "subsequence_limit" in json.loads(response.text)['service']
     lim = json.loads(response.text)['service']['subsequence_limit']
 
-    for seq in data:
-        if seq.size > lim:
-            api = 'sequence/'
-            response = requests.get(server + api + seq.md5)
-            assert response.status_code == 416
+    # only test if we had a limit
+    if lim is not None:
+        for seq in data:
+            if seq.size > lim:
+                api = 'sequence/'
+                response = requests.get(server + api + seq.md5)
+                assert response.status_code == 416
 
     assert True
