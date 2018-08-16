@@ -125,10 +125,12 @@ def test_max_limit_subsequence(server, data):
     assert "subsequence_limit" in json.loads(response.text)['service']
     lim = json.loads(response.text)['service']['subsequence_limit']
 
-    for seq in data:
-        if seq.size > lim:
-            api = 'sequence/'
-            response = requests.get(server + api + seq.md5)
-            assert response.status_code == 416
+    # only test if we had a limit
+    if lim is not None:
+        for seq in data:
+            if seq.size > lim:
+                api = 'sequence/'
+                response = requests.get(server + api + seq.md5)
+                assert response.status_code == 416
 
     assert True
