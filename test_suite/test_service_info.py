@@ -14,9 +14,9 @@ def test_service_info(server, data):
     assert response.status_code == 200
     service_info_object = json.loads(response.text)["service"]
     if pytest.config.getoption('--cir') is True:
-        assert service_info_object["circular_supported"] == "true"
+        assert service_info_object["circular_supported"] == True
     else:
-        assert service_info_object["circular_supported"] == "false"
+        assert service_info_object["circular_supported"] == False
     assert "algorithms" in service_info_object
     assert "subsequence_limit" in service_info_object
     assert "supported_api_versions" in service_info_object
