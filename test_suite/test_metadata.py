@@ -30,7 +30,7 @@ def check_complete_metdata_response(response, seq, checksum):
     '''
     assert response.text == get_metadata(seq)
     assert response.status_code == 200
-    assert response.headers['content-type'] == 'application/vnd.ga4gh.seq.v1.0.0+json'
+    assert response.headers['content-type'] == 'application/vnd.ga4gh.refget.v1.0.0+json'
 
 
 def test_complete_metadata(server, data):
@@ -41,7 +41,7 @@ def test_complete_metadata(server, data):
 
     api = 'sequence/'
     accept_header = {
-        'Accept': 'application/vnd.ga4gh.seq.v1.0.0+json'
+        'Accept': 'application/vnd.ga4gh.refget.v1.0.0+json'
     }
     for seq in data:
         # using md5 with Accept header
@@ -60,7 +60,7 @@ def test_complete_metadata(server, data):
 
 @pytest.mark.parametrize("_input, _output", [
     (['some1111garbage1111ID', {}], 404),
-    (['some1111garbage1111ID', {'Accept': 'application/vnd.ga4gh.seq.v1.0.0+json'}], 404),
+    (['some1111garbage1111ID', {'Accept': 'application/vnd.ga4gh.refget.v1.0.0+json'}], 404),
     (['some1111garbage1111ID', {'Accept': 'application/embl'}], 404),
     (['6681ac2f62509cfc220d78751b8dc524', {'Accept': 'application/embl'}], 415)
 

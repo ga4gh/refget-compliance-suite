@@ -28,7 +28,7 @@ def check_complete_sequence_response(response, seq):
     assert is_ascii(response.text) is True
     assert response.status_code == 200
     assert response.headers['content-type'] == \
-        'text/vnd.ga4gh.seq.v1.0.0+plain; charset=us-ascii'
+        'text/vnd.ga4gh.refget.v1.0.0+plain; charset=us-ascii'
     assert response.headers['content-length'] == str(seq.size)
 
 
@@ -41,7 +41,7 @@ def test_complete_sequence(server, data):
 
     api = 'sequence/'
     accept_header = {
-        'Accept': 'text/vnd.ga4gh.seq.v1.0.0+plain'
+        'Accept': 'text/vnd.ga4gh.refget.v1.0.0+plain'
     }
     for seq in data:
         # checking support for md5 with Accept headers
@@ -93,7 +93,7 @@ def test_subsequence_start_end_I(server, data, _input, _output):
     assert response.status_code == 200
     assert int(response.headers['content-length']) == _output[1]
     assert response.headers['content-type'] == \
-        'text/vnd.ga4gh.seq.v1.0.0+plain; charset=us-ascii'
+        'text/vnd.ga4gh.refget.v1.0.0+plain; charset=us-ascii'
     assert response.headers['accept-ranges'] == "none"
 
 
@@ -120,7 +120,7 @@ def test_subsequence_start_end_I_from_db(server, data, _input, _output):
     assert response.status_code == 200
     assert int(response.headers['content-length']) == _output
     assert response.headers['content-type'] == \
-        'text/vnd.ga4gh.seq.v1.0.0+plain; charset=us-ascii'
+        'text/vnd.ga4gh.refget.v1.0.0+plain; charset=us-ascii'
     assert response.headers['accept-ranges'] == "none"
 
 
@@ -144,7 +144,7 @@ def test_subsequence_start_end_NC(server, data, _input, _output):
     assert response.status_code == 200
     assert int(response.headers['content-length']) == _output[1]
     assert response.headers['content-type'] == \
-        'text/vnd.ga4gh.seq.v1.0.0+plain; charset=us-ascii'
+        'text/vnd.ga4gh.refget.v1.0.0+plain; charset=us-ascii'
 
 
 ###############################################################################
@@ -182,7 +182,7 @@ def test_subsequence_range_I(server, data, _input, _output):
     assert response.status_code == _output[0]
     assert int(response.headers['content-length']) == _output[1]
     assert response.headers['content-type'] == \
-        'text/vnd.ga4gh.seq.v1.0.0+plain; charset=us-ascii'
+        'text/vnd.ga4gh.refget.v1.0.0+plain; charset=us-ascii'
 
 
 ###############################################################################
