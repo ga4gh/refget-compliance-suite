@@ -19,7 +19,7 @@ def get_metadata(seq):
             "aliases": []
         }
     }
-    return json.dumps(response)
+    return json.dumps(response, sort_keys=True)
 
 
 def check_complete_metdata_response(response, seq, checksum):
@@ -28,7 +28,9 @@ def check_complete_metdata_response(response, seq, checksum):
     response se,q object and checksum ID used to query as input parameter and
     assert for reponse header, status code and content
     '''
-    assert response.text == get_metadata(seq)
+    metadata = response.json()
+    metadata['metadata']['aliases'] = []
+    assert json.dumps(metadata, sort_keys=True) == get_metadata(seq)
     assert response.status_code == 200
     assert response.headers['content-type'] == 'application/vnd.ga4gh.refget.v1.0.0+json'
 
