@@ -157,11 +157,9 @@ def test_subsequence_start_end_NC(server, data, _input, _output):
 @pytest.mark.parametrize("_input, _output", [
     (['bytes=10-19', 10, 19], [206, 10]),
     (['bytes=10-230217', 10, 230217], [206, 230208]),
-    # Cannot support this otherwise other tests will not work
-    # (['bytes=10-999999', 10, 999999], [206, 230208]),
+    (['bytes=10-999999', 10, 999999], [206, 230208]),
     (['bytes=0-230217', 0, 230217], [200, 230218]),
-    # Again goes against other tests
-    # (['bytes=0-999999', 0, 999999], [200, 230218]),
+    (['bytes=0-999999', 0, 999999], [200, 230218]),
     (['bytes=0-0', 0, 0], [206, 1]),
     (['bytes=230217-230217', 230217, 230217], [206, 1])
 ])
