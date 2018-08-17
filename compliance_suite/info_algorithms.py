@@ -44,7 +44,7 @@ def info_circular(test, runner):
     try:
         service_info_object = json.loads(response.text)["service"]
         test.result = 1
-        if service_info_object['circular_supported'] == 'true':
+        if service_info_object['circular_supported'] == True:
             session_params['circular_supported'] = True
         else:
             session_params['circular_supported'] = False
