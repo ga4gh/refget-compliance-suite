@@ -1,6 +1,6 @@
 API : `/sequence/service-info`
 
-Return configuration information about this server implementation. Default configuation is `application/vnd.ga4gh.seq.v1.0.0+json`
+Return configuration information about this server implementation. Default configuation is `application/vnd.ga4gh.refget.v1.0.0+json`
 
 
 ## Success Conditions
@@ -12,7 +12,7 @@ GET  /sequence/service-info/
 ```
 ```
 HTTP/1.1 200 OK
-Content-Type: application/vnd.ga4gh.seq.v1.0.0+json
+Content-Type: application/vnd.ga4gh.refget.v1.0.0+json
 
 ```
 ```json
@@ -28,7 +28,7 @@ Content-Type: application/vnd.ga4gh.seq.v1.0.0+json
 
 ## Error Conditions
 <h5> Case 1 </h5>
-**Unsupported media type by the server**  
+**Unsupported media type by the server**
 When media type requested by the client in the `Accept` header is not supported by the server, server throws a `415 Unsupported Media Type` error
 
 ```

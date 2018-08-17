@@ -4,7 +4,7 @@ import json
 # Some variables for not repeating the same thing
 
 INFO_ACCEPT_HEADER = {
-    'Accept': 'application/vnd.ga4gh.seq.v1.0.0+json'
+    'Accept': 'application/vnd.ga4gh.refget.v1.0.0+json'
 }
 INFO_API = 'sequence/service-info'
 

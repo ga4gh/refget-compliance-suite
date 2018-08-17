@@ -2,7 +2,7 @@ import requests
 
 
 SEQUENCE_ACCEPT_HEADER = {
-    'Accept': 'text/vnd.ga4gh.seq.v1.0.0+plain'
+    'Accept': 'text/vnd.ga4gh.refget.v1.0.0+plain'
 }
 SEQUENCE_MD5 = 'sequence/6681ac2f62509cfc220d78751b8dc524'
 SEQUENCE_TRUNC512 = 'sequence/959cb1883fc1ca9ae1394ceb475a356ead1ecceff5824ae7'
@@ -124,7 +124,7 @@ def sequence_range(test, runner):
     '''
     base_url = str(runner.base_url)
     header = {
-        'Accept': 'text/vnd.ga4gh.seq.v1.0.0+plain',
+        'Accept': 'text/vnd.ga4gh.refget.v1.0.0+plain',
         'Range': 'bytes=10-19'
     }
     response = requests.get(
@@ -141,7 +141,7 @@ def sequence_range_success_cases(test, runner):
     '''
     data = runner.test_data
     header = {
-        'Accept': 'text/vnd.ga4gh.seq.v1.0.0+plain',
+        'Accept': 'text/vnd.ga4gh.refget.v1.0.0+plain',
     }
     base_url = str(runner.base_url)
     test.result = 1
@@ -215,7 +215,7 @@ def sequence_range_errors(test, runner):
     error cases
     '''
     header = {
-        'Accept': 'text/vnd.ga4gh.seq.v1.0.0+plain',
+        'Accept': 'text/vnd.ga4gh.refget.v1.0.0+plain',
     }
     base_url = str(runner.base_url)
     test.result = 1
