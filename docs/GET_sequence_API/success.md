@@ -400,7 +400,7 @@ Range: bytes=0-230217
 ```
 
 ```
-HTTP/1.1 206 OK
+HTTP/1.1 200 OK
 Content-Type: text/vnd.ga4gh.refget.v1.0.0+plain; charset=us-ascii
 Content-Length: 230218
 
@@ -414,7 +414,7 @@ Range: bytes=0-999999999
 ```
 
 ```
-HTTP/1.1 206 OK
+HTTP/1.1 200 OK
 Content-Type: text/vnd.ga4gh.refget.v1.0.0+plain; charset=us-ascii
 Content-Length: 230218
 
