@@ -84,7 +84,8 @@ def info_subsequence(test, runner):
     response = requests.get(base_url + INFO_API, headers=INFO_ACCEPT_HEADER)
     try:
         service_info_object = json.loads(response.text)["service"]
-        session_params['subsequence_limit'] = int(service_info_object['subsequence_limit'])
+        if service_info_object['subsequence_limit'] is not None:
+            session_params['subsequence_limit'] = int(service_info_object['subsequence_limit'])
         test.result = 1
     except:
         test.result = -1
