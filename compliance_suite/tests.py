@@ -117,7 +117,7 @@ class Test():
         elif self.result == -1:
             return self.fail_text
         elif self.result == 2:
-            return 'Fuck'
+            return 'Unknown error'
         elif self.skip_text == '':
             self.skip_text = self.generate_skip_text()
         return self.skip_text
