@@ -1,4 +1,4 @@
-Welcome to Refget Server Compliance documentation.
+Welcome to refget Server Compliance documentation.
 
 ## Refget Servers
 Refget Servers enables bulk access to reference genomic sequences and their metadata using an identifier which will be derieved from the sequence itself. Reference Servers can be queried for complete sequence as well as sub-sequences.

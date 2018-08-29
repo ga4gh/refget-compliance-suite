@@ -1,5 +1,5 @@
 # Refget Compliance Suite
-Repository for the Refget API Compliance document and test suite
+Repository for the refget API Compliance document and test suite
 
 ## Compliance Documentation
 [Compliance Document](http://compliancedoc.readthedocs.io/en/latest/)
