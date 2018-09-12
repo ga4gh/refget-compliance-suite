@@ -212,7 +212,7 @@ class MockServerRequestHandler(BaseHTTPRequestHandler):
         format to be sent on a service-info API call. This function is called
         from do_GET
         '''
-        circular_support = "true" if CIRCULAR_CHROMOSOME_SUPPORT is True else "false"
+        circular_support = True if CIRCULAR_CHROMOSOME_SUPPORT is True else False
         response = {
             "service": {
                 "circular_supported": circular_support,
