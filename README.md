@@ -1,14 +1,14 @@
-# gsoc2018-ref-retrieval-api
-Repository for the Google Summer of Code for the Reference Retrieval API
+# Refget Compliance Suite
+Repository for the refget API Compliance document and test suite
 
 ## Compliance Documentation
 [Compliance Document](http://compliancedoc.readthedocs.io/en/latest/)
 
 To generate this documentation locally, follow these steps:  
 ```bash
-git clone https://github.com/ga4gh/gsoc2018-ref-retrieval-api.git
+git clone https://github.com/ga4gh/refget-compliance-suite.git
 
-cd gsoc2018-ref-retrieval-api
+cd refget-compliance-suite
 
 pip3 install mkdocs  
 
@@ -16,13 +16,13 @@ mkdocs serve
 ```
 
 ## Compliance Test Suite
-Compliance test suite is an API testing suite for reference server.
+Compliance test suite is an API testing suite for refget servers.
 
 To run the tests, follow these steps:
 ```bash
-git clone https://github.com/ga4gh/gsoc2018-ref-retrieval-api.git
+git clone https://github.com/ga4gh/refget-compliance-suite.git
 
-cd gsoc2018-ref-retrieval-api/test_suite
+cd refget-compliance-suite/test_suite
 
 pip3 install -r requirements.txt
 ```

@@ -6,8 +6,8 @@ Compliance Utility Report tool generates a detailed compliance report on the ser
 Installation is a simple three step process.
 
 ```base
-git clone https://github.com/ga4gh/gsoc2018-ref-retrieval-api.git
-cd gsoc2018-ref-retrieval-api
+git clone https://github.com/ga4gh/refget-compliance-suite.git
+cd refget-compliance-suite
 python setup.py sdist bdist_wininst upload
 ```
 
