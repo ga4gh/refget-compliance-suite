@@ -306,9 +306,9 @@ def initiate_tests():
         (['3332ed720ac7eaa9b3655c06f6b9e196', 'bytes=5385-5382'], 416),
 
         # Range out of bounds. Size of the sequence tested is 5386
-        (['3332ed720ac7eaa9b3655c06f6b9e196', 'bytes=5387-5391'], 400),
-        (['3332ed720ac7eaa9b3655c06f6b9e196', 'bytes=5386-5387'], 400),
-        (['3332ed720ac7eaa9b3655c06f6b9e196', 'bytes=9999-99999'], 400)
+        (['3332ed720ac7eaa9b3655c06f6b9e196', 'bytes=5387-5391'], 416),
+        (['3332ed720ac7eaa9b3655c06f6b9e196', 'bytes=5386-5387'], 416),
+        (['3332ed720ac7eaa9b3655c06f6b9e196', 'bytes=9999-99999'], 416)
     ]
 
     test_sequence_circular_support_false_errors = Test(sequence_circular_support_false_errors)

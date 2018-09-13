@@ -5,7 +5,7 @@ Refget Servers MUST respond with adequate error codes for every error condition.
 These conditions are first line of checks, failing these conditions would result in the specified error, no matter other parameters.
 
 <h5> Case 1 </h5>
-**ID not found**  
+**ID not found**
 When ID provided in the request doesn't match any of the checksums of any sequence, server must throw a `404 Not Found` error
 
 ```
@@ -17,7 +17,7 @@ HTTP/1.1 404 Not Found
 ```
 
 <h5> Case 2 </h5>
-**Unsupported media type by the server**  
+**Unsupported media type by the server**
 When media type requested by the client in the `Accept` header is not supported by the server, server must throw a `415 Unsupported Media Type` error
 
 ```
@@ -31,7 +31,7 @@ HTTP/1.1 415 Unsupported Media Type
 
 ## Error Conditions while using start / end parameters
 
-<h3> Circular or non-circular sequence </h3>  
+<h3> Circular or non-circular sequence </h3>
 Important Points:
 
  * **CASE 4** of this section is only for servers which DO NOT support circular sequences.
@@ -49,8 +49,8 @@ Range: bytes=10-19
 HTTP/1.1 400 Bad Request
 ```
 
-<h5> Case 2 </h5>  
-start and end are 32 bit-unsigned integers, on recieving any invalid value, server must throw a `400 Bad Request` error.
+<h5> Case 2 </h5>
+start and end are 32 bit-unsigned integers, on receiving any invalid value, server must throw a `400 Bad Request` error.
 
 
 ```
@@ -71,11 +71,12 @@ HTTP/1.1 400 Bad Request
 
 <h5> Case 3 </h5>
 
-start >= size of sequence  
-OR  
-end > size of the sequence  
-Server must throe a `416 Range Not Satisfiable` error.  
-`6681ac2f62509cfc220d78751b8dc524` is a non-circular sequence; size = 230218  
+Start and end are specified.
+start >= size of sequence
+OR
+end > size of the sequence
+Server must throw a `416 Range Not Satisfiable` error.
+`6681ac2f62509cfc220d78751b8dc524` is a non-circular sequence; size = 230218
 `3332ed720ac7eaa9b3655c06f6b9e196` is a circular sequence; size = 5386
 
 ```
@@ -99,8 +100,8 @@ HTTP/1.1 416 Range Not Satisfiable
 ```
 
 <h5> Case 4 </h5>
-**Note : Only for servers which do NOT support circular sequence**  
-start > end;  
+**Note : Only for servers which do NOT support circular sequence**
+start > end;
 Server MUST respond with a `501 Not Implemented` error regardless of the type of sequence (circular or non-circular).
 
 ```
@@ -112,15 +113,15 @@ HTTP/1.1 501 Not Implemented
 ```
 
 
-<h3> Non-circular sequence </h3>  
+<h3> Non-circular sequence </h3>
 Important Points:
 
  * **CASE 1** of this section is only for servers which support circular sequences.
 
 
 <h5> Case 1 </h5>
-**Note : Only for servers which supports circular sequence**  
-start > end;  
+**Note : Only for servers which supports circular sequence**
+start > end;
 But since sequence is not circular, server must throe a `416 Range Not Satisfiable` error.
 
 ```
@@ -135,7 +136,7 @@ HTTP/1.1 416 Range Not Satisfiable
 ## Error Conditions while using Range header
 
 Notation:
-    `Range: bytes=first-byte-spec - last-byte-spec`  
+    `Range: bytes=first-byte-spec - last-byte-spec`
     For example : `Range: bytes=5-10`. Here 5 is first-byte-spec and 10 is last-byte-spec.
 
 <h3> Circular or non-circular sequence </h3>
@@ -154,9 +155,9 @@ HTTP/1.1 400 Bad Request
 ```
 
 <h5> Case 2 </h5>
-first-byte-spec and last-byte-spec are integers, on recieving any invalid value, server must throw a `400 Bad Request` error.  
-On recieving only one of the first-byte-spec or last-byte-spec, server must throw a `400 Bad Request` error.  
-On recieving any unit other than bytes, server must throw a `400 Bad Request`.  
+first-byte-spec and last-byte-spec are integers, on recieving any invalid value, server must throw a `400 Bad Request` error.
+On recieving only one of the first-byte-spec or last-byte-spec, server must throw a `400 Bad Request` error.
+On recieving any unit other than bytes, server must throw a `400 Bad Request`.
 
 ```
 GET /sequence/6681ac2f62509cfc220d78751b8dc524/
@@ -180,7 +181,7 @@ Range: bytes=10--19
     OR
 
 GET /sequence/6681ac2f62509cfc220d78751b8dc524/
-Range: bytes=10-    
+Range: bytes=10-
 ```
 
 ```
@@ -189,9 +190,9 @@ HTTP/1.1 400 Bad Request
 
 
 <h5> Case 3 </h5>
-first-byte-spec >= size of sequence  
+first-byte-spec >= size of sequence
 
-Regardless of the type of sequence (circular or non-circular) since first-byte-spec is inclusive and server must throw a `400 Bad Request` error.  
+Regardless of the type of sequence (circular or non-circular) since first-byte-spec is inclusive and server must throw a `400 Bad Request` error.
 Size of the sequence is 230218.
 
 ```
@@ -209,8 +210,8 @@ HTTP/1.1 400 Bad Request
 ```
 
 <h5> Case 4 </h5>
-first-byte-spec > last-byte-spec  
-As stated in [success response](success.md) section, Range header must not be used to retrieve sub-sequences of a circular sequences across the origin. Server must throw a `416 Range Not Satisfiable` error.  
+first-byte-spec > last-byte-spec
+As stated in [success response](success.md) section, Range header must not be used to retrieve sub-sequences of a circular sequences across the origin. Server must throw a `416 Range Not Satisfiable` error.
 Even if the sequence is non-circular and first-byte-spec > last-byte-spec, server must throw a `416 Range Not Satisfiable` error.
 
 ```

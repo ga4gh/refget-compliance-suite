@@ -97,7 +97,7 @@ def test_sequence_start_end_errors(server, data, _input, _output):
     (['3332ed720ac7eaa9b3655c06f6b9e196', '', {'Range': 'bytes=59-50'}], 416),
     (['3332ed720ac7eaa9b3655c06f6b9e196', '', {'Range': 'bytes=5385-5382'}], 416),
 
-    # Range out of bounds. Size of the sequence tested is 5386
+    # Range out of bounds. Start greater than length. Size of the sequence tested is 5386
     (['3332ed720ac7eaa9b3655c06f6b9e196', '', {'Range': 'bytes=5387-5391'}], 416),
     (['3332ed720ac7eaa9b3655c06f6b9e196', '', {'Range': 'bytes=5386-5387'}], 416),
     (['3332ed720ac7eaa9b3655c06f6b9e196', '', {'Range': 'bytes=9999-99999'}], 416)
