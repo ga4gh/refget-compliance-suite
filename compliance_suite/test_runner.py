@@ -2,6 +2,7 @@ from compliance_suite.tests import initiate_tests
 from compliance_suite.utils import data
 import datetime
 import re
+import sys
 
 
 def processed_func_descrp(text):
@@ -79,7 +80,6 @@ class TestRunner():
                     'edge_cases': child.case_ouputs,
                     # 'edge_cases': [case for case in child.case_ouputs if case['result'] == -1]
                 }
-                # print(test_result_object)
                 if child.result == 1:
                     self.total_tests_passed = self.total_tests_passed + 1
                 elif child.result == -1:
@@ -99,7 +99,7 @@ class TestRunner():
         label = node.label + 1
         for child in node.children:
             if child.label == label:
-                print(str(child))
+                print(str(child), file=sys.stderr)
                 child.run(self)
         for child in node.children:
             if len(child.children) != 0:
@@ -138,7 +138,7 @@ if __name__ == "__main__":
     tr = TestRunner('https://www.ebi.ac.uk/ena/cram/')
     tr.run_tests()
 
-    print('--------------')
+    print('--------------', file=sys.stderr)
 
     # tr = TestRunner('http://localhost:5000/')
     # tr.run_tests()

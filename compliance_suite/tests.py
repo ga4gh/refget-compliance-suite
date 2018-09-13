@@ -1,7 +1,7 @@
 from compliance_suite.info_algorithms import *
 from compliance_suite.metadata_algorithms import *
 from compliance_suite.sequence_algorithms import *
-
+import sys
 
 class Test():
     '''
@@ -88,7 +88,7 @@ class Test():
         '''
         for test in self.parents:
             if test.result != 1:
-                print(str(test) + 'yoooo' + str(test.result))
+                print(str(test) + 'yoooo' + str(test.result), file=sys.stderr)
                 return True
         return False
 
