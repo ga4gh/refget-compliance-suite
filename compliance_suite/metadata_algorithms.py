@@ -76,7 +76,7 @@ def metadata_query_circular_sequence(test, runner):
 
 def metadata_md5(test, runner):
     '''
-    Test if md5 in metadata repsonse object
+    Test if md5 in metadata response object
     '''
     base_url = str(runner.base_url)
     test.result = -1
@@ -91,7 +91,7 @@ def metadata_md5(test, runner):
 
 def metadata_trunc512(test, runner):
     '''
-    Test if trunc512 in metadata repsonse object. Skip if server does not
+    Test if trunc512 in metadata respsonse object. Skip if server does not
     support trunc512
     '''
     base_url = str(runner.base_url)
@@ -112,7 +112,7 @@ def metadata_trunc512(test, runner):
 
 def metadata_length(test, runner):
     '''
-    Test if length in metadata repsonse object
+    Test if length in metadata respsonse object
     '''
     base_url = str(runner.base_url)
     test.result = -1
@@ -127,7 +127,7 @@ def metadata_length(test, runner):
 
 def metadata_aliases(test, runner):
     '''
-    Test if aliases in metadata repsonse object
+    Test if aliases in metadata respsonse object
     '''
     base_url = str(runner.base_url)
     test.result = -1
@@ -142,7 +142,7 @@ def metadata_aliases(test, runner):
 
 def metadata_invalid_checksum_404_error(test, runner):
     '''
-    Test if 404 on invalid checksum in metadata repsonse
+    Test if 404 on invalid checksum in metadata respsonse
     '''
     base_url = str(runner.base_url)
     response = requests.get(base_url + 'sequence/' + 'some1111garbage1111ID', headers=METADATA_ACCEPT_HEADER)

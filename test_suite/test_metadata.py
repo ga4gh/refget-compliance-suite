@@ -26,7 +26,7 @@ def check_complete_metdata_response(response, seq, checksum):
     '''check_complete_metdata_response is a utility function used by
     test_complete_metadata function to remove duplication of code. It takes
     response se,q object and checksum ID used to query as input parameter and
-    assert for reponse header, status code and content
+    assert for response header, status code and content
     '''
     metadata = response.json()
     metadata['metadata']['aliases'] = []

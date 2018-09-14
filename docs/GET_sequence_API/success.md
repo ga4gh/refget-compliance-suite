@@ -5,7 +5,7 @@ Important Points
  * Servers may or may not support circular sequences.
  * Servers may or may not support other encodings (JSON, fasta etc) but must support a response type of `text/vnd.ga4gh.refget.v1.0.0+plain`.
  * Client can query for a sub-sequence and the server MUST honour the request.
- * An `Accept` header in the requests is optional, if not given default is `text/vnd.ga4gh.refget.v1.0.0+plain` but reponse MUST have a `Content-Type` header
+ * An `Accept` header in the requests is optional, if not given default is `text/vnd.ga4gh.refget.v1.0.0+plain` but response MUST have a `Content-Type` header
  * Server may support redirection for sequence retrieval using `302` status code
 
 These are possible success responses associated with this API.

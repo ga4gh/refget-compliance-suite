@@ -35,8 +35,8 @@ def info_implement_default(test, runner):
 
 def info_circular(test, runner):
     '''
-    Test to check if info-endpoint has circular in the reponse object. And if
-    it is there it upates session_params['circular'] as per the value
+    Test to check if info-endpoint has circular in the response object. And if
+    it is there it updates session_params['circular'] as per the value
     '''
     base_url = str(runner.base_url)
     session_params = runner.session_params
@@ -55,8 +55,8 @@ def info_circular(test, runner):
 
 def info_algorithms(test, runner):
     '''
-    Test to check if info-endpoint has algorithms in the reponse object. And if
-    it is there it upates session_params['trunc512'] as per the value
+    Test to check if info-endpoint has algorithms in the response object. And if
+    it is there it updates session_params['trunc512'] as per the value
     '''
     base_url = str(runner.base_url)
     session_params = runner.session_params
@@ -75,8 +75,8 @@ def info_algorithms(test, runner):
 
 def info_subsequence(test, runner):
     '''
-    Test to check if info-endpoint has subsequence_limit in the reponse object.
-    And if it is there it upates session_params['subsequence_limit'] as per the
+    Test to check if info-endpoint has subsequence_limit in the response object.
+    If the key is present we update session_params['subsequence_limit'] as per the
     value
     '''
     base_url = str(runner.base_url)
@@ -94,7 +94,7 @@ def info_subsequence(test, runner):
 
 def info_api_version(test, runner):
     '''
-    Test to check if info-endpoint has supported_api_versions in the reponse
+    Test to check if info-endpoint has supported_api_versions in the response
     object.
     '''
     base_url = str(runner.base_url)

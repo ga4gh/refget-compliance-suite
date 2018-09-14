@@ -176,8 +176,8 @@ def initiate_tests():
     test_metadata_query_by_trunc512.set_fail_text('TRUNC512 algorithm is not working in the server for metadata endpoint even though info endpoint indicates it"s support')
 
     test_metadata_query_circular_sequence = Test(metadata_query_circular_sequence)
-    test_metadata_query_circular_sequence.set_pass_text('Circular sequence metadata can be retrived')
-    test_metadata_query_circular_sequence.set_fail_text('Circular sequence metadata can not be retrived even though info endpoint indicates it"s support')
+    test_metadata_query_circular_sequence.set_pass_text('Circular sequence metadata can be retrieved')
+    test_metadata_query_circular_sequence.set_fail_text('Circular sequence metadata can not be retrieved even though info endpoint indicates it"s support')
 
     test_metadata_md5 = Test(metadata_md5)
     test_metadata_md5.set_pass_text('md5 key in metadata response object')
@@ -265,8 +265,8 @@ def initiate_tests():
     ]
 
     test_sequence_circular = Test(sequence_circular)
-    test_sequence_circular.set_pass_text('Circular sequence can be rertieved successfully passing all the edge cases')
-    test_sequence_circular.set_fail_text('Circular sequences can not be retreived even though info endpoint indicates its support')
+    test_sequence_circular.set_pass_text('Circular sequence can be retrieved successfully passing all the edge cases')
+    test_sequence_circular.set_fail_text('Circular sequences can not be retrieved even though info endpoint indicates its support')
     test_sequence_circular.cases = [
         ('?start=5374&end=5', ['ATCCAACCTGCAGAGTT', 17]),
         ('?start=5374&end=0', ['ATCCAACCTGCA', 12]),

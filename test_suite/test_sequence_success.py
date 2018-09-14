@@ -21,7 +21,7 @@ test cases by pytest.
 def check_complete_sequence_response(response, seq):
     '''check_complete_sequence_response is a utility function used by
     test_complete_sequence function to remove duplication of code. It takes
-    response and seq object as input parameter and assert for reponse header,
+    response and seq object as input parameter and assert for response header,
     status code and content
     '''
     assert response.text == seq.sequence

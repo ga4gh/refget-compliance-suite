@@ -65,7 +65,7 @@ def sequence_invalid_checksum_404_error(test, runner):
 
 def sequence_invalid_encoding_415_error(test, runner):
     '''Test to check if server returns 200 using I test sequence and
-    grabage encoding in Accept header
+    garbage encoding in Accept header
     '''
     base_url = str(runner.base_url)
     response = requests.get(
@@ -80,7 +80,7 @@ def sequence_invalid_encoding_415_error(test, runner):
 
 def sequence_start_end(test, runner):
     '''Test to check if server returns 200 and appropriate text using I test
-    sequence and start/end query params set to 10 and 20 repectively
+    sequence and start/end query params set to 10 and 20 respectively
     '''
     base_url = str(runner.base_url)
     response = requests.get(
@@ -118,7 +118,7 @@ def sequence_start_end_success_cases(test, runner):
 
 def sequence_range(test, runner):
     '''Test to check if server returns 200 and appropriate text using I test
-    sequence and range header set to 10 and 19 repectively
+    sequence and range header set to 10 and 19 respectively
     '''
     base_url = str(runner.base_url)
     header = {
@@ -134,7 +134,7 @@ def sequence_range(test, runner):
 
 
 def sequence_range_success_cases(test, runner):
-    '''Test to check if server passesall the edge cases related to range header
+    '''Test to check if server passes all the edge cases related to range header
     success queries
     '''
     data = runner.test_data
@@ -161,7 +161,7 @@ def sequence_range_success_cases(test, runner):
 
 
 def sequence_circular(test, runner):
-    '''Test to check if server passesall the edge cases related to circular queries
+    '''Test to check if server passes all the edge cases related to circular queries
     '''
     session_params = runner.session_params
     if session_params['circular_supported'] is False:
