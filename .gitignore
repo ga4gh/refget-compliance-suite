@@ -105,3 +105,4 @@ ENV/
 # Other files
 /*.tar.gz
 /*.json
+.vstags
