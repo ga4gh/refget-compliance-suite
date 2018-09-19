@@ -11,7 +11,7 @@ Repository for the [refget API](http://samtools.github.io/hts-specs/refget.html)
 ## Installing the compliance suite
 
 ```bash
-pip3 install refget-compliance-suite
+pip3 install refget-compliance
 ```
 
 ## Running the compliance suite
@@ -19,13 +19,13 @@ pip3 install refget-compliance-suite
 The following will generate a HTML report for your server and serve said HTML. It will also generate a tarball locally of the report
 
 ```bash
-refget-compliance-suite report -s https://refget.server.com/ --serve
+refget-compliance report -s https://refget.server.com/ --serve
 ```
 
 The following will generate a JSON report of your server:
 
 ```bash
-refget-compliance-suite report -s https://refget.server.com/ --json server.json
+refget-compliance report -s https://refget.server.com/ --json server.json
 ```
 
 Setting `--json -` will have the compliance suite write the JSON to STDOUT.
@@ -52,9 +52,9 @@ twine upload dist/*
 To generate this documentation locally, follow these steps:
 
 ```bash
-git clone https://github.com/ga4gh/refget-compliance-suite.git
+git clone https://github.com/ga4gh/refget-compliance.git
 
-cd refget-compliance-suite
+cd refget-compliance
 
 pip3 install mkdocs
 
@@ -68,7 +68,7 @@ Compliance test suite is an API testing suite for refget servers.
 To run the tests, follow these steps:
 
 ```bash
-git clone https://github.com/ga4gh/refget-compliance-suite.git
+git clone https://github.com/ga4gh/refget-compliance.git
 
 cd refget-compliance-suite/test_suite
 

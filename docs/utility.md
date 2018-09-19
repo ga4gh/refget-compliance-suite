@@ -1,4 +1,4 @@
-Compliance Utility Report tool generates a detailed compliance report on the server using interdependent test cases on command line interface. It can also generate a compliance matrix on a html page and a json file for machine readability and extensibility.
+The refget compliance tool generates a detailed compliance report on the server using interdependent test cases on command line interface. It can generate a compliance matrix on a html page and a json file for machine readability and extensibility.
 
 # Getting Started
 
@@ -14,14 +14,14 @@ python setup.py sdist bdist_wininst upload
 ## First test report
 
 ```base
-refget_compliance_suite report -s http://localhost:5000/
+refget-compliance report -s http://localhost:5000/
 ```
 Note : prefixing with '**http://**' or '**https://**' (as per the server) and trailing slash '**/**' is important
 
 Multiple servers can be tested at once by providing multiple `--server` or `-s` arguments
 
 ```base
-refget_compliance_suite report -s http://localhost:5000/ -s http://localhost:6000 - http://localhost:7000
+refget-compliance report -s http://localhost:5000/ -s http://localhost:6000 - http://localhost:7000
 ```
 
 ## Arguments

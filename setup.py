@@ -16,7 +16,7 @@ install_requires = ['requests', 'click']
 
 
 setuptools.setup(
-    name="refget-compliance-suite",
+    name="refget-compliance",
     version="1.0.0",
     author="Somesh Chaturvedi",
     author_email="somesh.08.96@gmail.com",
@@ -29,7 +29,7 @@ setuptools.setup(
     install_requires=install_requires,
     entry_points='''
         [console_scripts]
-        refget-compliance-suite=compliance_suite.cli:main
+        refget-compliance=compliance_suite.cli:main
     ''',
     classifiers=(
         "Programming Language :: Python :: 3",
