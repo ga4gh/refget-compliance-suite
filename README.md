@@ -32,6 +32,21 @@ Setting `--json -` will have the compliance suite write the JSON to STDOUT.
 
 # Additional components
 
+## Building and uploading the package to PyPI
+
+First do your edits, test and update `setup.py` with your new version number. Then run the following and provide your user credentials before doing this. This will upload the compliance suite to the test PyPI server.
+
+```bash
+python3 setup.py sdist bdist_wheel
+twine upload --repository-url https://test.pypi.org/legacy/ dist/*
+```
+
+Assuming this works then upload to live PyPI and provide your live login details.
+
+```bash
+twine upload dist/*
+```
+
 ## Compliance Documentation
 
 To generate this documentation locally, follow these steps:
