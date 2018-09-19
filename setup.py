@@ -16,11 +16,11 @@ install_requires = ['requests', 'click']
 
 
 setuptools.setup(
-    name="compliance-suite-utility",
+    name="refget-compliance-suite",
     version="1.0.0",
     author="Somesh Chaturvedi",
     author_email="somesh.08.96@gmail.com",
-    description="A compliance utility reporting system for refget servers",
+    description="A compliance utility reporting system for refget server implementations",
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/ga4gh/refget-compliance-suite",
@@ -29,11 +29,11 @@ setuptools.setup(
     install_requires=install_requires,
     entry_points='''
         [console_scripts]
-        refget_compliance_suite=compliance_suite.cli:main
+        refget-compliance-suite=compliance_suite.cli:main
     ''',
     classifiers=(
         "Programming Language :: Python :: 3",
-        "License :: OSI Approved :: MIT License",
+        "License :: OSI Approved :: Apache Software License",
         "Operating System :: OS Independent",
     ),
 )

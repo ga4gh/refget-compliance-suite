@@ -7,22 +7,25 @@ Repository for the [refget API](http://samtools.github.io/hts-specs/refget.html)
 - [Refget specification](http://samtools.github.io/hts-specs/refget.html)
 - [Compliance Document](http://compliancedoc.readthedocs.io/en/latest/)
 - [Compliance utility documentation](http://compliancedoc.readthedocs.io/en/latest/utility/)
+
 ## Installing the compliance suite
 
-To be documented
+```bash
+pip3 install refget-compliance-suite
+```
 
 ## Running the compliance suite
 
 The following will generate a HTML report for your server and serve said HTML. It will also generate a tarball locally of the report
 
 ```bash
-refget_compliance_suite report -s https://refget.server.com/ --serve
+refget-compliance-suite report -s https://refget.server.com/ --serve
 ```
 
 The following will generate a JSON report of your server:
 
 ```bash
-refget_compliance_suite report -s https://refget.server.com/ --json server.json
+refget-compliance-suite report -s https://refget.server.com/ --json server.json
 ```
 
 Setting `--json -` will have the compliance suite write the JSON to STDOUT.
@@ -32,6 +35,7 @@ Setting `--json -` will have the compliance suite write the JSON to STDOUT.
 ## Compliance Documentation
 
 To generate this documentation locally, follow these steps:
+
 ```bash
 git clone https://github.com/ga4gh/refget-compliance-suite.git
 
@@ -42,11 +46,12 @@ pip3 install mkdocs
 mkdocs serve
 ```
 
-
 ## Compliance Test Suite
+
 Compliance test suite is an API testing suite for refget servers.
 
 To run the tests, follow these steps:
+
 ```bash
 git clone https://github.com/ga4gh/refget-compliance-suite.git
 
@@ -101,14 +106,4 @@ py.test --server <your-server-base-url-without-http://-prefix> --cir --redir
 py.test --server <your-server-base-url-without-http://-prefix> --redir --trunc512
 
 py.test --server <your-server-base-url-without-http://-prefix> --cir --trunc512 --redir
-```
-
-# Matrix generation
-
-## Generating the original JSON
-
-```bash
-while read s; do
-  refget_compliance_suite report -s https://refget.server.com/ --json ${s}.json
-done <servers.txt
 ```
