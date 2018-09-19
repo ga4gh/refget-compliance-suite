@@ -102,3 +102,13 @@ py.test --server <your-server-base-url-without-http://-prefix> --redir --trunc51
 
 py.test --server <your-server-base-url-without-http://-prefix> --cir --trunc512 --redir
 ```
+
+# Matrix generation
+
+## Generating the original JSON
+
+```bash
+while read s; do
+  refget_compliance_suite report -s https://refget.server.com/ --json ${s}.json
+done <servers.txt
+```

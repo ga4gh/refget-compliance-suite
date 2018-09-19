@@ -5,10 +5,10 @@ import sys
 
 class Test():
     '''
-    Test Case class. All the test cases are intances of this class.
+    Test Case class. All the test cases are instances of this class.
 
     label - used in graph algorithms to label the test case graph
-    alogorithm - Strategy design pattern in used here. It is the underlying algorithm used in the test case
+    algorithm - Strategy design pattern in used here. It is the underlying algorithm used in the test case
     result - 0 indicates skipped, 1 indicates passed, -1 indicates failed and 2 is not yet ran
     pass_text - text in the report when test case is passed
     skip_text - text in the report when test case is skipped
@@ -88,7 +88,7 @@ class Test():
         '''
         for test in self.parents:
             if test.result != 1:
-                print(str(test) + 'yoooo' + str(test.result), file=sys.stderr)
+                print("{}yoooo{}".format(str(test), str(test.result)), file=sys.stderr))
                 return True
         return False
 
