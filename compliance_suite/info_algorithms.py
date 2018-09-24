@@ -41,6 +41,7 @@ def info_circular(test, runner):
     base_url = str(runner.base_url)
     session_params = runner.session_params
     response = requests.get(base_url + INFO_API, headers=INFO_ACCEPT_HEADER)
+    service_info_object = None
     try:
         service_info_object = json.loads(response.text)["service"]
         test.result = 1
@@ -61,6 +62,7 @@ def info_algorithms(test, runner):
     base_url = str(runner.base_url)
     session_params = runner.session_params
     response = requests.get(base_url + INFO_API, headers=INFO_ACCEPT_HEADER)
+    service_info_object = None
     try:
         service_info_object = json.loads(response.text)["service"]
         test.result = 1
@@ -81,6 +83,7 @@ def info_subsequence(test, runner):
     '''
     base_url = str(runner.base_url)
     session_params = runner.session_params
+    service_info_object = None
     response = requests.get(base_url + INFO_API, headers=INFO_ACCEPT_HEADER)
     try:
         service_info_object = json.loads(response.text)["service"]
@@ -97,6 +100,7 @@ def info_api_version(test, runner):
     Test to check if info-endpoint has supported_api_versions in the response
     object.
     '''
+    service_info_object = None
     base_url = str(runner.base_url)
     response = requests.get(base_url + INFO_API, headers=INFO_ACCEPT_HEADER)
     try:
