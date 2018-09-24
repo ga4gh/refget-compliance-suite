@@ -73,7 +73,7 @@ class TestRunner():
                     'name': str(child),
                     'result': child.result,
                     'test_description': processed_func_descrp(child.algorithm.__doc__),
-                    'text': child.toecho(),
+                    'text': child.to_echo(),
                     'parents': [str(parent) for parent in child.parents],
                     'children': [str(child) for child in child.children],
                     'warning': child.warning,

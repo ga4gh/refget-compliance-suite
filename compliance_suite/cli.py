@@ -22,6 +22,31 @@ def valid_file_name(file_name, val):
         valid_file_name(new_file_name, val+1)
     return file_name
 
+def scan_for_errors(json):
+    '''
+    Routine used to loop through the available results data structure and generate
+    high-level summaries for the four main test routines
+
+    - service info
+    - metadata
+    - sequence
+    - sequence range
+    '''
+    high_level_summary={}
+    for high_level_name in ('test_info_implement', 'test_metadata_implement', 'test_sequence_implement', 'test_sequence_range'):
+        # We are successful unless proven otherwise
+        result=1
+        for test in json[0]["test_results"]:
+            if high_level_name in test["parents"]:
+                if test['warning']:
+                    result = test["result"]
+                    break
+        high_level_summary[high_level_name] =  {
+            'result' : result,
+            'name': high_level_name
+        }
+    json[0]["high_level_summary"] = high_level_summary
+
 
 @click.group()
 def main():
@@ -58,6 +83,8 @@ def report(server, file_path_name, json_path, serve):
         tr = TestRunner(s)
         tr.run_tests()
         final_json.append(tr.generate_final_json())
+
+    scan_for_errors(final_json)
 
     WEB_DIR = os.path.join(os.path.dirname(__file__), 'web')
 

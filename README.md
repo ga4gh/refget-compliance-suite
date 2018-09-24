@@ -5,8 +5,8 @@ Repository for the [refget API](http://samtools.github.io/hts-specs/refget.html)
 ## Important URLS
 
 - [Refget specification](http://samtools.github.io/hts-specs/refget.html)
-- [Compliance Document](http://compliancedoc.readthedocs.io/en/latest/)
-- [Compliance utility documentation](http://compliancedoc.readthedocs.io/en/latest/utility/)
+- [Compliance Document](https://compliancedoc.readthedocs.io/en/latest/)
+- [Compliance utility documentation](https://compliancedoc.readthedocs.io/en/latest/utility/)
 
 ## Installing the compliance suite
 
