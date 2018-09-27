@@ -60,10 +60,12 @@ def main():
     '-fpn', default='web', help='to create a tar.gz file')
 @click.option(
     '--json',
-    '--json_path', default='output.json', help='create a json file report. Setting this to "-" will emit to standard out')
+    '--json_path', help='create a json file report. Setting this to "-" will emit to standard out')
 @click.option(
     '--serve', is_flag=True, help='spin up a server')
-def report(server, file_path_name, json_path, serve):
+@click.option(
+    '--no-web', is_flag=True, help='skip the creation of a tarball')
+def report(server, file_path_name, json_path, serve, no_web):
     '''
     CLI command report to execute the report session and generate report on
     terminal, html file and json file if provided by the user
@@ -74,7 +76,8 @@ def report(server, file_path_name, json_path, serve):
     Optional arguments:
         --file_path_name - file name for w:gz file of web folder. Default is
         web_<int>.tar.gz
-        --json_path - Provide a path to dump the final JSON content to. Do
+        --json_path - Provide a path to dump the final JSON content to
+        --no-web - Avoid dumping a webfile
     '''
     final_json = []
     if len(server) == 0:
@@ -86,24 +89,25 @@ def report(server, file_path_name, json_path, serve):
 
     scan_for_errors(final_json)
 
-    WEB_DIR = os.path.join(os.path.dirname(__file__), 'web')
-
-    if file_path_name is not None:
-        with open(os.path.join(WEB_DIR, 'temp_result' + '.json'), 'w+') as outfile:
-            json.dump(final_json, outfile)
-
-        index = 0
-        while(os.path.exists(file_path_name + '_' + str(index) + '.tar.gz')):
-            index = index + 1
-        with tarfile.open(file_path_name + '_' + str(index) + '.tar.gz', "w:gz") as tar:
-            tar.add(WEB_DIR, arcname=os.path.basename(WEB_DIR))
-
     if json_path is not None:
         if json_path == '-':
             json.dump(final_json, sys.stdout)
         else:
             with open(json_path, 'w') as outfile:
                 json.dump(final_json, outfile)
+
+    WEB_DIR = os.path.join(os.path.dirname(__file__), 'web')
+
+    if not no_web:
+        if file_path_name is not None:
+            with open(os.path.join(WEB_DIR, 'temp_result' + '.json'), 'w+') as outfile:
+                json.dump(final_json, outfile)
+
+            index = 0
+            while(os.path.exists(file_path_name + '_' + str(index) + '.tar.gz')):
+                index = index + 1
+            with tarfile.open(file_path_name + '_' + str(index) + '.tar.gz', "w:gz") as tar:
+                tar.add(WEB_DIR, arcname=os.path.basename(WEB_DIR))
 
     if serve is True:
         start_mock_server()
