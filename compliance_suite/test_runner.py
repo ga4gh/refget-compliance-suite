@@ -21,7 +21,7 @@ class TestRunner():
                 generated
 
         Object params:
-            session_params - Varibles from info endpoint used to run conditional
+            session_params - Variables from info endpoint used to run conditional
                 tests. Values are populated when info endpoint tests are run
             total_tests - Total number of tests
             total_tests_passed - Total number of tests passed
@@ -77,8 +77,8 @@ class TestRunner():
                     'parents': [str(parent) for parent in child.parents],
                     'children': [str(child) for child in child.children],
                     'warning': child.warning,
-                    'edge_cases': child.case_ouputs,
-                    # 'edge_cases': [case for case in child.case_ouputs if case['result'] == -1]
+                    'edge_cases': child.case_outputs,
+                    # 'edge_cases': [case for case in child.case_outputs if case['result'] == -1]
                 }
                 if child.result == 1:
                     self.total_tests_passed = self.total_tests_passed + 1

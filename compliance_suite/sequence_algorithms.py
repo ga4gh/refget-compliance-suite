@@ -113,7 +113,7 @@ def sequence_start_end_success_cases(test, runner):
         else:
             case_output_object['result'] = -1
             test.result = -1
-        test.case_ouputs.append(case_output_object)
+        test.case_outputs.append(case_output_object)
 
 
 def sequence_range(test, runner):
@@ -157,7 +157,7 @@ def sequence_range_success_cases(test, runner):
         else:
             case_output_object['result'] = -1
             test.result = -1
-        test.case_ouputs.append(case_output_object)
+        test.case_outputs.append(case_output_object)
 
 
 def sequence_circular(test, runner):
@@ -183,7 +183,7 @@ def sequence_circular(test, runner):
         else:
             case_output_object['result'] = -1
             test.result = -1
-        test.case_ouputs.append(case_output_object)
+        test.case_outputs.append(case_output_object)
 
 
 def sequence_start_end_errors(test, runner):
@@ -203,7 +203,7 @@ def sequence_start_end_errors(test, runner):
         else:
             case_output_object['result'] = -1
             test.result = -1
-        test.case_ouputs.append(case_output_object)
+        test.case_outputs.append(case_output_object)
 
 
 def sequence_range_errors(test, runner):
@@ -227,7 +227,7 @@ def sequence_range_errors(test, runner):
         else:
             case_output_object['result'] = -1
             test.result = -1
-        test.case_ouputs.append(case_output_object)
+        test.case_outputs.append(case_output_object)
 
 
 def sequence_circular_support_false_errors(test, runner):
@@ -252,7 +252,7 @@ def sequence_circular_support_false_errors(test, runner):
         else:
             case_output_object['result'] = -1
             test.result = -1
-        test.case_ouputs.append(case_output_object)
+        test.case_outputs.append(case_output_object)
 
 
 def sequence_circular_support_true_errors(test, runner):
@@ -277,4 +277,4 @@ def sequence_circular_support_true_errors(test, runner):
         else:
             case_output_object['result'] = -1
             test.result = -1
-        test.case_ouputs.append(case_output_object)
+        test.case_outputs.append(case_output_object)

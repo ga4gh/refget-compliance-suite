@@ -32,7 +32,7 @@ class Test():
         self.children = []
         self.warning = False
         self.cases = []
-        self.case_ouputs = []
+        self.case_outputs = []
 
     def __str__(self):
         '''
