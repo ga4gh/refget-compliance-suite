@@ -59,8 +59,8 @@ def main():
     '--file_path_name',
     '-fpn', default='web', help='to create a tar.gz file')
 @click.option(
-    '--json',
-    '--json_path', help='create a json file report. Setting this to "-" will emit to standard out')
+    '--json_path',
+    '--json', help='create a json file report. Setting this to "-" will emit to standard out')
 @click.option(
     '--serve', is_flag=True, help='spin up a server')
 @click.option(
