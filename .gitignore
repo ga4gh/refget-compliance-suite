@@ -106,3 +106,4 @@ ENV/
 /*.tar.gz
 /*.json
 .vstags
+/.vscode
