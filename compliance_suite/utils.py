@@ -5,7 +5,7 @@ SEQUENCE_FILES = os.path.join(TEST_SUITE, 'sequences/')
 
 
 class Sequence:
-    '''Sequence model object used to store seqeunce data in a defined manner
+    '''Sequence model object used to store sequence data in a defined manner
     '''
     def __init__(self, name, sequence, is_circular, sha512, md5, size):
         self.name = name
@@ -50,7 +50,7 @@ def get_seq_obj(chr):
 
 
 def data():
-    '''data fixture loads all the data and return data variabe for use in tests
+    '''data fixture loads all the data and return data variable for use in tests
     '''
     data = []
     data.append(get_seq_obj("I"))
