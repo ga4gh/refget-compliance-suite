@@ -1,0 +1,7 @@
+1.2.0 - Switching to 206 for range requests
+
+1.1.0 - Switching to 406 for bad internet type handling
+
+1.0.1 - Bugfix for cli parameter handling
+
+1.0.0 - First release
