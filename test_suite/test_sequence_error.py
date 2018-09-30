@@ -17,7 +17,7 @@ test cases by pytest.
     (['some1111garbage1111ID', '', {'Accept': 'text/embl'}], 404),
     (['some1111garbage1111ID', '?start=1&end=10', {'Accept': 'text/embl'}], 404),
 
-    (['6681ac2f62509cfc220d78751b8dc524', '', {'Accept': 'text/embl'}], 415),
+    (['6681ac2f62509cfc220d78751b8dc524', '', {'Accept': 'text/embl'}], 406),
     (['6681ac2f62509cfc220d78751b8dc524', '?start=0&end=abc', {'Accept': 'text/embl'}], 400),
     (['6681ac2f62509cfc220d78751b8dc524', '?start=0&end=20', {'Accept': 'text/plain', 'Range':'bytes=0-20'}], 400),
 

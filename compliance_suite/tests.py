@@ -199,9 +199,9 @@ def initiate_tests():
     test_metadata_invalid_checksum_404_error.set_pass_text('Server is correctly sending 404 on invalid checksum')
     test_metadata_invalid_checksum_404_error.set_fail_text('Server is not sending 404 on invalid checksum instead sends ')
 
-    test_metadata_invalid_encoding_415_error = Test(metadata_invalid_encoding_415_error)
-    test_metadata_invalid_encoding_415_error.set_pass_text('Server is correctly sending 415 on invalid encoding')
-    test_metadata_invalid_encoding_415_error.set_fail_text('Server is not sending 415 on invalid encoding instead sends ')
+    test_metadata_invalid_encoding_406_error = Test(metadata_invalid_encoding_406_error)
+    test_metadata_invalid_encoding_406_error.set_pass_text('Server is correctly sending 406 on invalid encoding')
+    test_metadata_invalid_encoding_406_error.set_fail_text('Server is not sending 406 on invalid encoding instead sends ')
 
     # Sequence endpoint test cases
 
@@ -221,9 +221,9 @@ def initiate_tests():
     test_sequence_invalid_checksum_404_error.set_pass_text('Server is correctly sending 404 on invalid checksum')
     test_sequence_invalid_checksum_404_error.set_fail_text('Server is not sending 404 on invalid checksum instead sends ')
 
-    test_sequence_invalid_encoding_415_error = Test(sequence_invalid_encoding_415_error)
-    test_sequence_invalid_encoding_415_error.set_pass_text('Server is correctly sending 415 on invalid encoding')
-    test_sequence_invalid_encoding_415_error.set_fail_text('Server is not sending 415 on invalid encoding instead sends ')
+    test_sequence_invalid_encoding_406_error = Test(sequence_invalid_encoding_406_error)
+    test_sequence_invalid_encoding_406_error.set_pass_text('Server is correctly sending 406 on invalid encoding')
+    test_sequence_invalid_encoding_406_error.set_fail_text('Server is not sending 406 on invalid encoding instead sends ')
 
     test_sequence_start_end = Test(sequence_start_end)
     test_sequence_start_end.set_pass_text('Server supports start end query params')
@@ -354,7 +354,7 @@ def initiate_tests():
     test_metadata_implement.add_child(test_metadata_length)
     test_metadata_implement.add_child(test_metadata_aliases)
     test_metadata_implement.add_child(test_metadata_invalid_checksum_404_error)
-    test_metadata_implement.add_child(test_metadata_invalid_encoding_415_error)
+    test_metadata_implement.add_child(test_metadata_invalid_encoding_406_error)
 
     test_base.add_child(test_sequence_implement)
 
@@ -367,7 +367,7 @@ def initiate_tests():
 
     test_sequence_implement.add_child(test_sequence_invalid_checksum_404_error)
 
-    test_sequence_implement.add_child(test_sequence_invalid_encoding_415_error)
+    test_sequence_implement.add_child(test_sequence_invalid_encoding_406_error)
 
     test_sequence_start_end.add_child(test_sequence_start_end_success_cases)
     test_sequence_range.add_child(test_sequence_range_success_cases)

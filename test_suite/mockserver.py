@@ -249,7 +249,7 @@ class MockServerRequestHandler(BaseHTTPRequestHandler):
                 return
 
             if self.headers['Accept'] not in SUPPORTED_ENCODINGS:
-                self.send(415)
+                self.send(406)
                 return
 
             if 'Range' not in self.headers and args == {}:
@@ -287,7 +287,7 @@ class MockServerRequestHandler(BaseHTTPRequestHandler):
                 return
 
             if self.headers['Accept'] not in SUPPORTED_ENCODINGS:
-                self.send(415)
+                self.send(406)
                 return
 
             seq_id = self.get_seq_id()
@@ -306,7 +306,7 @@ class MockServerRequestHandler(BaseHTTPRequestHandler):
                 '*/*',
                 'application/json', 'application/vnd.ga4gh.refget.v1.0.0+json']
             if self.headers['Accept'] not in SUPPORTED_ENCODINGS:
-                self.send(415)
+                self.send(406)
                 return
             service_info = self.get_service_info()
             self.send_response(200)

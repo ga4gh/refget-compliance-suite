@@ -90,7 +90,7 @@
     "parents": ["test_base_algorithm"],
     "warning": false,
     "text": "Metadata endpoint implemented by the server",
-    "children": ["test_metadata_implement_default", "test_metadata_query_by_trunc512", "test_metadata_query_circular_sequence", "test_metadata_md5", "test_metadata_trunc512", "test_metadata_length", "test_metadata_aliases", "test_metadata_invalid_checksum_404_error", "test_metadata_invalid_encoding_415_error"]
+    "children": ["test_metadata_implement_default", "test_metadata_query_by_trunc512", "test_metadata_query_circular_sequence", "test_metadata_md5", "test_metadata_trunc512", "test_metadata_length", "test_metadata_aliases", "test_metadata_invalid_checksum_404_error", "test_metadata_invalid_encoding_406_error"]
   }, {
     "test_description": "Test if metadata endpoint returns 200 without headers using I test sequence",
     "name": "test_metadata_implement_default",
@@ -132,12 +132,12 @@
     "text": "Server is correctly sending 404 on invalid checksum",
     "children": []
   }, {
-    "test_description": "Test if 415 on invalid encoding in Accept header",
-    "name": "test_metadata_invalid_encoding_415_error",
+    "test_description": "Test if 406 on invalid encoding in Accept header",
+    "name": "test_metadata_invalid_encoding_406_error",
     "result": 1,
     "parents": ["test_metadata_implement"],
     "warning": false,
-    "text": "Server is correctly sending 415 on invalid encoding",
+    "text": "Server is correctly sending 406 on invalid encoding",
     "children": []
   }, {
     "test_description": "Test to check if server returns 200 using I test sequence and appropriate headers",
@@ -146,7 +146,7 @@
     "parents": ["test_base_algorithm"],
     "warning": false,
     "text": "Sequence endpoint implemented in the server",
-    "children": ["test_sequence_implement_default", "test_sequence_start_end", "test_sequence_range", "test_sequence_query_by_trunc512", "test_sequence_invalid_checksum_404_error", "test_sequence_invalid_encoding_415_error"]
+    "children": ["test_sequence_implement_default", "test_sequence_start_end", "test_sequence_range", "test_sequence_query_by_trunc512", "test_sequence_invalid_checksum_404_error", "test_sequence_invalid_encoding_406_error"]
   }, {
     "test_description": "Test to check if server returns 200 using I test sequence and no headers",
     "name": "test_sequence_implement_default",
@@ -197,11 +197,11 @@
     "children": []
   }, {
     "test_description": "Test to check if server returns 200 using I test sequence and garbage encoding in Accept header",
-    "name": "test_sequence_invalid_encoding_415_error",
+    "name": "test_sequence_invalid_encoding_406_error",
     "result": 1,
     "parents": ["test_sequence_implement"],
     "warning": false,
-    "text": "Server is correctly sending 415 on invalid encoding",
+    "text": "Server is correctly sending 406 on invalid encoding",
     "children": []
   }],
   "total_warnings": 0,

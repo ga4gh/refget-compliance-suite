@@ -64,7 +64,7 @@ def test_complete_metadata(server, data):
     (['some1111garbage1111ID', {}], 404),
     (['some1111garbage1111ID', {'Accept': 'application/vnd.ga4gh.refget.v1.0.0+json'}], 404),
     (['some1111garbage1111ID', {'Accept': 'application/embl'}], 404),
-    (['6681ac2f62509cfc220d78751b8dc524', {'Accept': 'application/embl'}], 415)
+    (['6681ac2f62509cfc220d78751b8dc524', {'Accept': 'application/embl'}], 406)
 
 ])
 def test_metadata_generic_errors(server, data, _input, _output):

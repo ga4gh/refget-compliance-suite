@@ -18,7 +18,7 @@ HTTP/1.1 404 Not Found
 
 <h5> Case 2 </h5>
 **Unsupported media type by the server**
-When media type requested by the client in the `Accept` header is not supported by the server, server must throw a `415 Unsupported Media Type` error
+When media type requested by the client in the `Accept` header is not supported by the server, server must throw a `406 Not Acceptable` error
 
 ```
 GET /sequence/6681ac2f62509cfc220d78751b8dc524
@@ -26,7 +26,7 @@ Accept : text/exotic-encoding
 ```
 
 ```
-HTTP/1.1 415 Unsupported Media Type
+HTTP/1.1 406 Not Acceptable
 ```
 
 ## Error Conditions while using start / end parameters

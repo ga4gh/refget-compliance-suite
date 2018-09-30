@@ -29,7 +29,7 @@ Content-Type: application/vnd.ga4gh.refget.v1.0.0+json
 ## Error Conditions
 <h5> Case 1 </h5>
 **Unsupported media type by the server**
-When media type requested by the client in the `Accept` header is not supported by the server, server throws a `415 Unsupported Media Type` error
+When media type requested by the client in the `Accept` header is not supported by the server, server throws a `406 Not Acceptable` error
 
 ```
 GET /sequence/service-info/
@@ -37,5 +37,5 @@ Accept : text/exotic-encoding
 ```
 
 ```
-HTTP/1.1 415 Unsupported Media Type
+HTTP/1.1 406 Not Acceptable
 ```
