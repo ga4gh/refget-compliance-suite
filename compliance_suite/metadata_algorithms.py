@@ -153,15 +153,15 @@ def metadata_invalid_checksum_404_error(test, runner):
         test.fail_text = test.fail_text + str(response.status_code)
 
 
-def metadata_invalid_encoding_415_error(test, runner):
+def metadata_invalid_encoding_406_error(test, runner):
     '''
-    Test if 415 on invalid encoding in Accept header
+    Test if 406 on invalid encoding in Accept header
     '''
     base_url = str(runner.base_url)
     response = requests.get(
         base_url + 'sequence/' + SEQ_MD5,
         headers={'Accept': 'embl/some_json'})
-    if response.status_code == 415:
+    if response.status_code == 406:
         test.result = 1
     else:
         test.result = -1

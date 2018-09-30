@@ -63,7 +63,7 @@ def sequence_invalid_checksum_404_error(test, runner):
         test.fail_text = test.fail_text + str(response.status_code)
 
 
-def sequence_invalid_encoding_415_error(test, runner):
+def sequence_invalid_encoding_406_error(test, runner):
     '''Test to check if server returns 200 using I test sequence and
     garbage encoding in Accept header
     '''
@@ -71,7 +71,7 @@ def sequence_invalid_encoding_415_error(test, runner):
     response = requests.get(
         base_url + SEQUENCE_MD5,
         headers={'Accept': 'embl/some_json'})
-    if response.status_code == 415:
+    if response.status_code == 406:
         test.result = 1
     else:
         test.result = -1
