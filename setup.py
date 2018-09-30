@@ -17,7 +17,7 @@ install_requires = ['requests', 'click']
 
 setuptools.setup(
     name="refget-compliance",
-    version="1.0.1",
+    version="1.1.0",
     author="Somesh Chaturvedi",
     author_email="somesh.08.96@gmail.com",
     description="A compliance utility reporting system for refget server implementations",
