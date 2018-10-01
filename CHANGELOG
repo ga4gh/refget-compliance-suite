@@ -1,3 +1,5 @@
+1.2.3 - Skip badly formatted range requests when working with squid proxies
+
 1.2.2 - metadata_invalid_checksum_404_error was not using the metadata endpoint
 
 1.2.1 - Missed two tests that should have changed to 206

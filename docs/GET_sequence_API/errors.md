@@ -155,10 +155,10 @@ HTTP/1.1 400 Bad Request
 ```
 
 <h5> Case 2 </h5>
-first-byte-spec and last-byte-spec are integers, on recieving any invalid value, server must throw a `400 Bad Request` error.
-On recieving only one of the first-byte-spec or last-byte-spec, server must throw a `400 Bad Request` error.
-On recieving any unit other than bytes, server must throw a `400 Bad Request`.
-
+first-byte-spec and last-byte-spec are integers, on receiving any invalid value, server must throw a `400 Bad Request` error.
+On receiving only one of the first-byte-spec or last-byte-spec, server must throw a `400 Bad Request` error.
+On receiving any unit other than bytes, server must throw a `400 Bad Request`.
+If run on a squid proxy server, these tests will be skipped due to squid stripping out badly formatted headers.
 ```
 GET /sequence/6681ac2f62509cfc220d78751b8dc524/
 Range: units=10-19
