@@ -229,7 +229,7 @@ def sequence_range_errors(test, runner):
             #If we got a 200 response and was sent via squid then
             #warn and do not return an error. This is a squid edge
             #case where it strips badly formatted headers
-            if response.status_code == 200 and 'via' in response.headers and 'squid' in response.headers['via']:
+            if response.status_code == 200 and 'via' in response.headers and 'squid' in response.headers['via'].lower():
                 res = 0
             case_output_object['result'] = res
             test.result = res
