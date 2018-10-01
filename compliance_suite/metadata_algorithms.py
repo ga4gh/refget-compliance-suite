@@ -145,7 +145,7 @@ def metadata_invalid_checksum_404_error(test, runner):
     Test if 404 on invalid checksum in metadata response
     '''
     base_url = str(runner.base_url)
-    response = requests.get(base_url + 'sequence/' + 'some1111garbage1111ID', headers=METADATA_ACCEPT_HEADER)
+    response = requests.get(base_url + 'sequence/' + 'some1111garbage1111ID/metadata', headers=METADATA_ACCEPT_HEADER)
     if response.status_code == 404:
         test.result = 1
     else:
