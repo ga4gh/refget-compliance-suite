@@ -1,6 +1,5 @@
 import requests
 
-
 SEQUENCE_ACCEPT_HEADER = {
     'Accept': 'text/vnd.ga4gh.refget.v1.0.0+plain'
 }
@@ -226,10 +225,23 @@ def sequence_range_errors(test, runner):
             case_output_object['result'] = 1
         else:
             res = -1
-            #If we got a 200 response and was sent via squid then
-            #warn and do not return an error. This is a squid edge
-            #case where it strips badly formatted headers
-            if response.status_code == 200 and 'via' in response.headers and 'squid' in response.headers['via'].lower():
+            error = False
+            successful_response = False
+            squid = False
+            if _output >= 400 and _output < 500:
+                error = True
+            if response.status_code == 200 or response.status_code == 206:
+                successful_response = True
+            if 'via' in response.headers and 'squid' in response.headers['via'].lower():
+                squid = True
+            # Squid sniffing:
+            # Squid will strip range headers where the format of the range
+            # was not valid and instead respond with the whole resource.
+            # This breaks some of the tests we apply when giving an implementation
+            # bad Accept headers. So first we look if we were testing for an
+            # error code (4XX), see if we had a successful response
+            # and the request was sent via squid then
+            if error and successful_response and squid:
                 res = 0
             case_output_object['result'] = res
             test.result = res

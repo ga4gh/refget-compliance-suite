@@ -1,3 +1,5 @@
+1.2.5 - Improved squid sniffing. Now checks for an error test before applying logic
+
 1.2.4 - Did not lowercase Via header response before testing
 
 1.2.3 - Skip badly formatted range requests when working with squid proxies
