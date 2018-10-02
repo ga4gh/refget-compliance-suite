@@ -11,7 +11,7 @@ function load() {
             text_report += "<p>Total tests failed: " + report["total_tests_failed"] + "</p>"
             text_report += "<p>Total tests skipped: " + report["total_tests_skipped"] + "</p>"
             text_report += "<p>Total warnings generated: " + report["total_warnings"] + "</p>"
-            text_report += "&nbsp<p><b>Test result reports</b></h3>"
+            text_report += "&nbsp;<p><b>Test result reports</b></h3>"
 
             $.each(report['test_results'], function (index, result){
                 console.log(result)
@@ -36,6 +36,9 @@ function load() {
                         row += edge_case['api'] + '</td>'
                         if(edge_case['result'] == 1){
                             row += '<td class="text-success">PASSED</td></tr>'
+                        }
+                        else if(edge_case.result == 0) {
+                            row += '<td>WARNING</td></tr>';
                         }
                         else{
                             row += '<td class="text-warning">FAILED</td></tr>'
