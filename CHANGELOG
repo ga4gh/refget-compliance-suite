@@ -1,4 +1,5 @@
-1.2.5 - Improved squid sniffing. Now checks for an error test before applying logic
+1.2.5 - Improved squid sniffing. Now checks for an error test before applying logic. Better
+        JavaScript for reports (no longer report skipped edge cases as errors).
 
 1.2.4 - Did not lowercase Via header response before testing
 
