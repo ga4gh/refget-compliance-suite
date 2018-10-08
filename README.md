@@ -34,7 +34,15 @@ Setting `--json -` will have the compliance suite write the JSON to STDOUT.
 
 ## Building and uploading the package to PyPI
 
-First do your edits, test and update `setup.py` with your new version number. Then run the following and provide your user credentials before doing this. This will upload the compliance suite to the test PyPI server.
+First complete the following
+
+1. Edit the files and test these changes are working
+2. Update `setup.py` and increment the version number. Remember to use semantic versioning
+3. Update CHANGELOG with all the changes you've made
+4. Commit the above changes
+5. Tag the repo with your version number e.g. `git tag -a 'release/1.2.6' -m 'Release v 1.2.6'`
+
+Then run the following and provide your user credentials before doing this. This will upload the compliance suite to the test PyPI server.
 
 ```bash
 python3 setup.py sdist bdist_wheel
@@ -46,6 +54,8 @@ Assuming this works then upload to live PyPI and provide your live login details
 ```bash
 twine upload dist/*
 ```
+
+If `twine` cannot be found on your machine run `pip3 install twine` or check in `$HOME/.local/bin` for the binary (sometimes python binaries end up in the `.local` directory).
 
 ## Compliance Documentation
 
