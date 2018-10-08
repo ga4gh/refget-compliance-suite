@@ -1,3 +1,5 @@
+1.2.6 - More Squid sniffing for tests involving invalid Accept headers.
+
 1.2.5 - Improved squid sniffing. Now checks for an error test before applying logic. Better
         JavaScript for reports (no longer report skipped edge cases as errors).
 

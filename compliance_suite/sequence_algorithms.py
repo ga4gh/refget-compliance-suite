@@ -73,8 +73,12 @@ def sequence_invalid_encoding_406_error(test, runner):
     if response.status_code == 406:
         test.result = 1
     else:
-        test.result = -1
-        test.fail_text = test.fail_text + str(response.status_code)
+        # More squid sniffing. Do not error if squid failed to respond correctly
+        if 'via' in response.headers and 'squid' in response.headers['via'].lower():
+            test.result = 0
+        else:
+            test.result = -1
+            test.fail_text = test.fail_text + str(response.status_code)
 
 
 def sequence_start_end(test, runner):
