@@ -110,7 +110,7 @@ def report(server, file_path_name, json_path, serve, no_web):
                 tar.add(WEB_DIR, arcname=os.path.basename(WEB_DIR))
 
     if serve is True:
-        start_mock_server()
+        start_mock_server(port=15800)
 
 
 if __name__ == "__main__":
