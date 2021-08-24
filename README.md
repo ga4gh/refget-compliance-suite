@@ -14,7 +14,7 @@ Repository for the [refget API](http://samtools.github.io/hts-specs/refget.html)
 pip3 install refget-compliance
 ```
 
-## Running the compliance suite
+## Running the compliance suite on local
 
 The following will generate a HTML report for your server and serve said HTML. It will also generate a tarball locally of the report
 
@@ -29,6 +29,36 @@ refget-compliance report -s https://refget.server.com/ --json server.json
 ```
 
 Setting `--json -` will have the compliance suite write the JSON to STDOUT.
+
+## Running the compliance suite on a docker container
+
+### Prerequisites
+
+Install [Docker](https://docs.docker.com/get-docker/)
+
+### Creating a docker image
+
+```bash
+cd refget-compliance-suite
+```
+
+The following command will build a docker image and tag it with the name provided.
+
+```bash
+docker build -t ga4gh/refget-comp-suite .
+```
+
+### Spinning up a docker container
+
+```bash
+docker run -d -p 15800:15800 --name refget-compliance-suite ga4gh/refget-comp-suite --server https://www.ebi.ac.uk/ena/cram/ --port 15800 --serve
+```
+#### Note: 
+- `--port` is an optional argument whose default value is 15800. If `--port` is specified then this port has to be mapped and published on the docker container by changing the -p option of the docker run command
+- For example, if `--port 8080` is specified, then docker run command will be
+```bash
+docker run -d -p 8080:8080 --name refget-compliance-suite ga4gh/refget-comp-suite --server https://www.ebi.ac.uk/ena/cram/ --port 8080 --serve
+```
 
 # Additional components
 

@@ -8,7 +8,7 @@ import sys
 WEB_DIR = os.path.join(os.path.dirname(__file__), 'web')
 
 
-def start_mock_server(port=7878):
+def start_mock_server(port):
     os.chdir(WEB_DIR)
     Handler = http.server.SimpleHTTPRequestHandler
     httpd = socketserver.TCPServer(("", port), Handler)
