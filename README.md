@@ -14,7 +14,7 @@ Repository for the [refget API](http://samtools.github.io/hts-specs/refget.html)
 pip3 install refget-compliance
 ```
 
-## Running the compliance suite on local
+## Running the compliance suite natively
 
 The following will generate a HTML report for your server and serve said HTML. It will also generate a tarball locally of the report
 
@@ -30,23 +30,14 @@ refget-compliance report -s https://refget.server.com/ --json server.json
 
 Setting `--json -` will have the compliance suite write the JSON to STDOUT.
 
-## Running the compliance suite on a docker container
+## Running the compliance suite via docker
 
-### Prerequisites
-
-Install [Docker](https://docs.docker.com/get-docker/)
-
-### Creating a docker image
+### Pull the docker image from dockerhub
 
 ```bash
-cd refget-compliance-suite
+docker pull ga4gh/refget-compliance-suite:{version}
 ```
-
-The following command will build a docker image and tag it with the name provided.
-
-```bash
-docker build -t ga4gh/refget-comp-suite .
-```
+{version} specifies the version of the docker image being pulled
 
 ### Spinning up a docker container
 
