@@ -42,14 +42,18 @@ docker pull ga4gh/refget-compliance-suite:{version}
 ### Spinning up a docker container
 
 ```bash
-docker run -d -p 15800:15800 --name refget-compliance-suite ga4gh/refget-comp-suite --server https://www.ebi.ac.uk/ena/cram/ --port 15800 --serve
+docker run -d -p 15800:15800 --name refget-compliance-suite ga4gh/refget-compliance-suite --server https://www.ebi.ac.uk/ena/cram/ --port 15800 --serve
 ```
-#### Note: 
-- `--port` is an optional argument whose default value is 15800. If `--port` is specified then this port has to be mapped and published on the docker container by changing the -p option of the docker run command
-- For example, if `--port 8080` is specified, then docker run command will be
+#### Arguments:
+- `--server` or `-s` (required). It is the url of the refget server being tested. At least one `--server` argument is required. Multiple can be provided.
+- `--serve` (optional) It's default value is False. If `--serve` flag is True then the complaince report will be served on the specified port.
+- `--port` (optional) It's default value is 15800. If `--port` is specified then this port has to be mapped and published on the docker container by changing the -p option of the docker run command. For example, if `--port 8080` is specified, then docker run command will be
 ```bash
-docker run -d -p 8080:8080 --name refget-compliance-suite ga4gh/refget-comp-suite --server https://www.ebi.ac.uk/ena/cram/ --port 8080 --serve
+docker run -d -p 8080:8080 --name refget-compliance-suite ga4gh/refget-compliance-suite --server https://www.ebi.ac.uk/ena/cram/ --port 8080 --serve
 ```
+- `--json` or `--json_path` (optional) If this argument is '-' then the output json is flushed to standard output. If a valid path is provided then the output is written as a json file at the specified location.
+- `--file_path_name` or `-fpn` (optional) It's default value is "web". This argument is required to create a ".tar.gz" format of the output json with the specified name.
+- `--no-web` (optional) If `--no-web` flag is True then the ".tar.gz" output file creation will be skipped.
 
 # Additional components
 
