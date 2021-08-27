@@ -65,7 +65,9 @@ def main():
     '--serve', is_flag=True, help='spin up a server')
 @click.option(
     '--no-web', is_flag=True, help='skip the creation of a tarball')
-def report(server, file_path_name, json_path, serve, no_web):
+@click.option(
+    '--port', default=15800, help='port at which the compliance report is served')
+def report(server, file_path_name, json_path, serve, no_web, port):
     '''
     CLI command report to execute the report session and generate report on
     terminal, html file and json file if provided by the user
@@ -78,6 +80,7 @@ def report(server, file_path_name, json_path, serve, no_web):
         web_<int>.tar.gz
         --json_path - Provide a path to dump the final JSON content to
         --no-web - Avoid dumping a webfile
+        --port - port at which the compliance report is served
     '''
     final_json = []
     if len(server) == 0:
@@ -110,7 +113,7 @@ def report(server, file_path_name, json_path, serve, no_web):
                 tar.add(WEB_DIR, arcname=os.path.basename(WEB_DIR))
 
     if serve is True:
-        start_mock_server()
+        start_mock_server(port=port)
 
 
 if __name__ == "__main__":
