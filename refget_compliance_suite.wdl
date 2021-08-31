@@ -4,15 +4,15 @@ task createRefgetComplianceReport{
     
     input {
         String server
-        String output_json_path
+        String json_path
     }
 
     command {
-        refget-compliance report --server ${server} --json_path ${output_json_path}
+        refget-compliance report --server ${server} --json_path ${json_path}
     }
 
     output {
-        File bamstats_report = "${output_json_path}"
+        File refget_compliance_report = "${json_path}"
     }
 
     runtime {
@@ -25,9 +25,9 @@ workflow refgetComplianceReportWorkflow {
 
     input {
         String server
-        String output_json_path
+        String json_path
     }
 
-    call createRefgetComplianceReport { input: server=server, output_json_path=output_json_path }
+    call createRefgetComplianceReport { input: server=server, json_path=json_path }
 
 }

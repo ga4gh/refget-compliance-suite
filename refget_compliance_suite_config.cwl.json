@@ -1,0 +1,5 @@
+{
+    "server": "https://www.ebi.ac.uk/ena/cram/",
+    "json_path": "refget_compliance_report.json",
+    "no_web":true
+}
