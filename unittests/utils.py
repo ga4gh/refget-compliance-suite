@@ -1,11 +1,11 @@
 import os
 
-TEST_SUITE = os.path.dirname(os.path.dirname(__file__))
-SEQUENCE_FILES = os.path.join(TEST_SUITE, 'docs/sequences/')
+TEST_SUITE = os.path.dirname(__file__)
+SEQUENCE_FILES = os.path.join(TEST_SUITE, 'data/sequences/')
 
 
 class Sequence:
-    '''Sequence model object used to store seqeunce data in a defined manner
+    '''Sequence model object used to store sequence data in a defined manner
     '''
     def __init__(self, name, sequence, is_circular, sha512, md5, size):
         self.name = name
@@ -15,9 +15,7 @@ class Sequence:
         self.md5 = md5
         self.size = size
 
-
 # Additional utility functions to load the sequence data
-
 
 def read_sequence(chr_name):
     with open(SEQUENCE_FILES + chr_name + ".faa", "r") as sequence_file:
@@ -47,3 +45,12 @@ def get_seq_obj(chr):
         data['md5'],
         len(read_sequence(chr))
     )
+
+def set_data():
+    '''data fixture loads all the data and return data variable for use in tests
+    '''
+    data = []
+    data.append(get_seq_obj("I"))
+    data.append(get_seq_obj("VI"))
+    data.append(get_seq_obj("NC"))
+    return data

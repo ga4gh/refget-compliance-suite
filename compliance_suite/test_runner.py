@@ -35,7 +35,7 @@ class TestRunner():
         self.session_params = {
             'limit': None,
             'trunc512': None,
-            'circular': None,
+            'circular_supported': None,
             'redirection': None
         }
         self.test_data = data()

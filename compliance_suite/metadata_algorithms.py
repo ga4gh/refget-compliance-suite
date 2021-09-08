@@ -81,6 +81,7 @@ def metadata_md5(test, runner):
     base_url = str(runner.base_url)
     test.result = -1
     response = requests.get(base_url + 'sequence/' + SEQ_MD5, headers=METADATA_ACCEPT_HEADER)
+    metadata_object = None
     try:
         metadata_object = json.loads(response.text)["metadata"]
         if "md5" in metadata_object:
@@ -101,6 +102,7 @@ def metadata_trunc512(test, runner):
         test.result = 0
         test.set_skip_text(str(test) + ' is skipped because key "trunc512" although it is supported by the server')
         return
+    metadata_object = None
     try:
         response = requests.get(base_url + 'sequence/' + SEQ_MD5, headers=METADATA_ACCEPT_HEADER)
         metadata_object = json.loads(response.text)["metadata"]
@@ -116,6 +118,7 @@ def metadata_length(test, runner):
     '''
     base_url = str(runner.base_url)
     test.result = -1
+    metadata_object = None
     try:
         response = requests.get(base_url + 'sequence/' + SEQ_MD5, headers=METADATA_ACCEPT_HEADER)
         metadata_object = json.loads(response.text)["metadata"]
@@ -131,6 +134,7 @@ def metadata_aliases(test, runner):
     '''
     base_url = str(runner.base_url)
     test.result = -1
+    metadata_object = None
     try:
         response = requests.get(base_url + 'sequence/' + SEQ_MD5, headers=METADATA_ACCEPT_HEADER)
         metadata_object = json.loads(response.text)["metadata"]
