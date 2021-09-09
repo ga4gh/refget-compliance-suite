@@ -12,6 +12,7 @@ from unittests.constants import GOOD_SERVER_URL as good_mock_server, JSON_REPORT
 # TO DO patch start_mock_server and provide the --serve option. Assert that start_mock_server is called once & with port
 # TO DO add cases with exit code 1
 
+
 def test_invoke_main():
     """
     asserts that the 'main' method of cli module can be executed
