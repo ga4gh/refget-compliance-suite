@@ -7,8 +7,8 @@ install:
   - python setup.py install
   - python -m pip install -r unittests/requirements.txt
 before_script:
-  - python unittests/good_mock_server.py
-  - python unittests/bad_mock_server.py
+  - python unittests/good_mock_server.py &
+  - python unittests/bad_mock_server.py &
 script:
   - pytest --cov=compliance_suite/ --cov-report=term-missing unittests/
 after_success:
