@@ -12,4 +12,6 @@ before_script:
 script:
   - pytest --cov=compliance_suite/ --cov-report=term-missing unittests/
 after_success:
-  - bash echo "success"
+  - coveralls
+after_script:
+  - kill %1
