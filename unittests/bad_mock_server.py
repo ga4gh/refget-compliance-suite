@@ -3,27 +3,19 @@ import json
 import os
 import re
 from utils import *
+from unittests.constants import BAD_SERVER_URL
 
 DATA =[]
 CIRCULAR_CHROMOSOME_SUPPORT = True
 SUBSEQUENCE_LIMIT = 400000
 TRUNC512 = True
+bad_server_host = BAD_SERVER_URL.split("://")[1].split(":")[0]
+bad_server_port = BAD_SERVER_URL.split("://")[1].split(":")[1].replace("/","")
 
 app = Flask(__name__)
 
 DATA = set_data()
 
-def get_sequence_obj(seq_id):
-    '''
-    get_sequence_obj is used to get the sequence object from DATA
-    based on the checksum identifier passed in the URL.
-    '''
-    for this_seq_obj in DATA:
-        if this_seq_obj.md5 == seq_id:
-            return this_seq_obj
-        if TRUNC512 is True and this_seq_obj.sha512 == seq_id:
-            return this_seq_obj
-    return None
 '''
 HTTP codes
 200:"Success"
@@ -41,6 +33,7 @@ def get_service_info():
     header_content = request.headers
     accept_type = "application/vnd.ga4gh.refget.v1.0.0+json"    
     
+    # validate the accept header
     if "accept" in header_content and header_content["accept"] not in [accept_type,"*/*"]:
         # bad mock server: status = 200 when headers are incorrect  
         return Response(status=200)
@@ -66,10 +59,12 @@ def get_service_info():
 def get_metadata(seq_id):
     header_content = request.headers
     accept_type = "application/vnd.ga4gh.refget.v1.0.0+json"
+
+    # validate the accept header
     if "accept" in header_content and header_content["accept"] not in [accept_type,"*/*"]:
         # bad mock server: status = 200 when headers are incorrect 
         return Response(status=200)
-    sequence_obj = get_sequence_obj(seq_id)
+    sequence_obj = get_sequence_obj(seq_id, DATA, TRUNC512)
     if not sequence_obj:
         # bad mock server: status = 200 when sequence is not found
         return Response(status=200)
@@ -100,19 +95,19 @@ def get_sequence(seq_id):
             The server MUST respond with a Bad Request error if start is specified and is larger than the total sequence length.
             If the server supports circular chromosomes and the chromosome is not circular 
             or the range is outside the bounds of the chromosome the server shall return Range Not Satisfiable.
-    4. response headers?
-    5. get app, port from config
+    4. Should we validate the response headers in the compliance suite?
+    5. check if start and end are 32 bit
     """
-
     header_content = request.headers
     accept_type = "text/vnd.ga4gh.refget.v1.0.0+plain"
+    
     # validate the accept header
     if "accept" in header_content and header_content["accept"] not in [accept_type,"*/*"]:
         # bad mock server: status = 200 when headers are incorrect
         return Response(status=200)
     
     # check if the sequence is present. If not, error = 404
-    sequence_obj = get_sequence_obj(seq_id)
+    sequence_obj = get_sequence_obj(seq_id, DATA, TRUNC512)
     if not sequence_obj:
         # bad mock server: status = 200 when sequence is not found
         return Response(status=200)

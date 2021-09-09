@@ -1,5 +1,7 @@
 """Module unittests.test_info_algorithms.py
 This module contains methods to test the info_algorithms module via pytest.
+It uses good_mock_server to validate the positive test cases 
+and bad_mock_server for the negative test cases.
 """
 import pytest
 import json

@@ -1,5 +1,7 @@
 """Module unittests.test_sequence_algorithms.py
 This module contains methods to test the sequence_algorithms module via pytest.
+It uses good_mock_server to validate the positive test cases 
+and bad_mock_server for the negative test cases.
 """
 import pytest
 import json
@@ -75,7 +77,6 @@ def test_sequence_invalid_encoding_406_error():
     sequence_invalid_encoding_406_error(test, bad_runner)
     assert test.result == -1
     
-
 def test_sequence_start_end():
     test.result = 2
     sequence_start_end(test, good_runner)

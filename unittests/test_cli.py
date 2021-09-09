@@ -9,6 +9,8 @@ from unittests.utils import remove_output_dirs
 from compliance_suite.cli import *
 from unittests.constants import GOOD_SERVER_URL as good_mock_server, JSON_REPORT, WEB_FILE_PATH
 
+# TO DO patch start_mock_server and provide the --serve option. Assert that start_mock_server is called once & with port
+# TO DO add cases with exit code 1
 
 def test_invoke_main():
     """
@@ -83,5 +85,3 @@ def test_report():
     result = runner.invoke(report, ["--server", good_mock_server,"--file_path_name",WEB_FILE_PATH,"--json",JSON_REPORT])
     assert result.exit_code == 0
     remove_output_dirs()
-    # TO DO remove test_web_..tar.gz, remove test_report.json
-    # TO DO patch start_mock_server and provide the --serve option. Assert that start_mock_server is called once 
