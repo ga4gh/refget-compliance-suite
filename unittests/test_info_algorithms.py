@@ -5,12 +5,10 @@ import pytest
 import json
 import click
 from click.testing import CliRunner
-from unittests.methods import *
 from compliance_suite.info_algorithms import *
 from compliance_suite.test_runner import TestRunner
 from compliance_suite.tests import Test
-from unittests.constants import GOOD_SERVER_URL as good_mock_server
-from unittests.constants import BAD_SERVER_URL as bad_mock_server
+from unittests.constants import GOOD_SERVER_URL as good_mock_server,BAD_SERVER_URL as bad_mock_server
 
 good_runner = TestRunner(good_mock_server)
 bad_runner = TestRunner(bad_mock_server)

@@ -1,8 +1,9 @@
 import os
+import shutil
+from unittests.constants import *
 
 TEST_SUITE = os.path.dirname(__file__)
 SEQUENCE_FILES = os.path.join(TEST_SUITE, 'data/sequences/')
-
 
 class Sequence:
     '''Sequence model object used to store sequence data in a defined manner
@@ -16,20 +17,17 @@ class Sequence:
         self.size = size
 
 # Additional utility functions to load the sequence data
-
 def read_sequence(chr_name):
     with open(SEQUENCE_FILES + chr_name + ".faa", "r") as sequence_file:
         next(sequence_file)
         sequence_data = sequence_file.read().replace('\n', '')
     return sequence_data
 
-
 def read_sequence_data(chr_name):
     import json
     with open(SEQUENCE_FILES + "checksums.json", "r") as checksums_file:
         checksums = json.load(checksums_file)
     return checksums[chr_name]
-
 
 def get_seq_obj(chr):
     data = read_sequence_data(chr)
@@ -54,3 +52,11 @@ def set_data():
     data.append(get_seq_obj("VI"))
     data.append(get_seq_obj("NC"))
     return data
+
+def remove_output_dirs(dirs_list=[OUTPUT_JSON_PATH,WEB_DIR,WEB_DIR_ARCHIVE]):
+    for this_item in dirs_list:
+        if (this_item.endswith((".json",".tar.gz")) and os.path.exists(this_item)):
+            os.remove(this_item)
+        else:
+            if os.path.exists(this_item):
+                shutil.rmtree(this_item)

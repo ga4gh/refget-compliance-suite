@@ -5,12 +5,10 @@ import pytest
 import json
 import click
 from click.testing import CliRunner
-from unittests.methods import *
 from compliance_suite.metadata_algorithms import *
 from compliance_suite.test_runner import TestRunner
 from compliance_suite.tests import Test
-from unittests.constants import GOOD_SERVER_URL as good_mock_server
-from unittests.constants import BAD_SERVER_URL as bad_mock_server
+from unittests.constants import GOOD_SERVER_URL as good_mock_server, BAD_SERVER_URL as bad_mock_server
 
 good_runner = TestRunner(good_mock_server)
 good_runner.session_params = {
@@ -55,12 +53,7 @@ def test_metadata_query_by_trunc512():
 
     # if trunc512 is not supported
     test.result = 2
-    good_runner.session_params = {
-        "limit": 400000,
-        "trunc512": False,
-        "circular_supported": None,
-        "redirection": None
-            }
+    good_runner.session_params["trunc512"]=False
     metadata_query_by_trunc512(test, good_runner)
     assert test.result == 0
 
@@ -75,12 +68,7 @@ def test_metadata_query_circular_sequence():
 
     # is circular_support is False
     test.result = 2
-    good_runner.session_params = {
-        "limit": 400000,
-        "trunc512": None,
-        "circular_supported": False,
-        "redirection": None
-            }
+    good_runner.session_params["circular_supported"]= False
     metadata_query_circular_sequence(test, good_runner)
     assert test.result == 0
 
@@ -101,33 +89,19 @@ def test_metadata_trunc512():
 
     # if trunc512 is supported
     test.result = 2
-    good_runner.session_params = {
-        "limit": 400000,
-        "trunc512": True,
-        "circular_supported": None,
-        "redirection": None
-            }
+    good_runner.session_params["trunc512"]= True
     metadata_trunc512(test, good_runner)
     assert test.result == 1
 
     # if trunc512 is not supported
     test.result = 2
-    good_runner.session_params = {
-        "limit": 400000,
-        "trunc512": False,
-        "circular_supported": None,
-        "redirection": None
-            }
+    good_runner.session_params ["trunc512"]= False
     metadata_query_by_trunc512(test, good_runner)
     assert test.result == 0
 
+    # if trunc512 is supported
     test.result = 2
-    good_runner.session_params = {
-        "limit": 400000,
-        "trunc512": True,
-        "circular_supported": None,
-        "redirection": None
-            }
+    good_runner.session_params["trunc512"]= True
     metadata_trunc512(test, bad_runner)
     assert test.result == -1
 

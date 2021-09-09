@@ -5,12 +5,10 @@ import pytest
 import json
 import click
 from click.testing import CliRunner
-from unittests.methods import *
 from compliance_suite.sequence_algorithms import *
 from compliance_suite.test_runner import TestRunner
 from compliance_suite.tests import Test
-from unittests.constants import GOOD_SERVER_URL as good_mock_server
-from unittests.constants import BAD_SERVER_URL as bad_mock_server
+from unittests.constants import GOOD_SERVER_URL as good_mock_server, BAD_SERVER_URL as bad_mock_server
 
 good_runner = TestRunner(good_mock_server)
 good_runner.session_params = {
@@ -235,16 +233,30 @@ def test_sequence_circular_support_true_errors():
     test.cases = [
         (['6681ac2f62509cfc220d78751b8dc524', '?start=220218&end=671'], 416)
     ]
+    # if circular support in session params is False, then the test is skipped
+    good_runner.session_params["circular_supported"]= False
+    sequence_circular_support_true_errors(test, good_runner)
+    assert test.result == 0
+
+    # if circular support in session params is True
+    good_runner.session_params["circular_supported"]= True
+    test.case_outputs =[]
+    test.result = 2
     sequence_circular_support_true_errors(test, good_runner)
     assert len(test.case_outputs) == len(test.cases)
     for case_output in test.case_outputs:
+        # good_mock_server supports circular sequences. 
+        # the status code != 501 as expected
         assert case_output["result"] == 1
+
 
     test.case_outputs = []
     test.result = 2
     sequence_circular_support_true_errors(test, bad_runner)
     assert len(test.case_outputs) == len(test.cases)
     for case_output in test.case_outputs:
+        # bad_mock_server supports circular sequences. 
+        # It provides incorrect error codes
         assert case_output["result"] == -1
 
 def test_sequence_circular_support_false_errors():
@@ -254,6 +266,16 @@ def test_sequence_circular_support_false_errors():
         (['6681ac2f62509cfc220d78751b8dc524', '?start=220218&end=671'], 501),
         (['3332ed720ac7eaa9b3655c06f6b9e196', '?start=20&end=4'], 501)
     ]
+
+    # if circular support in session params is True, then the test is skipped
+    good_runner.session_params["circular_supported"]= True
+    sequence_circular_support_false_errors(test, good_runner)
+    assert test.result == 0
+    
+    # if circular support in session params is False
+    good_runner.session_params["circular_supported"]=False
+    test.result = 2
+    test.case_outputs = []
     sequence_circular_support_false_errors(test, good_runner)
     assert len(test.case_outputs) == len(test.cases)
     for case_output in test.case_outputs:
@@ -264,6 +286,6 @@ def test_sequence_circular_support_false_errors():
     test.case_outputs = []
     test.result = 2
     sequence_circular_support_false_errors(test, bad_runner)
-    # import pdb;pdb.set_trace()
+    # bad_mock_server supports circular sequence. It also provides incorrect error codes
     for case_output in test.case_outputs:
-        assert case_output["result"] == 1 
+        assert case_output["result"] == -1 

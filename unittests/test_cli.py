@@ -5,9 +5,9 @@ import pytest
 import json
 import click
 from click.testing import CliRunner
-from unittests.methods import *
+from unittests.utils import remove_output_dirs
 from compliance_suite.cli import *
-from unittests.constants import GOOD_SERVER_URL as good_mock_server
+from unittests.constants import GOOD_SERVER_URL as good_mock_server, JSON_REPORT, WEB_FILE_PATH
 
 
 def test_invoke_main():
@@ -75,12 +75,12 @@ def test_report():
     remove_output_dirs()
 
     runner = CliRunner()
-    result = runner.invoke(report, ["--server", good_mock_server, "--json","test_report.json"])
+    result = runner.invoke(report, ["--server", good_mock_server, "--json",JSON_REPORT])
     assert result.exit_code == 0
     remove_output_dirs()
 
     runner = CliRunner()
-    result = runner.invoke(report, ["--server", good_mock_server,"--file_path_name","test_web","--json","test_report.json"])
+    result = runner.invoke(report, ["--server", good_mock_server,"--file_path_name",WEB_FILE_PATH,"--json",JSON_REPORT])
     assert result.exit_code == 0
     remove_output_dirs()
     # TO DO remove test_web_..tar.gz, remove test_report.json
