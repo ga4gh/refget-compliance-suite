@@ -3,5 +3,5 @@ click==8.0.1
 requests==2.24.0
 pytest==6.2.5
 pytest-cov==2.12.1
-coverage==5.5
+coverage==4.5.4
 python-coveralls==2.9.3
