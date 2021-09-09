@@ -1,0 +1,15 @@
+language: python
+python:
+  - '3.6'
+  - '3.7'
+install:
+  - python -m pip install --upgrade pip
+  - python setup.py install
+  - python -m pip install -r unitests/requirements.txt
+before_script:
+  - python unittests/good_mock_server.py
+  - python unittests/bad_mock_server.py
+script:
+  - pytest --cov=compliance_suite/ --cov-report=term-missing unittests/
+after_success:
+  - bash echo "success"
