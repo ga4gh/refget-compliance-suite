@@ -1,3 +1,5 @@
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0) [![Travis (.org) branch](https://app.travis-ci.com/yash-puligundla/refget-compliance-suite.svg?branch=feature%2Fadd_unittesting)](https://app.travis-ci.com/yash-puligundla/refget-compliance-suite) [![Coverage Status](https://coveralls.io/repos/github/yash-puligundla/refget-compliance-suite/badge.svg?branch=feature/add_unittesting)](https://coveralls.io/github/yash-puligundla/refget-compliance-suite?branch=feature/add_unittesting) [![Read the Docs](https://img.shields.io/badge/docs-passing-brightgreen.svg)](http://samtools.github.io/hts-specs/refget.html) [![PyPI](https://img.shields.io/badge/pypi-v0.1.0-blue)](https://pypi.org/project/refget/) [![Python 3.6|3.7](https://img.shields.io/badge/python-3.6%20|%203.7-blue.svg?)](https://www.python.org)
+
 # Refget Compliance Suite
 
 Repository for the [refget API](http://samtools.github.io/hts-specs/refget.html) Compliance document and test suite.
