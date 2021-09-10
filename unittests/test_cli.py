@@ -3,6 +3,7 @@ This module contains methods to test the cli module via pytest.
 """
 import pytest
 import json
+import mock
 import click
 from click.testing import CliRunner
 from unittests.utils import remove_output_dirs
@@ -51,38 +52,49 @@ def test_scan_for_errors():
     actual_high_level_summary = final_json[0]["high_level_summary"]
     assert json.dumps(expected_high_level_summary, sort_keys=True)== json.dumps(actual_high_level_summary, sort_keys=True)
 
-
 def test_report():
     '''
-    1. without server
-    2. with server
-    3. with server + no other options ie, default
-    4. with server + other options provided in different combinations
-
+    test report() with different combinations of input args 
     '''
+    # required argument "--server" is missing
     remove_output_dirs()
     runner = CliRunner()
     result = runner.invoke(report, [])
     assert result.exit_code == 1
     remove_output_dirs()
-
+    
+    # with --server
     runner = CliRunner()
     result = runner.invoke(report, ["--server", good_mock_server])
     assert result.exit_code == 0
     remove_output_dirs()
 
+    # with --server and --port
     runner = CliRunner()
-    result = runner.invoke(report, ["--server", good_mock_server])
-    # result = runner.invoke(report, ["--server", good_mock_server,"--serve"]) #TODO
+    result = runner.invoke(report, ["--server", good_mock_server, "--port", "15900"])
     assert result.exit_code == 0
     remove_output_dirs()
 
+    ## TODO: mock start_mock_server
+    # runner = CliRunner()
+    # result = runner.invoke(report, ["--server", good_mock_server, "--serve"])
+    # assert result.exit_code == 0
+    # remove_output_dirs()
+
+    # with a bad "--port" arg
     runner = CliRunner()
-    result = runner.invoke(report, ["--server", good_mock_server, "--json",JSON_REPORT])
-    assert result.exit_code == 0
+    result = runner.invoke(report, ["--server", good_mock_server, "--json",JSON_REPORT,"--port","abcd"])
+    assert result.exit_code == 2
     remove_output_dirs()
+
 
     runner = CliRunner()
     result = runner.invoke(report, ["--server", good_mock_server,"--file_path_name",WEB_FILE_PATH,"--json",JSON_REPORT])
     assert result.exit_code == 0
     remove_output_dirs()
+
+    # with a bad "--server" args
+    runner = CliRunner()
+    result = runner.invoke(report, ["--server", "http://dfgh.ghj/","--file_path_name",WEB_FILE_PATH,"--json",JSON_REPORT])
+    assert result.exit_code == 1
+    remove_output_dirs()    

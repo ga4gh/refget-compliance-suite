@@ -60,10 +60,12 @@ def remove_output_dirs():
     remove output files created while unittesting
     '''
     file_names = []
-    for name in glob.glob('./*'):
+    current_working_dir = os.path.dirname(__file__)
+    root_dir = current_working_dir.split("refget-compliance-suite")[0]+"refget-compliance-suite/"
+    for name in glob.glob(root_dir+'*'):
         file_names.append(name)
     for this_file in file_names:
-        if this_file.endswith((".json",".tar.gz")) and this_file.startswith(('./'+JSON_REPORT,'./'+WEB_FILE_PATH,'./'+DEFAULT_WEB_DIR)):
+        if this_file.endswith((".json",".tar.gz")) and this_file.startswith((root_dir+JSON_REPORT,root_dir+WEB_FILE_PATH,root_dir+DEFAULT_WEB_DIR)):
             os.remove(this_file)
 
 def get_sequence_obj(seq_id,DATA, TRUNC512):
