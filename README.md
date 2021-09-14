@@ -1,6 +1,5 @@
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
-[![Travis (.org) branch](https://app.travis-ci.com/ga4gh/refget-compliance-suite.svg?branch=master
-)](https://app.travis-ci.com/github/ga4gh/refget-compliance-suite)
+[![Travis (.org) branch](https://app.travis-ci.com/ga4gh/refget-compliance-suite.svg?branch=master)](https://app.travis-ci.com/github/ga4gh/refget-compliance-suite)
 [![Coverage Status](https://coveralls.io/repos/github/ga4gh/refget-compliance-suite/badge.svg?branch=master)](https://coveralls.io/github/ga4gh/refget-compliance-suite?branch=master)
 [![Read the Docs](https://img.shields.io/badge/docs-passing-brightgreen.svg)](http://samtools.github.io/hts-specs/refget.html)
 [![PyPI](https://img.shields.io/badge/pypi-v0.1.0-blue)](https://pypi.org/project/refget/)
