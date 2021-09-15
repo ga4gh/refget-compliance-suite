@@ -1,3 +1,10 @@
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+[![Travis (.org) branch](https://app.travis-ci.com/ga4gh/refget-compliance-suite.svg?branch=master)](https://app.travis-ci.com/github/ga4gh/refget-compliance-suite)
+[![Coverage Status](https://coveralls.io/repos/github/ga4gh/refget-compliance-suite/badge.svg?branch=master)](https://coveralls.io/github/ga4gh/refget-compliance-suite?branch=master)
+[![Read the Docs](https://img.shields.io/badge/docs-passing-brightgreen.svg)](http://samtools.github.io/hts-specs/refget.html)
+[![PyPI](https://img.shields.io/badge/pypi-v0.1.0-blue)](https://pypi.org/project/refget/)
+[![Python 3.6|3.7](https://img.shields.io/badge/python-3.6%20|%203.7-blue.svg?)](https://www.python.org)
+
 # Refget Compliance Suite
 
 Repository for the [refget API](http://samtools.github.io/hts-specs/refget.html) Compliance document and test suite.
@@ -96,64 +103,28 @@ pip3 install mkdocs
 mkdocs serve
 ```
 
-## Compliance Test Suite
-
-Compliance test suite is an API testing suite for refget servers.
+## Unittests
 
 To run the tests, follow these steps:
 
+### Clone the repository and install required packages
 ```bash
 git clone https://github.com/ga4gh/refget-compliance.git
 
-cd refget-compliance-suite/test_suite
+cd refget-compliance-suite
 
-pip3 install -r requirements.txt
+pip3 install -r unittests/requirements.txt
 ```
 
-If the server to be tested supports circular sequences then run
-
+### Deploy the good and bad mock servers:
+The good mock server is an ideal implementation of refget standard. It runs on port 8989. The bad mock server does not adhere to refget standards and it runs on port 8988. The port numbers can be configured by changing the GOOD_SERVER_URL and BAD_SERVER_URL values in unittests/constants.py file.
 ```bash
-py.test --server <your-server-base-url-without-http://-prefix> --cir
+python3 unittests/good_mock_server.py &
+python3 unittests/bad_mock_server.py &
 ```
 
-and if it doesn't support circular sequences then run
+### Run the unittests
 
 ```bash
-py.test --server <your-server-base-url-without-http://-prefix>
-```
-
-If the server to be tested supports trunc512 algorithm then run
-
-```bash
-py.test --server <your-server-base-url-without-http://-prefix> --trunc512
-```
-
-and if it doesn't support trunc512 algorithm then run
-
-```bash
-py.test --server <your-server-base-url-without-http://-prefix>
-```
-
-If the server to be tested redirects success queries then run
-
-```bash
-py.test --server <your-server-base-url-without-http://-prefix> --redir
-```
-
-And if it doesn't redirects then run
-
-```bash
-py.test --server <your-server-base-url-without-http://-prefix>
-```
-
-You can try multiple combinations of these flags as per the server implementation for example
-
-```bash
-py.test --server <your-server-base-url-without-http://-prefix> --cir --trunc512
-
-py.test --server <your-server-base-url-without-http://-prefix> --cir --redir
-
-py.test --server <your-server-base-url-without-http://-prefix> --redir --trunc512
-
-py.test --server <your-server-base-url-without-http://-prefix> --cir --trunc512 --redir
+py.test 
 ```

@@ -7,21 +7,6 @@ import sys
 from compliance_suite.test_runner import TestRunner
 from compliance_suite.report_server import start_mock_server
 
-# try:
-#     from compliance_suite.test_runner import TestRunner
-#     from compliance_suite.report_server import start_mock_server
-# except:
-#     from test_runner import TestRunner
-#     from report_server import start_mock_server
-
-
-def valid_file_name(file_name, val):
-    if os.path.exists(file_name):
-        print('yo', file=sys.stderr)
-        new_file_name = file_name + '_' + str(val)
-        valid_file_name(new_file_name, val+1)
-    return file_name
-
 def scan_for_errors(json):
     '''
     Routine used to loop through the available results data structure and generate
@@ -32,6 +17,9 @@ def scan_for_errors(json):
     - sequence
     - sequence range
     '''
+    # print('#### inside scan_for_errors ####')
+    # print('json: {}'.format(json))
+
     high_level_summary={}
     for high_level_name in ('test_info_implement', 'test_metadata_implement', 'test_sequence_implement', 'test_sequence_range'):
         # We are successful unless proven otherwise

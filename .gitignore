@@ -107,3 +107,4 @@ ENV/
 /*.json
 .vstags
 /.vscode
+.DS_Store

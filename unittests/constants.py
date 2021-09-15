@@ -1,0 +1,5 @@
+GOOD_SERVER_URL = "http://0.0.0.0:8989/"
+BAD_SERVER_URL = "http://0.0.0.0:8988/"
+JSON_REPORT = "test_report.json"
+WEB_FILE_PATH = "test_web"
+DEFAULT_WEB_DIR = "web"
