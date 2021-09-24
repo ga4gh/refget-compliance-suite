@@ -1,0 +1,6 @@
+version: 1.0
+workflows:
+   - subclass: CWL
+     primaryDescriptorPath: /refget_compliance_suite_config.cwl
+     testParameterFiles:
+     - /refget_compliance_suite_config.cwl.json
