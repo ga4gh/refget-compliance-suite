@@ -1,4 +1,4 @@
-version: 1.0
+version: 1.2
 workflows:
    - subclass: CWL
      primaryDescriptorPath: /refget_compliance_suite_config.cwl
