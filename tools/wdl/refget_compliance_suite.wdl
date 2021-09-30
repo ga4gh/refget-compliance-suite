@@ -16,7 +16,7 @@ task createRefgetComplianceReport{
     }
 
     runtime {
-        docker: "ga4gh/refget-compliance-suite:1.2.6"
+        docker: "yashpuligundla/refget-compliance-suite:1.1"
     }
 
 }
