@@ -19,6 +19,6 @@ docker-build: $(DOCKER_FILE)
 docker-publish:
 	docker image push ${DOCKER_IMG}
 
-# build docker image and publish to dopckerhub
+# build docker image and publish to dockerhub
 .PHONY: dockerhub-update
 dockerhub-update: docker-build docker-publish
