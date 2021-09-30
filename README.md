@@ -57,23 +57,18 @@ docker run -d -p 8080:8080 --name refget-compliance-suite ga4gh/refget-complianc
 
 ## Running the compliance suite via Workflow Description Language (WDL)
 
-### Install dockstore and wdl
-Follow instructions [here](https://docs.dockstore.org/en/develop/getting-started/getting-started-with-wdl.html#setting-up-the-dockstore-cli) to install dockstore cli and wdl
-
 # Run the compliance report
+
 ```bash
-dockstore tool launch --local-entry refget_compliance_suite.wdl --json refget_compliance_suite_config.wdl.json
+dockstore tool launch --local-entry tools/wdl/refget_compliance_suite.wdl --json tools/wdl/refget_compliance_suite_config.wdl.json
 ```
 
 ## Running the compliance suite via Common Workflow Language (CWL)
 
-### Install dockstore and cwl
-Follow the instructions [here](https://dockstore.org/quick-start) to install dockstore cli and cwltool
-
 ### Run the compliance report
 
 ```bash
-dockstore tool launch --local-entry refget_compliance_suite.cwl --json refget_compliance_suite_config.cwl.json
+dockstore tool launch --local-entry tools/cwl/refget_compliance_suite.cwl --json tools/cwl/refget_compliance_suite_config.cwl.json
 ```
 
 # Additional components
