@@ -5,7 +5,7 @@ class: CommandLineTool
 baseCommand:
 hints:
   DockerRequirement:
-    dockerPull: yashpuligundla/refget-compliance-suite:1.1
+    dockerPull: ga4gh/refget-compliance-suite:1.2.6
 inputs:
   no_web:
     type: boolean
