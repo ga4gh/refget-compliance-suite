@@ -20,9 +20,10 @@ WDL_TEST_PATH := /tools/wdl/refget_compliance_suite_config.wdl.json
 .PHONY: Nothing
 Nothing:
 	@echo "No target provided. Stop"
+
 # build docker image
 .PHONY: docker-build
-docker-build: $(DOCKER_FILE)
+docker-build:
 	docker build -t $(DOCKER_IMG) --build-arg VERSION=${DOCKER_TAG} .
 
 # publish docker image to dockerhub
