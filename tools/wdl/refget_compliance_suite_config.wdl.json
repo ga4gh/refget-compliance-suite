@@ -1,0 +1,4 @@
+{
+  "refgetComplianceReportWorkflow.server":"https://www.ebi.ac.uk/ena/cram/",
+  "refgetComplianceReportWorkflow.json_path":"refget_compliance_report.json"
+}
