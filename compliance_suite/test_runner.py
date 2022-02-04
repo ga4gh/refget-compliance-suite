@@ -3,6 +3,10 @@ from compliance_suite.utils import data
 import datetime
 import re
 import sys
+import ga4gh
+
+from ga4gh.testbed.report.report import Report
+
 
 
 def processed_func_descrp(text):
@@ -132,6 +136,25 @@ class TestRunner():
         self.recurse_label_tests(self.root)
         self.recurse_run_tests(self.root)
         self.recurse_generate_json(self.root)
+
+    def generate_report(self):
+        '''
+        '''
+        now = datetime.datetime.now()
+        report = Report()
+        report.set_testbed_name("Refget-Compliance-Suite")
+        print(self.results)
+        '''
+         = {
+            'server': self.base_url,
+            'date_time': str(now),
+            'test_results': self.results,
+            'total_tests': self.total_tests,
+            'total_tests_passed': self.total_tests_passed,
+            'total_tests_skipped': self.total_tests_skipped,
+            'total_tests_failed': self.total_tests_failed,
+            'total_warnings': self.total_tests_warning
+        }'''
 
 
 if __name__ == "__main__":

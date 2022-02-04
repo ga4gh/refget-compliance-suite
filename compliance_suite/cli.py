@@ -3,9 +3,11 @@ import os
 import json
 import tarfile
 import sys
+import ga4gh
 
 from compliance_suite.test_runner import TestRunner
 from compliance_suite.report_server import start_mock_server
+from ga4gh.testbed.report.report import Report
 
 def scan_for_errors(json):
     '''
@@ -61,7 +63,7 @@ def report(server, file_path_name, json_path, serve, no_web, port):
     terminal, html file and json file if provided by the user
 
     Required arguments:
-        server - At least one server is required. Multiple can be provided
+        server - At least one server is required. Multiple can be providedpython
 
     Optional arguments:
         --file_path_name - file name for w:gz file of web folder. Default is
@@ -76,7 +78,8 @@ def report(server, file_path_name, json_path, serve, no_web, port):
     for s in server:
         tr = TestRunner(s)
         tr.run_tests()
-        final_json.append(tr.generate_final_json())
+        #final_json.append(tr.generate_final_json())
+        tr.generate_report()
 
     scan_for_errors(final_json)
 
