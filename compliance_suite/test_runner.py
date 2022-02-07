@@ -139,6 +139,7 @@ class TestRunner():
 
     def generate_report(self):
         '''
+        Generate report object from GA4GH Testbed
         '''
         now = datetime.datetime.now()
         report = Report()
