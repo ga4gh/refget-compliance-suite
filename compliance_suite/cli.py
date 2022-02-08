@@ -72,6 +72,8 @@ def report(server, file_path_name, json_path, serve, no_web, port):
         --no-web - Avoid dumping a webfile
         --port - port at which the compliance report is served
     '''
+    print("TEST TEST TEST")
+    print("NEW MESSAGE")
     final_json = []
     if len(server) == 0:
         raise Exception('No server url provided. Provide at least one')

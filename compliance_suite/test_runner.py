@@ -145,6 +145,8 @@ class TestRunner():
         report = Report()
         report.set_testbed_name("Refget-Compliance-Suite")
         print(self.results)
+
+        
         '''
          = {
             'server': self.base_url,
