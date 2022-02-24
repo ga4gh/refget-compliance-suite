@@ -1,3 +1,4 @@
+from unittest import skip
 from compliance_suite.tests import initiate_tests
 from compliance_suite.utils import data
 import datetime
@@ -50,6 +51,7 @@ class TestRunner():
         self.total_tests_warning = 0
         self.base_url = base_url
         self.results = []
+        self.report = Report()
 
     def recurse_label_tests(self, root):
         '''
@@ -141,23 +143,65 @@ class TestRunner():
         '''
         Generate report object from GA4GH Testbed
         '''
-        now = datetime.datetime.now()
-        report = Report()
-        report.set_testbed_name("Refget-Compliance-Suite")
-        print(self.results)
-
         
-        '''
-         = {
-            'server': self.base_url,
-            'date_time': str(now),
-            'test_results': self.results,
-            'total_tests': self.total_tests,
-            'total_tests_passed': self.total_tests_passed,
-            'total_tests_skipped': self.total_tests_skipped,
-            'total_tests_failed': self.total_tests_failed,
-            'total_warnings': self.total_tests_warning
-        }'''
+        #self.report.set_schema_name("ga4gh-testbed-report")
+        self.report.set_testbed_name("refget-compliance-suite")
+        #self.report.set_testbed_name(self.base_url)
+
+        high_level_summary={}
+        hls_to_phase={'test_info_implement': 'service info', 
+                      'test_metadata_implement': 'metadata', 
+                      'test_sequence_implement': 'sequence', 
+                      'test_sequence_range': 'sequence range'}
+
+        for high_level_name in ('test_info_implement', 'test_metadata_implement', 'test_sequence_implement', 'test_sequence_range'):
+
+            phase = self.report.add_phase()
+            phase.set_phase_name(hls_to_phase[high_level_name])
+
+            # We are successful unless proven otherwise
+            result=1
+            for test in self.results:
+                if high_level_name in test["parents"]:
+
+                    ga4gh_test = phase.add_test()
+                    ga4gh_test.set_test_name(test['name'])
+                    ga4gh_test.set_test_description(test['test_description'])
+                    
+
+                    if test['result'] == 1:
+                        ga4gh_test.set_status_pass()
+                        #print(test['name'] + " pass")
+                    elif test['result'] == 0:
+                        ga4gh_test.set_status_skip()                       
+                    elif test['result'] == -1:
+                        ga4gh_test.set_status_fail()
+                    elif test['result'] == 2:
+                        ga4gh_test.set_status_unknown()
+
+                    if test['warning']:
+                        result = test["result"]
+                        break
+
+                for case in test['edge_cases']:
+                    ga4gh_case = ga4gh_test.add_case()
+                    ga4gh_case.set_case_name('API call')
+
+                    if case['result'] == 1:
+                        ga4gh_case.set_status_pass()
+                    elif case['result'] == 0:
+                        ga4gh_case.set_status_skip()
+                    elif case['result'] == -1:
+                        ga4gh_case.set_status_fail()
+                    elif case['result'] == 2:
+                        ga4gh_case.set_status_unknown()
+
+                                            
+                    ga4gh_case.add_log_message('api' + ': ' + str(case['api']))
+
+        self.report.finalize()
+
+        return self.report
 
 
 if __name__ == "__main__":

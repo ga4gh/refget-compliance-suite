@@ -21,12 +21,12 @@ def scan_for_errors(json):
     '''
     # print('#### inside scan_for_errors ####')
     # print('json: {}'.format(json))
-
+    #print(json)
     high_level_summary={}
     for high_level_name in ('test_info_implement', 'test_metadata_implement', 'test_sequence_implement', 'test_sequence_range'):
         # We are successful unless proven otherwise
         result=1
-        for test in json[0]["test_results"]:
+        for test in json["test_results"]:
             if high_level_name in test["parents"]:
                 if test['warning']:
                     result = test["result"]
@@ -72,25 +72,25 @@ def report(server, file_path_name, json_path, serve, no_web, port):
         --no-web - Avoid dumping a webfile
         --port - port at which the compliance report is served
     '''
-    print("TEST TEST TEST")
-    print("NEW MESSAGE")
-    final_json = []
+
+    #final_json = []
     if len(server) == 0:
         raise Exception('No server url provided. Provide at least one')
     for s in server:
         tr = TestRunner(s)
         tr.run_tests()
         #final_json.append(tr.generate_final_json())
-        tr.generate_report()
-
-    scan_for_errors(final_json)
+        #final_json.append(tr.generate_report().to_json())
+    
+    final_json = tr.generate_report().to_json()
 
     if json_path is not None:
         if json_path == '-':
             json.dump(final_json, sys.stdout)
         else:
             with open(json_path, 'w') as outfile:
-                json.dump(final_json, outfile)
+                #json.dump(final_json, outfile)
+                outfile.write(str(final_json))
 
     WEB_DIR = os.path.join(os.path.dirname(__file__), 'web')
 
