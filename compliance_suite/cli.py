@@ -26,7 +26,7 @@ def scan_for_errors(json):
     for high_level_name in ('test_info_implement', 'test_metadata_implement', 'test_sequence_implement', 'test_sequence_range'):
         # We are successful unless proven otherwise
         result=1
-        for test in json["test_results"]:
+        for test in json[0]["test_results"]:
             if high_level_name in test["parents"]:
                 if test['warning']:
                     result = test["result"]
