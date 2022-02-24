@@ -168,16 +168,19 @@ class TestRunner():
                     ga4gh_test.set_test_name(test['name'])
                     ga4gh_test.set_test_description(test['test_description'])
                     
-
+                    ga4gh_test_case = ga4gh_test.add_case()
+                    ga4gh_test_case.set_case_name(test['name'])
+                    ga4gh_test_case.set_case_name(test['test_description'])
+                    
                     if test['result'] == 1:
-                        ga4gh_test.set_status_pass()
+                        ga4gh_test_case.set_status_pass()
                         #print(test['name'] + " pass")
                     elif test['result'] == 0:
-                        ga4gh_test.set_status_skip()                       
+                        ga4gh_test_case.set_status_skip()                       
                     elif test['result'] == -1:
-                        ga4gh_test.set_status_fail()
+                        ga4gh_test_case.set_status_fail()
                     elif test['result'] == 2:
-                        ga4gh_test.set_status_unknown()
+                        ga4gh_test_case.set_status_unknown()
 
                     if test['warning']:
                         result = test["result"]
