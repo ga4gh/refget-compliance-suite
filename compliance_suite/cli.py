@@ -44,7 +44,7 @@ def main():
 
 
 @main.command(help='run compliance utility report using base urls')
-@click.option('--server', '-s', multiple=True, help='base_url')
+@click.option('--server', '-s', multiple=False, help='base_url')
 @click.option(
     '--file_path_name',
     '-fpn', default='web', help='to create a tar.gz file')
@@ -73,15 +73,11 @@ def report(server, file_path_name, json_path, serve, no_web, port):
         --port - port at which the compliance report is served
     '''
 
-    #final_json = []
     if len(server) == 0:
         raise Exception('No server url provided. Provide at least one')
-    for s in server:
-        tr = TestRunner(s)
-        tr.run_tests()
-        #final_json.append(tr.generate_final_json())
-        #final_json.append(tr.generate_report().to_json())
     
+    tr = TestRunner(server)
+    tr.run_tests()
     final_json = tr.generate_report().to_json()
 
     if json_path is not None:
@@ -89,7 +85,6 @@ def report(server, file_path_name, json_path, serve, no_web, port):
             json.dump(final_json, sys.stdout)
         else:
             with open(json_path, 'w') as outfile:
-                #json.dump(final_json, outfile)
                 outfile.write(str(final_json))
 
     WEB_DIR = os.path.join(os.path.dirname(__file__), 'web')
