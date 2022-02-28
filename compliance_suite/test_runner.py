@@ -162,7 +162,7 @@ class TestRunner():
             # We are successful unless proven otherwise
             result=1
             for test in self.results:
-                if high_level_name in test["parents"]:
+                if high_level_name in test["parents"][0]:
 
                     ga4gh_test = phase.add_test()
                     ga4gh_test.set_test_name(test['name'])
@@ -185,22 +185,25 @@ class TestRunner():
                     if test['warning']:
                         result = test["result"]
                         break
+                    print(test['name'])
+                
+                    for case in test['edge_cases']:
+                        
+                        print(case)
+                        ga4gh_case = ga4gh_test.add_case()
+                        ga4gh_case.set_case_name('API call')
 
-                for case in test['edge_cases']:
-                    ga4gh_case = ga4gh_test.add_case()
-                    ga4gh_case.set_case_name('API call')
+                        if case['result'] == 1:
+                            ga4gh_case.set_status_pass()
+                        elif case['result'] == 0:
+                            ga4gh_case.set_status_skip()
+                        elif case['result'] == -1:
+                            ga4gh_case.set_status_fail()
+                        elif case['result'] == 2:
+                            ga4gh_case.set_status_unknown()
 
-                    if case['result'] == 1:
-                        ga4gh_case.set_status_pass()
-                    elif case['result'] == 0:
-                        ga4gh_case.set_status_skip()
-                    elif case['result'] == -1:
-                        ga4gh_case.set_status_fail()
-                    elif case['result'] == 2:
-                        ga4gh_case.set_status_unknown()
-
-                                            
-                    ga4gh_case.add_log_message('api' + ': ' + str(case['api']))
+                                                
+                        ga4gh_case.add_log_message('api' + ': ' + str(case['api']))
 
         self.report.finalize()
 

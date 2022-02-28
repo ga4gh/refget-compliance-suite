@@ -79,13 +79,15 @@ def report(server, file_path_name, json_path, serve, no_web, port):
     tr = TestRunner(server)
     tr.run_tests()
     final_json = tr.generate_report().to_json()
+    #final_json = tr.generate_final_json()
 
     if json_path is not None:
         if json_path == '-':
             json.dump(final_json, sys.stdout)
         else:
             with open(json_path, 'w') as outfile:
-                outfile.write(str(final_json))
+                #json.dump(final_json, outfile)
+                outfile.write(final_json)
 
     WEB_DIR = os.path.join(os.path.dirname(__file__), 'web')
 
