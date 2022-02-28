@@ -185,11 +185,8 @@ class TestRunner():
                     if test['warning']:
                         result = test["result"]
                         break
-                    print(test['name'])
                 
                     for case in test['edge_cases']:
-                        
-                        print(case)
                         ga4gh_case = ga4gh_test.add_case()
                         ga4gh_case.set_case_name('API call')
 

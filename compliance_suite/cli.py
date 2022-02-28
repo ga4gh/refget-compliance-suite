@@ -57,7 +57,9 @@ def main():
     '--no-web', is_flag=True, help='skip the creation of a tarball')
 @click.option(
     '--port', default=15800, help='port at which the compliance report is served')
-def report(server, file_path_name, json_path, serve, no_web, port):
+@click.option(
+    '--pretty', is_flag = True, help='JSON report pretty print')
+def report(server, file_path_name, json_path, serve, no_web, port, pretty):
     '''
     CLI command report to execute the report session and generate report on
     terminal, html file and json file if provided by the user
@@ -78,7 +80,7 @@ def report(server, file_path_name, json_path, serve, no_web, port):
     
     tr = TestRunner(server)
     tr.run_tests()
-    final_json = tr.generate_report().to_json()
+    final_json = tr.generate_report().to_json(pretty=pretty)
     #final_json = tr.generate_final_json()
 
     if json_path is not None:
@@ -94,7 +96,7 @@ def report(server, file_path_name, json_path, serve, no_web, port):
     if not no_web:
         if file_path_name is not None:
             with open(os.path.join(WEB_DIR, 'temp_result' + '.json'), 'w+') as outfile:
-                json.dump(final_json, outfile)
+                outfile.write(final_json)
 
             index = 0
             while(os.path.exists(file_path_name + '_' + str(index) + '.tar.gz')):
