@@ -52,6 +52,15 @@ class TestRunner():
         self.base_url = base_url
         self.results = []
         self.report = Report()
+        self.report.set_start_time(str(datetime.datetime.now()))
+        self.start_time = {}
+        self.end_time = {}
+        self.phase_start_time = {}
+        self.phase_end_time = {}
+        self.hls_to_phase={'test_info_implement': 'service info', 
+                      'test_metadata_implement': 'metadata', 
+                      'test_sequence_implement': 'sequence', 
+                      'test_sequence_range': 'sequence range'}
 
     def recurse_label_tests(self, root):
         '''
@@ -106,10 +115,17 @@ class TestRunner():
         for child in node.children:
             if child.label == label:
                 print(str(child), file=sys.stderr)
+                self.start_time[str(child)] = str(datetime.datetime.now())
                 child.run(self)
+                self.end_time[str(child)] = str(datetime.datetime.now())
+                #print(self.start_time[str(child)] + "  " + self.end_time[str(child)])
         for child in node.children:
             if len(child.children) != 0:
+                if str(child) in self.hls_to_phase:
+                    self.phase_start_time[str(child)] = str(datetime.datetime.now())
                 self.recurse_run_tests(child)
+                if str(child) in self.hls_to_phase:
+                    self.phase_end_time[str(child)] = str(datetime.datetime.now())
 
     def generate_final_json(self):
         '''
@@ -149,15 +165,14 @@ class TestRunner():
         #self.report.set_testbed_name(self.base_url)
 
         high_level_summary={}
-        hls_to_phase={'test_info_implement': 'service info', 
-                      'test_metadata_implement': 'metadata', 
-                      'test_sequence_implement': 'sequence', 
-                      'test_sequence_range': 'sequence range'}
+        
 
         for high_level_name in ('test_info_implement', 'test_metadata_implement', 'test_sequence_implement', 'test_sequence_range'):
 
             phase = self.report.add_phase()
-            phase.set_phase_name(hls_to_phase[high_level_name])
+            phase.set_phase_name(self.hls_to_phase[high_level_name])
+            phase.set_start_time(self.phase_start_time[high_level_name])
+            phase.set_end_time(self.phase_end_time[high_level_name])
 
             # We are successful unless proven otherwise
             result=1
@@ -167,10 +182,14 @@ class TestRunner():
                     ga4gh_test = phase.add_test()
                     ga4gh_test.set_test_name(test['name'])
                     ga4gh_test.set_test_description(test['test_description'])
+                    ga4gh_test.set_start_time(self.start_time[test['name']])
+                    ga4gh_test.set_end_time(self.end_time[test['name']])
                     
                     ga4gh_test_case = ga4gh_test.add_case()
                     ga4gh_test_case.set_case_name(test['name'])
                     ga4gh_test_case.set_case_name(test['test_description'])
+                    ga4gh_test_case.set_start_time(self.start_time[test['name']])
+                    ga4gh_test_case.set_end_time(self.end_time[test['name']])
                     
                     if test['result'] == 1:
                         ga4gh_test_case.set_status_pass()
@@ -201,7 +220,7 @@ class TestRunner():
 
                                                 
                         ga4gh_case.add_log_message('api' + ': ' + str(case['api']))
-
+        self.report.set_end_time(str(datetime.datetime.now()))
         self.report.finalize()
 
         return self.report
