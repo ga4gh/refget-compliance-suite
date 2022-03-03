@@ -5,8 +5,11 @@ import datetime
 import re
 import sys
 import ga4gh
-
+from compliance_suite.info_algorithms import *
+from compliance_suite.metadata_algorithms import *
+from compliance_suite.sequence_algorithms import *
 from ga4gh.testbed.report.report import Report
+from ga4gh.testbed.report.constants import TIMESTAMP_FORMAT
 
 
 
@@ -52,7 +55,7 @@ class TestRunner():
         self.base_url = base_url
         self.results = []
         self.report = Report()
-        self.report.set_start_time(str(datetime.datetime.now()))
+        self.report.set_start_time(str(datetime.datetime.utcnow().strftime(TIMESTAMP_FORMAT)))
         self.start_time = {}
         self.end_time = {}
         self.phase_start_time = {}
@@ -115,17 +118,17 @@ class TestRunner():
         for child in node.children:
             if child.label == label:
                 print(str(child), file=sys.stderr)
-                self.start_time[str(child)] = str(datetime.datetime.now())
+                self.start_time[str(child)] = str(datetime.datetime.utcnow().strftime(TIMESTAMP_FORMAT))
                 child.run(self)
-                self.end_time[str(child)] = str(datetime.datetime.now())
-                #print(self.start_time[str(child)] + "  " + self.end_time[str(child)])
+                self.end_time[str(child)] = str(datetime.datetime.utcnow().strftime(TIMESTAMP_FORMAT))
+
         for child in node.children:
             if len(child.children) != 0:
                 if str(child) in self.hls_to_phase:
-                    self.phase_start_time[str(child)] = str(datetime.datetime.now())
+                    self.phase_start_time[str(child)] = str(datetime.datetime.utcnow().strftime(TIMESTAMP_FORMAT))
                 self.recurse_run_tests(child)
                 if str(child) in self.hls_to_phase:
-                    self.phase_end_time[str(child)] = str(datetime.datetime.now())
+                    self.phase_end_time[str(child)] = str(datetime.datetime.utcnow().strftime(TIMESTAMP_FORMAT))
 
     def generate_final_json(self):
         '''
@@ -159,13 +162,13 @@ class TestRunner():
         '''
         Generate report object from GA4GH Testbed
         '''
-        
-        #self.report.set_schema_name("ga4gh-testbed-report")
-        self.report.set_testbed_name("refget-compliance-suite")
-        #self.report.set_testbed_name(self.base_url)
+        sequence_start_times = get_sequence_start_times()
+        sequence_end_times = get_sequence_end_times()
 
-        high_level_summary={}
-        
+        #for key, value in sequence_start_times.items():
+        #    print(key, value)
+
+        self.report.set_testbed_name("refget-compliance-suite")
 
         for high_level_name in ('test_info_implement', 'test_metadata_implement', 'test_sequence_implement', 'test_sequence_range'):
 
@@ -193,7 +196,6 @@ class TestRunner():
                     
                     if test['result'] == 1:
                         ga4gh_test_case.set_status_pass()
-                        #print(test['name'] + " pass")
                     elif test['result'] == 0:
                         ga4gh_test_case.set_status_skip()                       
                     elif test['result'] == -1:
@@ -208,6 +210,12 @@ class TestRunner():
                     for case in test['edge_cases']:
                         ga4gh_case = ga4gh_test.add_case()
                         ga4gh_case.set_case_name('API call')
+                        try:
+                            ga4gh_case.set_start_time(sequence_start_times[str(case['api'])])
+                            ga4gh_case.set_end_time(sequence_end_times[str(case['api'])])
+                        except:
+                            ga4gh_case.set_start_time(0)
+                            ga4gh_case.set_end_time(0)
 
                         if case['result'] == 1:
                             ga4gh_case.set_status_pass()
@@ -220,7 +228,7 @@ class TestRunner():
 
                                                 
                         ga4gh_case.add_log_message('api' + ': ' + str(case['api']))
-        self.report.set_end_time(str(datetime.datetime.now()))
+        self.report.set_end_time(str(datetime.datetime.utcnow().strftime(TIMESTAMP_FORMAT)))
         self.report.finalize()
 
         return self.report
