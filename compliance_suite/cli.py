@@ -81,7 +81,7 @@ def report(server, file_path_name, json_path, serve, no_web, port, pretty):
     tr = TestRunner(server)
     tr.run_tests()
     final_json = tr.generate_report().to_json(pretty=pretty)
-    #final_json = tr.generate_final_json()
+    
 
     if json_path is not None:
         if json_path == '-':
