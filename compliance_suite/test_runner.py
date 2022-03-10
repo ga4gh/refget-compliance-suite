@@ -64,6 +64,10 @@ class TestRunner():
                       'test_metadata_implement': 'metadata', 
                       'test_sequence_implement': 'sequence', 
                       'test_sequence_range': 'sequence range'}
+        self.parent_short_name={'test_info_implement': 'test_info', 
+                      'test_metadata_implement': 'test_metadata', 
+                      'test_sequence_implement': 'test_sequence', 
+                      'test_sequence_range': 'test_sequence_range'}
 
     def recurse_label_tests(self, root):
         '''
@@ -176,11 +180,11 @@ class TestRunner():
             phase.set_phase_name(self.hls_to_phase[high_level_name])
             phase.set_start_time(self.phase_start_time[high_level_name])
             phase.set_end_time(self.phase_end_time[high_level_name])
-
+                        
             # We are successful unless proven otherwise
-            result=1
             for test in self.results:
-                if high_level_name in test["parents"][0]:
+                is_nested_test = (self.parent_short_name[high_level_name] in test["name"] and not (high_level_name == "test_sequence_implement" and "test_sequence_range" in test["name"]))
+                if high_level_name in test["parents"][0] or is_nested_test:
 
                     ga4gh_test = phase.add_test()
                     ga4gh_test.set_test_name(test['name'])
@@ -201,12 +205,8 @@ class TestRunner():
                     elif test['result'] == -1:
                         ga4gh_test_case.set_status_fail()
                     elif test['result'] == 2:
-                        ga4gh_test_case.set_status_unknown()
+                        ga4gh_test_case.set_status_unknown()                 
 
-                    if test['warning']:
-                        result = test["result"]
-                        break
-                
                     for case in test['edge_cases']:
                         ga4gh_case = ga4gh_test.add_case()
                         ga4gh_case.set_case_name('API call')
@@ -224,10 +224,9 @@ class TestRunner():
                         elif case['result'] == -1:
                             ga4gh_case.set_status_fail()
                         elif case['result'] == 2:
-                            ga4gh_case.set_status_unknown()
-
-                                                
+                            ga4gh_case.set_status_unknown()                                               
                         ga4gh_case.add_log_message('api' + ': ' + str(case['api']))
+
         self.report.set_end_time(str(datetime.datetime.utcnow().strftime(TIMESTAMP_FORMAT)))
         self.report.finalize()
 

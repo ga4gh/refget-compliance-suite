@@ -37,7 +37,7 @@ function load() {
                     text_report += "<p class='text-success'>" + test.test_name + ": " +  "PASSED</p>";
                 }
                 else if (test.status == "SKIP"){
-                    text_report += "<p class='text-info'>" + test.test_name + ": " +  "SKIPPED | WARNING</p>";
+                    text_report += "<p class='text-info'>" + test.test_name + ": " +  "SKIPPED</p>";
                 }
                 //else if (test.status == 0 && result.warning == false){
                 //    text_report += "<p class='text-warning'>" + result.name + ": " +  "SKIPPED</p>";
