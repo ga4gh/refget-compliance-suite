@@ -5,9 +5,10 @@ import datetime
 import re
 import sys
 import ga4gh
-from compliance_suite.info_algorithms import *
-from compliance_suite.metadata_algorithms import *
+#from compliance_suite.info_algorithms import *
+#from compliance_suite.metadata_algorithms import *
 from compliance_suite.sequence_algorithms import *
+from compliance_suite.tests import tests_in_phase
 from ga4gh.testbed.report.report import Report
 from ga4gh.testbed.report.constants import TIMESTAMP_FORMAT
 
@@ -183,9 +184,9 @@ class TestRunner():
                         
             # We are successful unless proven otherwise
             for test in self.results:
-                is_nested_test = (self.parent_short_name[high_level_name] in test["name"] and not (high_level_name == "test_sequence_implement" and "test_sequence_range" in test["name"]))
-                if high_level_name in test["parents"][0] or is_nested_test:
-
+                #is_nested_test = (self.parent_short_name[high_level_name] in test["name"] and not (high_level_name == "test_sequence_implement" and "test_sequence_range" in test["name"]))
+                #if high_level_name in test["parents"][0] or is_nested_test:
+                if test['name'] in tests_in_phase[self.hls_to_phase[high_level_name]]:
                     ga4gh_test = phase.add_test()
                     ga4gh_test.set_test_name(test['name'])
                     ga4gh_test.set_test_description(test['test_description'])
