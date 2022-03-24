@@ -174,43 +174,52 @@ class TestRunner():
         #    print(key, value)
 
         self.report.set_testbed_name("refget-compliance-suite")
+        self.report.add_input_parameter('server', self.base_url)
 
         for high_level_name in ('test_info_implement', 'test_metadata_implement', 'test_sequence_implement', 'test_sequence_range'):
 
+            #Create Report Phases
             phase = self.report.add_phase()
             phase.set_phase_name(self.hls_to_phase[high_level_name])
             phase.set_start_time(self.phase_start_time[high_level_name])
             phase.set_end_time(self.phase_end_time[high_level_name])
-                        
-            # We are successful unless proven otherwise
+
+            #Create tests for phase            
             for test in self.results:
-                #is_nested_test = (self.parent_short_name[high_level_name] in test["name"] and not (high_level_name == "test_sequence_implement" and "test_sequence_range" in test["name"]))
-                #if high_level_name in test["parents"][0] or is_nested_test:
+
+                #Checks against checks membership of tests agaist test_in_phase dict generated from tests
                 if test['name'] in tests_in_phase[self.hls_to_phase[high_level_name]]:
                     ga4gh_test = phase.add_test()
                     ga4gh_test.set_test_name(test['name'])
                     ga4gh_test.set_test_description(test['test_description'])
                     ga4gh_test.set_start_time(self.start_time[test['name']])
                     ga4gh_test.set_end_time(self.end_time[test['name']])
-                    
-                    ga4gh_test_case = ga4gh_test.add_case()
-                    ga4gh_test_case.set_case_name(test['name'])
-                    ga4gh_test_case.set_case_name(test['test_description'])
-                    ga4gh_test_case.set_start_time(self.start_time[test['name']])
-                    ga4gh_test_case.set_end_time(self.end_time[test['name']])
-                    
-                    if test['result'] == 1:
-                        ga4gh_test_case.set_status_pass()
-                    elif test['result'] == 0:
-                        ga4gh_test_case.set_status_skip()                       
-                    elif test['result'] == -1:
-                        ga4gh_test_case.set_status_fail()
-                    elif test['result'] == 2:
-                        ga4gh_test_case.set_status_unknown()                 
+                    ga4gh_test.set_message(test['text'])
 
+                    #generates a base case for tests without cases to set pass status
+                    if not test['edge_cases']:
+                        ga4gh_test_case = ga4gh_test.add_case()
+                        ga4gh_test_case.set_case_name(test['name'])
+                        ga4gh_test_case.set_case_name(test['test_description'])
+                        ga4gh_test_case.set_start_time(self.start_time[test['name']])
+                        ga4gh_test_case.set_end_time(self.end_time[test['name']])                    
+
+                        #set case status based on the result
+                        if test['result'] == 1:
+                            ga4gh_test_case.set_status_pass()
+                        elif test['result'] == 0:
+                            ga4gh_test_case.set_status_skip()                       
+                        elif test['result'] == -1:
+                            ga4gh_test_case.set_status_fail()
+                        elif test['result'] == 2:
+                            ga4gh_test_case.set_status_unknown()                 
+
+                    #creates cases for test
                     for case in test['edge_cases']:
                         ga4gh_case = ga4gh_test.add_case()
                         ga4gh_case.set_case_name('API call')
+
+                        #tries to retrieve time of test case execution
                         try:
                             ga4gh_case.set_start_time(sequence_start_times[str(case['api'])])
                             ga4gh_case.set_end_time(sequence_end_times[str(case['api'])])
@@ -218,6 +227,7 @@ class TestRunner():
                             ga4gh_case.set_start_time(0)
                             ga4gh_case.set_end_time(0)
 
+                        #set case status based on the result
                         if case['result'] == 1:
                             ga4gh_case.set_status_pass()
                         elif case['result'] == 0:

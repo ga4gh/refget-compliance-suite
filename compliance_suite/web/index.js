@@ -2,24 +2,23 @@ function load() {
     $.getJSON("temp_result.json", function (data) {
         var text_report = "<h3>Compliance Report Text</h3>";
         var num_reports = data.length;
-        //var num_tests = data[0].test_results.length;
-        //console.log(data);
-        text_report += "<h4>Server: " + "</h4>" ;
-        text_report += "<p>schema_name: " + data.schema_name + "</p>";
-        text_report += "<p>schema_version: " + data.schema_version + "</p>";
-        text_report += "<p>testbed_name: " + data.testbed_name + "</p>";
-        text_report += "<p>testbed_version: " + data.testbed_version + "</p>";
-        text_report += "<p>testbed_description: " + data.testbed_description + "</p>";
-        text_report += "<p>platform_name: " + data.platform_name + "</p>";
-        text_report += "<p>platform_description: " + data.platform_description + "</p>";
-        text_report += "<p>input_parameters: " + data.input_parameters + "</p>";
-        text_report += "<p>start_time: " + data.start_time + "</p>";
-        text_report += "<p>end_time: " + data.end_time + "</p>";
+        text_report += "<h4>Server: " + data.input_parameters.server + "</h4>" ;
+        text_report += "<p>Schema name: " + data.schema_name + "</p>";
+        text_report += "<p>Testbed name: " + data.testbed_name + "</p>";
+        text_report += "<p>Input parameters: " + JSON.stringify(data.input_parameters) + "</p>";
+        text_report += "<p>Start time: " + data.start_time + "</p>";
+        text_report += "<p>End time: " + data.end_time + "</p>";
+        text_report += "<p>Summary:" + 
+            "</br>unknown: " + data.summary.unknown +
+            "</br>passed: " + data.summary.passed + 
+            "</br>warned: " + data.summary.warned + 
+            "</br>failed: " + data.summary.failed + 
+            "</br>skipped: " + data.summary.skipped + "</p>";
         text_report += "<p>status: " + data.status + "</p>";
         text_report += "<h3>Test result reports</h3>";
         $.each(data.phases, function (index, phase) {
             text_report += "<h4>Phase: " + phase.phase_name + "</h4>";
-            text_report += "<p>Phase description: " + phase.phase_description + "</p>";
+            //text_report += "<p>Phase description: " + phase.phase_description + "</p>";
             text_report += "<p>Start time: " + phase.start_time + "</p>";
             text_report += "<p>End time: " + phase.end_time + "</p>";
             text_report += "<p>Status: " + phase.status + "</p>";
@@ -29,7 +28,6 @@ function load() {
             "</br>warned: " + phase.summary.warned + 
             "</br>failed: " + phase.summary.failed + 
             "</br>skipped: " + phase.summary.skipped + "</p>";
-            //text_report += "<h3>Test result reports</h3>";
             
             $.each(phase.tests, function (index, test){ 
                 console.log(test);
@@ -39,18 +37,16 @@ function load() {
                 else if (test.status == "SKIP"){
                     text_report += "<p class='text-info'>" + test.test_name + ": " +  "SKIPPED</p>";
                 }
-                //else if (test.status == 0 && result.warning == false){
-                //    text_report += "<p class='text-warning'>" + result.name + ": " +  "SKIPPED</p>";
-                //}
                 else {
                     text_report += "<p class='text-danger'>" + test.test_name + ": " +  "FAILED | WARNING</p>";
                 }
-                text_report += "<p>--->" + test.test_description + "</p>&nbsp;";
+                text_report += "<p>--->Description: " + test.test_description + "</p>";
+                text_report += "<p>--->Server Response: " + test.message + "</p>&nbsp;";
                 if(test.cases.length > 1){
                     var table = '<table style="margin-left:20px" class="table"><thead><tr><th>API</th><th>Result</th></tr></thead><tbody>';
 
                     $.each(test.cases, function(index, test_case){
-                        if(index > 0){
+                        if(test.cases.length > 1){
                             var row = '<tr><td>';
                             row += test_case.log_messages + '</td>';
                             if(test_case.status == "PASS"){
@@ -59,9 +55,6 @@ function load() {
                             else if(test_case.status == "SKIP") {
                                 row += '<td>SKIPPED</td></tr>';
                             }
-                            //else if (test_case.result == 0 && ! test_case.result.warning) {
-                            //    row += '<td>SKIPPED</td></tr>';
-                            //}
                             else{
                                 row += '<td class="text-warning">FAILED</td></tr>';
                             }
