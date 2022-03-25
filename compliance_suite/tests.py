@@ -179,7 +179,7 @@ def initiate_tests():
                                       'test_info_implement_default',
                                       'test_info_circular',
                                       'test_info_algorithms',
-                                      'test_info_subsequence_limit',
+                                      'test_info_subsequence',
                                       'test_info_api_version']
 
     # Metadata Success Test Cases
