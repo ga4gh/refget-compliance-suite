@@ -3,7 +3,6 @@ import os
 import json
 import tarfile
 import sys
-import ga4gh
 
 from compliance_suite.test_runner import TestRunner
 from compliance_suite.report_server import start_mock_server
@@ -19,9 +18,7 @@ def scan_for_errors(json):
     - sequence
     - sequence range
     '''
-    # print('#### inside scan_for_errors ####')
-    # print('json: {}'.format(json))
-    #print(json)
+
     high_level_summary={}
     for high_level_name in ('test_info_implement', 'test_metadata_implement', 'test_sequence_implement', 'test_sequence_range'):
         # We are successful unless proven otherwise
@@ -65,7 +62,7 @@ def report(server, file_path_name, json_path, serve, no_web, port, pretty):
     terminal, html file and json file if provided by the user
 
     Required arguments:
-        server - At least one server is required. Multiple can be providedpython
+        server - At least one server is required. Multiple can be provided
 
     Optional arguments:
         --file_path_name - file name for w:gz file of web folder. Default is

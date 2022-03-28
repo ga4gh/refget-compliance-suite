@@ -105,7 +105,7 @@ def sequence_start_end_success_cases(test, runner):
     data = runner.test_data
     base_url = str(runner.base_url)
     test.result = 1
-    for case in test.cases:        
+    for case in test.cases:
         _input = case[0]
         _output = case[1]
         case_start_time[SEQUENCE_MD5 + ":" + _input[0] + ':' + str(SEQUENCE_ACCEPT_HEADER)] = datetime.datetime.utcnow().strftime(TIMESTAMP_FORMAT)

@@ -4,9 +4,6 @@ from compliance_suite.utils import data
 import datetime
 import re
 import sys
-import ga4gh
-#from compliance_suite.info_algorithms import *
-#from compliance_suite.metadata_algorithms import *
 from compliance_suite.sequence_algorithms import *
 from compliance_suite.tests import tests_in_phase
 from ga4gh.testbed.report.report import Report
@@ -163,6 +160,16 @@ class TestRunner():
         self.recurse_run_tests(self.root)
         self.recurse_generate_json(self.root)
 
+    def set_case_status(self, case, result):
+        if result == 1:
+            return case.set_status_pass()
+        elif result == 0:
+            return case.set_status_skip()                       
+        elif result == -1:
+            return case.set_status_fail()
+        elif result == 2:
+            return case.set_status_unknown() 
+
     def generate_report(self):
         '''
         Generate report object from GA4GH Testbed
@@ -204,15 +211,7 @@ class TestRunner():
                         ga4gh_test_case.set_start_time(self.start_time[test['name']])
                         ga4gh_test_case.set_end_time(self.end_time[test['name']])                    
 
-                        #set case status based on the result
-                        if test['result'] == 1:
-                            ga4gh_test_case.set_status_pass()
-                        elif test['result'] == 0:
-                            ga4gh_test_case.set_status_skip()                       
-                        elif test['result'] == -1:
-                            ga4gh_test_case.set_status_fail()
-                        elif test['result'] == 2:
-                            ga4gh_test_case.set_status_unknown()                 
+                        self.set_case_status(ga4gh_test_case, test['result'])       
 
                     #creates cases for test
                     for case in test['edge_cases']:
@@ -227,15 +226,8 @@ class TestRunner():
                             ga4gh_case.set_start_time(0)
                             ga4gh_case.set_end_time(0)
 
-                        #set case status based on the result
-                        if case['result'] == 1:
-                            ga4gh_case.set_status_pass()
-                        elif case['result'] == 0:
-                            ga4gh_case.set_status_skip()
-                        elif case['result'] == -1:
-                            ga4gh_case.set_status_fail()
-                        elif case['result'] == 2:
-                            ga4gh_case.set_status_unknown()                                               
+                        self.set_case_status(ga4gh_case, test['result'])  
+                                             
                         ga4gh_case.add_log_message('api' + ': ' + str(case['api']))
 
         self.report.set_end_time(str(datetime.datetime.utcnow().strftime(TIMESTAMP_FORMAT)))
