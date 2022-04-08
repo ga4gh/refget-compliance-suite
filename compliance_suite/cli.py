@@ -92,10 +92,6 @@ def report(server, file_path_name, json_path, serve, no_web, port, pretty, submi
     tr = TestRunner(server)
     tr.run_tests()
     final_json = tr.generate_report().to_json(pretty=pretty)
-
-    print("what is final json?")
-    print(type(final_json))
-    print("**")
     
 
     if json_path is not None:
