@@ -91,7 +91,8 @@ def report(server, file_path_name, json_path, serve, no_web, port, pretty, submi
 
     tr = TestRunner(server)
     tr.run_tests()
-    final_json = tr.generate_report().to_json(pretty=pretty)
+    ga4gh_report = tr.generate_report()
+    final_json = ga4gh_report.to_json(pretty=pretty)
     
 
     if json_path is not None:
@@ -117,7 +118,7 @@ def report(server, file_path_name, json_path, serve, no_web, port, pretty, submi
 
     if submit:
         print("Attempting to submit to testbed API...")
-        response = ReportSubmitter.submit_report(submit_id, submit_token, json.loads(final_json), url=submit_url)
+        response = ReportSubmitter.submit_report(submit_id, submit_token, ga4gh_report, url=submit_url)
         if response["status_code"] == 200:
             print("The submission was successful, the report ID is " + response["report_id"])
         else:
