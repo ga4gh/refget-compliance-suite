@@ -6,7 +6,6 @@ import sys
 
 from compliance_suite.test_runner import TestRunner
 from compliance_suite.report_server import start_mock_server
-from ga4gh.testbed.report.report import Report
 
 def scan_for_errors(json):
     '''
