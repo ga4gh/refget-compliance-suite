@@ -1,10 +1,7 @@
 """Module unittests.test_cli.py
 This module contains methods to test the cli module via pytest.
 """
-import pytest
-import json
-import mock
-import click
+
 from click.testing import CliRunner
 from unittests.utils import remove_output_dirs
 from compliance_suite.cli import *

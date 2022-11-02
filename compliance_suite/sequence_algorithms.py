@@ -8,6 +8,8 @@ SEQUENCE_ACCEPT_HEADER = {
 SEQUENCE_MD5 = 'sequence/6681ac2f62509cfc220d78751b8dc524'
 SEQUENCE_TRUNC512 = 'sequence/959cb1883fc1ca9ae1394ceb475a356ead1ecceff5824ae7'
 SEQUENCE_CIRCULAR = 'sequence/3332ed720ac7eaa9b3655c06f6b9e196'
+SEQUENCE_GA4GH = 'sequence/ga4gh:SQ.lZyxiD_ByprhOUzrR1o1bq0ezO_1gkrn'
+SEQUENCE_INSDC = 'sequence/insdc:BK006935.2'
 case_start_time = {}
 case_end_time = {}
 
@@ -41,16 +43,49 @@ def sequence_query_by_trunc512(test, runner):
     '''
     base_url = str(runner.base_url)
     session_params = runner.session_params
-    if session_params['trunc512'] is False:
+    if session_params['algorithms:trunc512'] is False:
         test.result = 0
         test.set_skip_text(str(test) + ' is skipped because server does not support TRUNC512 algorithm')
         return
-    response = requests.get(base_url + SEQUENCE_MD5, headers=SEQUENCE_ACCEPT_HEADER)
+    response = requests.get(base_url + SEQUENCE_TRUNC512, headers=SEQUENCE_ACCEPT_HEADER)
     if response.status_code == 200:
         test.result = 1
     else:
         test.result = -1
 
+
+def sequence_query_by_ga4gh(test, runner):
+    '''Test to check if server returns 200 using I test sequence ga4gh and
+    appropriate headers if the server supports ga4gh
+    '''
+    base_url = str(runner.base_url)
+    session_params = runner.session_params
+    if session_params['algorithms:ga4gh'] is False:
+        test.result = 0
+        test.set_skip_text(str(test) + ' is skipped because server does not support GA4GH algorithm')
+        return
+    response = requests.get(base_url + SEQUENCE_GA4GH, headers=SEQUENCE_ACCEPT_HEADER)
+    if response.status_code == 200:
+        test.result = 1
+    else:
+        test.result = -1
+
+
+def sequence_query_by_insdc(test, runner):
+    '''Test to check if server returns 200 using a test insdc identifier and
+    appropriate headers if the server supports ga4gh
+    '''
+    base_url = str(runner.base_url)
+    session_params = runner.session_params
+    if session_params['identifier_types:insdc'] is False:
+        test.result = 0
+        test.set_skip_text(str(test) + ' is skipped because server does not support query by INSDC identifiers')
+        return
+    response = requests.get(base_url + SEQUENCE_INSDC, headers=SEQUENCE_ACCEPT_HEADER)
+    if response.status_code == 200:
+        test.result = 1
+    else:
+        test.result = -1
 
 def sequence_invalid_checksum_404_error(test, runner):
     '''Test to check if server returns 404 using some garbage checksum and
@@ -322,4 +357,4 @@ def get_sequence_start_times():
     return case_start_time
 
 def get_sequence_end_times():
-    return case_end_time  
+    return case_end_time

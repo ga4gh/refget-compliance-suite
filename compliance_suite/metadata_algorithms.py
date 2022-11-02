@@ -44,7 +44,7 @@ def metadata_query_by_trunc512(test, runner):
     '''
     base_url = str(runner.base_url)
     session_params = runner.session_params
-    if session_params['trunc512'] is False:
+    if session_params['algorithms:trunc512'] is False:
         test.result = 0
         test.set_skip_text(str(test) + ' is skipped because server does not support TRUNC512 algorithm')
         return
@@ -98,7 +98,7 @@ def metadata_trunc512(test, runner):
     base_url = str(runner.base_url)
     session_params = runner.session_params
     test.result = -1
-    if session_params['trunc512'] is False:
+    if session_params['algorithms:trunc512'] is False:
         test.result = 0
         test.set_skip_text(str(test) + ' is skipped because key "trunc512" although it is supported by the server')
         return

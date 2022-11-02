@@ -165,6 +165,10 @@ def initiate_tests():
     test_info_algorithms.set_pass_text('algorithms key in info response object')
     test_info_algorithms.set_fail_text('"algorithms" key not in info response object. It sends ')
 
+    test_info_identifier_types = Test(info_identifiers)
+    test_info_identifier_types.set_pass_text('identifier_types key in info response object')
+    test_info_identifier_types.set_fail_text('"identifier_types" key not in info response object. It sends ')
+
     test_info_subsequence_limit = Test(info_subsequence)
     test_info_subsequence_limit.set_phase('service info')
     test_info_subsequence_limit.set_pass_text('subsequence_limit key in info response object')
@@ -259,6 +263,14 @@ def initiate_tests():
     test_sequence_query_by_trunc512.set_phase('sequence')
     test_sequence_query_by_trunc512.set_pass_text('TRUNC512 algorithm is working in the server for sequence endpoint')
     test_sequence_query_by_trunc512.set_fail_text('TRUNC512 algorithm is not working in the server for sequence endpoint even though info endpoint indicates it"s support')
+
+    test_sequence_query_by_ga4gh = Test(sequence_query_by_ga4gh)
+    test_sequence_query_by_ga4gh.set_pass_text('GA4GH algorithm is working in the server for sequence endpoint')
+    test_sequence_query_by_ga4gh.set_fail_text('GA4GH algorithm is not working in the server for sequence endpoint even though info endpoint indicates it"s support')
+
+    test_sequence_query_by_insdc = Test(sequence_query_by_insdc)
+    test_sequence_query_by_insdc.set_pass_text('INSDC identifier is working in the server for sequence endpoint')
+    test_sequence_query_by_insdc.set_fail_text('INSDC identifier is not working in the server for sequence endpoint even though info endpoint indicates it"s support')
 
     test_sequence_invalid_checksum_404_error = Test(sequence_invalid_checksum_404_error)
     test_sequence_invalid_checksum_404_error.set_phase('sequence')
@@ -403,6 +415,7 @@ def initiate_tests():
     test_info_implement.add_child(test_info_implement_default)
     test_info_implement.add_child(test_info_circular)
     test_info_implement.add_child(test_info_algorithms)
+    test_info_implement.add_child(test_info_identifier_types)
     test_info_implement.add_child(test_info_subsequence_limit)
     test_info_implement.add_child(test_info_api_version)
 
@@ -434,6 +447,12 @@ def initiate_tests():
 
     test_sequence_implement.add_child(test_sequence_query_by_trunc512)
     test_info_algorithms.add_child(test_sequence_query_by_trunc512)
+
+    test_sequence_implement.add_child(test_sequence_query_by_ga4gh)
+    test_info_algorithms.add_child(test_sequence_query_by_ga4gh)
+
+    test_sequence_implement.add_child(test_sequence_query_by_insdc)
+    test_info_identifier_types.add_child(test_sequence_query_by_insdc)
 
     test_sequence_implement.add_child(test_sequence_invalid_checksum_404_error)
 

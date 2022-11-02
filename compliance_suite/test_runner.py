@@ -39,8 +39,11 @@ class TestRunner():
 
         self.root = None
         self.session_params = {
+            'refget_version': 1,
             'limit': None,
-            'trunc512': None,
+            'algorithms:trunc512': None,
+            'algorithms::ga4gh': None,
+            'identifier_types:insdc': None,
             'circular_supported': None,
             'redirection': None
         }
