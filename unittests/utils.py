@@ -1,10 +1,11 @@
 import os
 import glob
 import json
+
+import compliance_suite
 from unittests.constants import *
 
-TEST_SUITE = os.path.dirname(__file__)
-SEQUENCE_FILES = os.path.join(TEST_SUITE, 'data/sequences/')
+SEQUENCE_FILES = os.path.join(os.path.dirname(compliance_suite.__file__), 'sequences')
 
 
 class Sequence:
@@ -24,14 +25,14 @@ class Sequence:
 
 # Additional utility functions to load the sequence data
 def read_sequence(chr_name):
-    with open(SEQUENCE_FILES + chr_name + ".faa", "r") as sequence_file:
+    with open(os.path.join(SEQUENCE_FILES, chr_name + ".faa"), "r") as sequence_file:
         next(sequence_file)
         sequence_data = sequence_file.read().replace('\n', '')
     return sequence_data
 
 
 def read_sequence_data(chr_name):
-    with open(SEQUENCE_FILES + "checksums.json", "r") as checksums_file:
+    with open(os.path.join(SEQUENCE_FILES, "checksums.json"), "r") as checksums_file:
         checksums = json.load(checksums_file)
     return checksums[chr_name]
 
