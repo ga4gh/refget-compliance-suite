@@ -233,10 +233,10 @@ class GoodRefgetServerV2(GoodRefgetServerV1):
         return Response(response=json.dumps(service_info_resp), status=200, mimetype=self.json_accept_types[0])
 
     def get_metadata(self, seq_id):
-        super().get_metadata(seq_id)
+        return super().get_metadata(seq_id)
 
     def get_sequence(self, seq_id):
-        super().get_sequence(seq_id)
+        return super().get_sequence(seq_id)
 
 
 class BadRefgetServerV1(GoodRefgetServerV1):
@@ -272,9 +272,6 @@ class BadRefgetServerV1(GoodRefgetServerV1):
             # bad mock server: status = 200 when headers are incorrect
             return Response(status=200)
         response = super().get_metadata(seq_id)
-        print(response)
-        print(response.status_code)
-        print(response.status)
         if response.status_code != 200:
             # bad mock server: status = 200 when sequence is not found
             response.status = 200
@@ -283,7 +280,6 @@ class BadRefgetServerV1(GoodRefgetServerV1):
         # bad mock server: "metadata" key does not exist in the response
         metadata_resp = {"_metadata": response.json["metadata"]}
         # bad mock server: status = 400 when success
-        print(metadata_resp)
         return Response(response=json.dumps(metadata_resp), status=400, mimetype=self.json_accept_types[0])
 
     def get_sequence(self, seq_id):
@@ -307,7 +303,7 @@ class BadRefgetServerV1(GoodRefgetServerV1):
         header_content = request.headers
 
         # validate the accept header
-        if not self.valid_accept_type(header_content, self.json_accept_types):
+        if not self.valid_accept_type(header_content, self.plain_accept_types):
             # bad mock server: status = 200 when headers are incorrect
             return Response(status=200)
 
@@ -330,7 +326,7 @@ class BadRefgetServerV2(GoodRefgetServerV2, BadRefgetServerV1):
         return super(BadRefgetServerV1, self).get_service_info()
 
     def get_metadata(self, seq_id):
-        return super(BadRefgetServerV1, self).get_metadata()
+        return super(BadRefgetServerV1, self).get_metadata(seq_id)
 
     def get_sequence(self, seq_id):
-        return super(BadRefgetServerV1, self).get_sequence()
+        return super(BadRefgetServerV1, self).get_sequence(seq_id)

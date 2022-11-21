@@ -9,9 +9,9 @@ INFO_ACCEPT_HEADER = {
 INFO_API = 'sequence/service-info'
 
 
-def find_service_info_object(json_text, refget_version=1):
+def find_service_info_object(json_text, refget_version='1.0.0'):
     json_object = json.loads(json_text)
-    if refget_version == 1:
+    if refget_version.startswith('1'):
         return json_object['service']  # Refget v1
     else:
         return json_object['refget']  # Refget v2
@@ -28,9 +28,9 @@ def info_implement(test, runner):
         test.result = 1
         json_object = json.loads(response.text)
         if "service" in json_object:
-            session_params['refget_version'] = 1
+            session_params['refget_version'] = '1.0.0'
         if "refget" in json_object:
-            session_params['refget_version'] = 2
+            session_params['refget_version'] = '2.0.0'
     else:
         test.result = -1
 
@@ -101,7 +101,7 @@ def info_identifiers(test, runner):
     base_url = str(runner.base_url)
     session_params = runner.session_params
     response = requests.get(base_url + INFO_API, headers=INFO_ACCEPT_HEADER)
-    if session_params['refget_version'] < 2:
+    if session_params['refget_version'].startswith('1'):
         test.result = 0
         test.set_skip_text(str(test) + ' is skipped because server is running version 1 of Refget')
         return

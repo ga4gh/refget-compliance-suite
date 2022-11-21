@@ -4,7 +4,7 @@ import json
 # Some variables for not repeating the same thing
 
 METADATA_ACCEPT_HEADER = {
-    'Accept': 'application/vnd.ga4gh.refget.v1.0.0+json'
+    'Accept': 'application/vnd.ga4gh.refget.v1.0.0+json,application/vnd.ga4gh.refget.v2.0.0+json'
 }
 SEQ_MD5 = '6681ac2f62509cfc220d78751b8dc524/metadata'
 SEQ_TRUNC512 = '959cb1883fc1ca9ae1394ceb475a356ead1ecceff5824ae7/metadata'
