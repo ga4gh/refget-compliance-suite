@@ -17,8 +17,6 @@ def scan_for_errors(json):
     - sequence
     - sequence range
     '''
-    # print('#### inside scan_for_errors ####')
-    # print('json: {}'.format(json))
 
     high_level_summary={}
     for high_level_name in ('test_info_implement', 'test_metadata_implement', 'test_sequence_implement', 'test_sequence_range'):
@@ -42,7 +40,7 @@ def main():
 
 
 @main.command(help='run compliance utility report using base urls')
-@click.option('--server', '-s', multiple=True, help='base_url')
+@click.option('--server', '-s', multiple=False, help='base_url')
 @click.option(
     '--file_path_name',
     '-fpn', default='web', help='to create a tar.gz file')
@@ -55,7 +53,9 @@ def main():
     '--no-web', is_flag=True, help='skip the creation of a tarball')
 @click.option(
     '--port', default=15800, help='port at which the compliance report is served')
-def report(server, file_path_name, json_path, serve, no_web, port):
+@click.option(
+    '--pretty', is_flag = True, help='JSON report pretty print')
+def report(server, file_path_name, json_path, serve, no_web, port, pretty):
     '''
     CLI command report to execute the report session and generate report on
     terminal, html file and json file if provided by the user
@@ -70,29 +70,29 @@ def report(server, file_path_name, json_path, serve, no_web, port):
         --no-web - Avoid dumping a webfile
         --port - port at which the compliance report is served
     '''
-    final_json = []
+
     if len(server) == 0:
         raise Exception('No server url provided. Provide at least one')
-    for s in server:
-        tr = TestRunner(s)
-        tr.run_tests()
-        final_json.append(tr.generate_final_json())
-
-    scan_for_errors(final_json)
+    
+    tr = TestRunner(server)
+    tr.run_tests()
+    final_json = tr.generate_report().to_json(pretty=pretty)
+    
 
     if json_path is not None:
         if json_path == '-':
             json.dump(final_json, sys.stdout)
         else:
             with open(json_path, 'w') as outfile:
-                json.dump(final_json, outfile)
+                #json.dump(final_json, outfile)
+                outfile.write(final_json)
 
     WEB_DIR = os.path.join(os.path.dirname(__file__), 'web')
 
     if not no_web:
         if file_path_name is not None:
             with open(os.path.join(WEB_DIR, 'temp_result' + '.json'), 'w+') as outfile:
-                json.dump(final_json, outfile)
+                outfile.write(final_json)
 
             index = 0
             while(os.path.exists(file_path_name + '_' + str(index) + '.tar.gz')):

@@ -33,6 +33,7 @@ class Test():
         self.warning = False
         self.cases = []
         self.case_outputs = []
+        self.phase = ''
 
     def __str__(self):
         '''
@@ -122,6 +123,13 @@ class Test():
             self.skip_text = self.generate_skip_text()
         return self.skip_text
 
+    def set_phase(self, phase):
+        self.phase = phase
+
+    def get_phase(self):
+        return self.phase
+
+tests_in_phase = {'service info': [], 'metadata': [], 'sequence': [], 'sequence range': []}
 
 def initiate_tests():
     '''
@@ -138,98 +146,137 @@ def initiate_tests():
     # Info Success Test Cases
 
     test_info_implement = Test(info_implement)
+    test_info_implement.set_phase('service info')
     test_info_implement.set_pass_text('Info endpoint implemented by the server')
     test_info_implement.set_fail_text('Info endpoint not implemented by the server')
 
     test_info_implement_default = Test(info_implement_default)
+    test_info_implement_default.set_phase('service info')
     test_info_implement_default.set_pass_text('Info endpoint implemented with default encoding')
     test_info_implement_default.set_fail_text('Info endpoint not implemented with default encoding')
 
     test_info_circular = Test(info_circular)
+    test_info_circular.set_phase('service info')
     test_info_circular.set_pass_text('circular key in info response object')
     test_info_circular.set_fail_text('"circular" key not in info response object. It sends ')
 
     test_info_algorithms = Test(info_algorithms)
+    test_info_algorithms.set_phase('service info')
     test_info_algorithms.set_pass_text('algorithms key in info response object')
     test_info_algorithms.set_fail_text('"algorithms" key not in info response object. It sends ')
 
     test_info_subsequence_limit = Test(info_subsequence)
+    test_info_subsequence_limit.set_phase('service info')
     test_info_subsequence_limit.set_pass_text('subsequence_limit key in info response object')
     test_info_subsequence_limit.set_fail_text('"subsequence_limit" key not in info response object. It sends ')
 
     test_info_api_version = Test(info_api_version)
+    test_info_api_version.set_phase('service info')
     test_info_api_version.set_pass_text('supported_api_versions key in info response object')
     test_info_api_version.set_fail_text('supported_api_versions key not in info response object. It sends ')
+
+    tests_in_phase['service info'] = ['test_info_implement',
+                                      'test_info_implement_default',
+                                      'test_info_circular',
+                                      'test_info_algorithms',
+                                      'test_info_subsequence',
+                                      'test_info_api_version']
 
     # Metadata Success Test Cases
 
     test_metadata_implement = Test(metadata_implement)
+    test_metadata_implement.set_phase('metadata')
     test_metadata_implement.set_pass_text('Metadata endpoint implemented by the server')
     test_metadata_implement.set_fail_text('Metadata endpoint not implemented by the server')
 
     test_metadata_implement_default = Test(metadata_implement_default)
+    test_metadata_implement_default.set_phase('metadata')
     test_metadata_implement_default.set_pass_text('Metadata endpoint implemented with default encoding')
     test_metadata_implement_default.set_fail_text('Metadata endpoint not implemented with default encoding')
 
     test_metadata_query_by_trunc512 = Test(metadata_query_by_trunc512)
+    test_metadata_query_by_trunc512.set_phase('metadata')
     test_metadata_query_by_trunc512.set_pass_text('TRUNC512 algorithm is working in the server for metadata endpoint')
     test_metadata_query_by_trunc512.set_fail_text('TRUNC512 algorithm is not working in the server for metadata endpoint even though info endpoint indicates it"s support')
 
     test_metadata_query_circular_sequence = Test(metadata_query_circular_sequence)
+    test_metadata_query_circular_sequence.set_phase('metadata')
     test_metadata_query_circular_sequence.set_pass_text('Circular sequence metadata can be retrieved')
     test_metadata_query_circular_sequence.set_fail_text('Circular sequence metadata can not be retrieved even though info endpoint indicates it"s support')
 
     test_metadata_md5 = Test(metadata_md5)
+    test_metadata_md5.set_phase('metadata')
     test_metadata_md5.set_pass_text('md5 key in metadata response object')
     test_metadata_md5.set_fail_text('md5 key not in metadata response object instead sends ')
 
     test_metadata_trunc512 = Test(metadata_trunc512)
+    test_metadata_trunc512.set_phase('metadata')
     test_metadata_trunc512.set_pass_text('trunc512 key in metadata response object')
     test_metadata_trunc512.set_fail_text('trunc512 key not in metadata response object even though info endpoint indicates it"s support instead sends ')
 
     test_metadata_length = Test(metadata_length)
+    test_metadata_length.set_phase('metadata')
     test_metadata_length.set_pass_text('length key in metadata response object')
     test_metadata_length.set_fail_text('length key not in metadata response object or incorrect value in "length" key instead sends ')
 
     test_metadata_aliases = Test(metadata_aliases)
+    test_metadata_aliases.set_phase('metadata')
     test_metadata_aliases.set_pass_text('aliases key in metadata response object')
     test_metadata_aliases.set_fail_text('aliases key not in metadata response object')
 
     test_metadata_invalid_checksum_404_error = Test(metadata_invalid_checksum_404_error)
+    test_metadata_invalid_checksum_404_error.set_phase('metadata')
     test_metadata_invalid_checksum_404_error.set_pass_text('Server is correctly sending 404 on invalid checksum')
     test_metadata_invalid_checksum_404_error.set_fail_text('Server is not sending 404 on invalid checksum instead sends ')
 
     test_metadata_invalid_encoding_406_error = Test(metadata_invalid_encoding_406_error)
+    test_metadata_invalid_encoding_406_error.set_phase('metadata')
     test_metadata_invalid_encoding_406_error.set_pass_text('Server is correctly sending 406 on invalid encoding')
     test_metadata_invalid_encoding_406_error.set_fail_text('Server is not sending 406 on invalid encoding instead sends ')
+
+    tests_in_phase['metadata'] = ['test_metadata_implement',
+                                  'test_metadata_implement_default',
+                                  'test_metadata_query_by_trunc512',
+                                  'test_metadata_query_circular_sequence',
+                                  'test_metadata_md5','test_metadata_trunc512',
+                                  'test_metadata_length','test_metadata_aliases',
+                                  'test_metadata_invalid_checksum_404_error',
+                                  'test_metadata_invalid_encoding_406_error']
 
     # Sequence endpoint test cases
 
     test_sequence_implement = Test(sequence_implement)
+    test_sequence_implement.set_phase('sequence')
     test_sequence_implement.set_pass_text('Sequence endpoint implemented in the server')
     test_sequence_implement.set_fail_text('Sequence endpoint not implemented in the server')
 
     test_sequence_implement_default = Test(sequence_implement_default)
+    test_sequence_implement_default.set_phase('sequence')
     test_sequence_implement_default.set_pass_text('Sequence endpoint implemented with default encoding')
     test_sequence_implement_default.set_fail_text('Sequence endpoint not implemented with default encoding')
 
     test_sequence_query_by_trunc512 = Test(sequence_query_by_trunc512)
+    test_sequence_query_by_trunc512.set_phase('sequence')
     test_sequence_query_by_trunc512.set_pass_text('TRUNC512 algorithm is working in the server for sequence endpoint')
     test_sequence_query_by_trunc512.set_fail_text('TRUNC512 algorithm is not working in the server for sequence endpoint even though info endpoint indicates it"s support')
 
     test_sequence_invalid_checksum_404_error = Test(sequence_invalid_checksum_404_error)
+    test_sequence_invalid_checksum_404_error.set_phase('sequence')
     test_sequence_invalid_checksum_404_error.set_pass_text('Server is correctly sending 404 on invalid checksum')
     test_sequence_invalid_checksum_404_error.set_fail_text('Server is not sending 404 on invalid checksum instead sends ')
 
     test_sequence_invalid_encoding_406_error = Test(sequence_invalid_encoding_406_error)
+    test_sequence_invalid_encoding_406_error.set_phase('sequence')
     test_sequence_invalid_encoding_406_error.set_pass_text('Server is correctly sending 406 on invalid encoding')
     test_sequence_invalid_encoding_406_error.set_fail_text('Server is not sending 406 on invalid encoding instead sends ')
 
     test_sequence_start_end = Test(sequence_start_end)
+    test_sequence_start_end.set_phase('sequence')
     test_sequence_start_end.set_pass_text('Server supports start end query params')
     test_sequence_start_end.set_fail_text('Server does not support start end query params')
 
     test_sequence_start_end_success_cases = Test(sequence_start_end_success_cases)
+    test_sequence_start_end_success_cases.set_phase('sequence')
     test_sequence_start_end_success_cases.set_pass_text('Server passed all the success edge cases with start end query params')
     test_sequence_start_end_success_cases.set_fail_text('Server did not pass all the success edge cases with start end query params. Check <a href="https://compliancedoc.readthedocs.io/en/latest/GET_sequence_API/success/#sub-sequence-queries">https://compliancedoc.readthedocs.io/en/latest/GET_sequence_API/success/#sub-sequence-queries</a>')
     test_sequence_start_end_success_cases.cases = [
@@ -248,10 +295,12 @@ def initiate_tests():
     ]
 
     test_sequence_range = Test(sequence_range)
+    test_sequence_range.set_phase('sequence range')
     test_sequence_range.set_pass_text('Server supports range header')
     test_sequence_range.set_fail_text('Server does not support range header')
 
     test_sequence_range_success_cases = Test(sequence_range_success_cases)
+    test_sequence_range_success_cases.set_phase('sequence range')
     test_sequence_range_success_cases.set_pass_text('Server passed all the success edge cases with range header query')
     test_sequence_range_success_cases.set_fail_text('Server did not pass all the success edge cases with range header query. Check <a href="https://compliancedoc.readthedocs.io/en/latest/GET_sequence_API/success/#sub-sequence-queries">https://compliancedoc.readthedocs.io/en/latest/GET_sequence_API/success/#sub-sequence-queries</a>')
     test_sequence_range_success_cases.cases = [
@@ -265,6 +314,7 @@ def initiate_tests():
     ]
 
     test_sequence_circular = Test(sequence_circular)
+    test_sequence_circular.set_phase('sequence')
     test_sequence_circular.set_pass_text('Circular sequence can be retrieved successfully passing all the edge cases')
     test_sequence_circular.set_fail_text('Circular sequences can not be retrieved even though info endpoint indicates its support')
     test_sequence_circular.cases = [
@@ -274,6 +324,7 @@ def initiate_tests():
     ]
 
     test_sequence_start_end_errors = Test(sequence_start_end_errors)
+    test_sequence_start_end_errors.set_phase('sequence')
     test_sequence_start_end_errors.set_pass_text('Server is correctly throwing errors for start-end error cases')
     test_sequence_start_end_errors.set_fail_text('Server is not correctly throwing errors for start-end error cases. Check <a href="https://compliancedoc.readthedocs.io/en/latest/GET_sequence_API/errors/#error-conditions-while-using-start-end-parameters">https://compliancedoc.readthedocs.io/en/latest/GET_sequence_API/errors/#error-conditions-while-using-start-end-parameters</a>')
     test_sequence_start_end_errors.cases = [
@@ -290,6 +341,7 @@ def initiate_tests():
     ]
 
     test_sequence_range_errors = Test(sequence_range_errors)
+    test_sequence_range_errors.set_phase('sequence range')
     test_sequence_range_errors.set_pass_text('Server is correctly throwing errors for range error cases')
     test_sequence_range_errors.set_fail_text('Server is not correctly throwing errors for range error cases. Check <a href="https://compliancedoc.readthedocs.io/en/latest/GET_sequence_API/errors/#error-conditions-while-using-range-header">https://compliancedoc.readthedocs.io/en/latest/GET_sequence_API/errors/#error-conditions-while-using-range-header</a>')
     test_sequence_range_errors.cases = [
@@ -312,6 +364,7 @@ def initiate_tests():
     ]
 
     test_sequence_circular_support_false_errors = Test(sequence_circular_support_false_errors)
+    test_sequence_circular_support_false_errors.set_phase('sequence')
     test_sequence_circular_support_false_errors.set_pass_text('Server is correctly throwing for error cases of circular sequences when server does not support circular sequences')
     test_sequence_circular_support_false_errors.set_fail_text('Server is not correctly throwing for error cases of circular sequences when server does not support circular sequences. Check <a href="https://compliancedoc.readthedocs.io/en/latest/GET_sequence_API/errors/#error-conditions-while-using-start-end-parameters">https://compliancedoc.readthedocs.io/en/latest/GET_sequence_API/errors/#error-conditions-while-using-start-end-parameters</a>')
     test_sequence_circular_support_false_errors.cases = [
@@ -320,11 +373,28 @@ def initiate_tests():
     ]
 
     test_sequence_circular_support_true_errors = Test(sequence_circular_support_true_errors)
+    test_sequence_circular_support_true_errors.set_phase('sequence')
     test_sequence_circular_support_true_errors.set_pass_text('Server is correctly throwing for error cases of circular sequences when server supports circular sequences')
     test_sequence_circular_support_true_errors.set_fail_text('Server is not correctly throwing for error cases of circular sequences when server supports circular sequences. Check <a href="https://compliancedoc.readthedocs.io/en/latest/GET_sequence_API/errors/#error-conditions-while-using-start-end-parameters">https://compliancedoc.readthedocs.io/en/latest/GET_sequence_API/errors/#error-conditions-while-using-start-end-parameters</a>')
     test_sequence_circular_support_true_errors.cases = [
         (['6681ac2f62509cfc220d78751b8dc524', '?start=220218&end=671'], 416)
     ]
+
+    tests_in_phase['sequence'] = ['test_sequence_implement',
+                                  'test_sequence_implement_default',
+                                  'test_sequence_query_by_trunc512',
+                                  'test_sequence_invalid_checksum_404_error',
+                                  'test_sequence_invalid_encoding_406_error',
+                                  'test_sequence_start_end',
+                                  'test_sequence_start_end_success_cases',
+                                  'test_sequence_circular',
+                                  'test_sequence_start_end_errors',
+                                  'test_sequence_circular_support_false_errors',
+                                  'test_sequence_circular_support_true_errors']
+    
+    tests_in_phase['sequence range'] = ['test_sequence_range',
+                                        'test_sequence_range_success_cases',
+                                        'test_sequence_range_errors']
 
     # generating test graph
 
@@ -386,3 +456,6 @@ def initiate_tests():
     test_info_circular.add_child(test_sequence_circular_support_true_errors)
 
     return test_base
+
+
+
