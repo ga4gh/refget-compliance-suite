@@ -135,8 +135,8 @@ pip3 install -r unittests/requirements.txt
 ### Deploy the good and bad mock servers:
 The good mock server is an ideal implementation of refget standard. It runs on port 8989. The bad mock server does not adhere to refget standards and it runs on port 8988. The port numbers can be configured by changing the GOOD_SERVER_URL and BAD_SERVER_URL values in unittests/constants.py file.
 ```bash
-python3 unittests/good_mock_server.py &
-python3 unittests/bad_mock_server.py &
+python3 unittests/good_mock_server_v1.py &
+python3 unittests/bad_mock_server_v1.py &
 ```
 
 ### Run the unittests
