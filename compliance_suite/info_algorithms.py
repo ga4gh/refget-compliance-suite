@@ -144,12 +144,13 @@ def info_api_version(test, runner):
     object.
     '''
     service_info_object = None
+    test.result = -1
     base_url = str(runner.base_url)
     session_params = runner.session_params
     response = requests.get(base_url + INFO_API, headers=INFO_ACCEPT_HEADER)
     try:
         service_info_object = find_service_info_object(response.text, session_params['refget_version'])
-        if "supported_api_versions" in service_info_object:
+        if service_info_object["supported_api_versions"]:
             test.result = 1
     except:
         test.result = -1

@@ -120,7 +120,7 @@ class TestRunner():
         label = node.label + 1
         for child in node.children:
             if child.label == label:
-                print(str(child), file=sys.stderr)
+                #print(str(child), file=sys.stderr)
                 self.start_time[str(child)] = now()
                 child.run(self)
                 self.end_time[str(child)] = now()
@@ -242,6 +242,3 @@ if __name__ == "__main__":
     tr.run_tests()
 
     print('--------------', file=sys.stderr)
-
-    # tr = TestRunner('http://localhost:5000/')
-    # tr.run_tests()

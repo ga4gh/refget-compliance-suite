@@ -108,6 +108,8 @@ class Test():
         # if it fails it'll generate a warning
         if self.result == -1:
             self.warning = True
+        if self.result not in (0, 1):
+            print(str(self), self.to_echo(), file=sys.stderr)
 
     def to_echo(self):
         '''
@@ -203,6 +205,16 @@ def initiate_tests():
     test_metadata_query_by_trunc512.set_pass_text('TRUNC512 algorithm is working in the server for metadata endpoint')
     test_metadata_query_by_trunc512.set_fail_text('TRUNC512 algorithm is not working in the server for metadata endpoint even though info endpoint indicates it"s support')
 
+    test_metadata_query_by_ga4gh = Test(metadata_query_by_ga4gh)
+    test_metadata_query_by_ga4gh.set_phase('metadata')
+    test_metadata_query_by_ga4gh.set_pass_text('GA4GH algorithm is working in the server for metadata endpoint')
+    test_metadata_query_by_ga4gh.set_fail_text('GA4GH algorithm is not working in the server for metadata endpoint even though info endpoint indicates it"s support')
+
+    test_metadata_query_by_insdc = Test(metadata_query_by_insdc)
+    test_metadata_query_by_insdc.set_phase('metadata')
+    test_metadata_query_by_insdc.set_pass_text('INSDC identifier is working in the server for metadata endpoint')
+    test_metadata_query_by_insdc.set_fail_text('INSDC identifier is not working in the server for metadata endpoint even though info endpoint indicates it"s support')
+
     test_metadata_query_circular_sequence = Test(metadata_query_circular_sequence)
     test_metadata_query_circular_sequence.set_phase('metadata')
     test_metadata_query_circular_sequence.set_pass_text('Circular sequence metadata can be retrieved')
@@ -217,6 +229,16 @@ def initiate_tests():
     test_metadata_trunc512.set_phase('metadata')
     test_metadata_trunc512.set_pass_text('trunc512 key in metadata response object')
     test_metadata_trunc512.set_fail_text('trunc512 key not in metadata response object even though info endpoint indicates it"s support instead sends ')
+
+    test_metadata_ga4gh = Test(metadata_ga4gh)
+    test_metadata_ga4gh.set_phase('metadata')
+    test_metadata_ga4gh.set_pass_text('ga4gh key in metadata response object')
+    test_metadata_ga4gh.set_fail_text('ga4gh key not in metadata response object even though info endpoint indicates it"s support instead sends ')
+
+    test_metadata_insdc = Test(metadata_insdc)
+    test_metadata_insdc.set_phase('metadata')
+    test_metadata_insdc.set_pass_text('insdc alias in metadata response object')
+    test_metadata_insdc.set_fail_text('insdc alias not in metadata response object even though info endpoint indicates it"s support instead sends ')
 
     test_metadata_length = Test(metadata_length)
     test_metadata_length.set_phase('metadata')
@@ -241,8 +263,11 @@ def initiate_tests():
     tests_in_phase['metadata'] = ['test_metadata_implement',
                                   'test_metadata_implement_default',
                                   'test_metadata_query_by_trunc512',
+                                  'test_metadata_query_by_ga4gh',
+                                  'test_metadata_query_by_insdc',
                                   'test_metadata_query_circular_sequence',
-                                  'test_metadata_md5','test_metadata_trunc512',
+                                  'test_metadata_md5', 'test_metadata_trunc512',
+                                  'test_metadata_ga4gh', 'test_metadata_insdc',
                                   'test_metadata_length','test_metadata_aliases',
                                   'test_metadata_invalid_checksum_404_error',
                                   'test_metadata_invalid_encoding_406_error']
@@ -433,6 +458,10 @@ def initiate_tests():
 
     test_metadata_implement.add_child(test_metadata_trunc512)
     test_info_algorithms.add_child(test_metadata_trunc512)
+    test_metadata_implement.add_child(test_metadata_ga4gh)
+    test_info_algorithms.add_child(test_metadata_ga4gh)
+    test_metadata_implement.add_child(test_metadata_insdc)
+    test_info_algorithms.add_child(test_metadata_insdc)
 
     test_metadata_implement.add_child(test_metadata_length)
     test_metadata_implement.add_child(test_metadata_aliases)
