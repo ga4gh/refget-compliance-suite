@@ -79,7 +79,7 @@ def _metadata_query_by_identifier(test, runner, identifier):
     '''
     base_url = str(runner.base_url)
     session_params = runner.session_params
-    if session_params[f'identifier:{identifier}'] is False:
+    if session_params[f'identifier_types:{identifier}'] is False:
         test.result = 0
         test.set_skip_text(str(test) + f' is skipped because server does not support {identifier.upper()} algorithm')
         return

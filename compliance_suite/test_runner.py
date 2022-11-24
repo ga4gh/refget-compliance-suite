@@ -192,7 +192,7 @@ class TestRunner():
             phase.set_start_time(self.phase_start_time[high_level_name])
             phase.set_end_time(self.phase_end_time[high_level_name])
 
-            #Create tests for phase            
+            #Create tests for phase
             for test in self.results:
 
                 #Checks against checks membership of tests agaist test_in_phase dict generated from tests
