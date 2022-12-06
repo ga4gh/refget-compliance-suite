@@ -147,6 +147,10 @@ def info_api_version(test, runner):
     test.result = -1
     base_url = str(runner.base_url)
     session_params = runner.session_params
+    if not session_params['refget_version'].startswith('1'):
+        test.result = 0
+        test.set_skip_text(str(test) + ' is skipped because server is not running version 1 of Refget')
+        return
     response = requests.get(base_url + INFO_API, headers=INFO_ACCEPT_HEADER)
     try:
         service_info_object = find_service_info_object(response.text, session_params['refget_version'])
