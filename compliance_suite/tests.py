@@ -97,6 +97,7 @@ class Test():
         '''
         First checks if the parent test cases were successful then run the text.
         '''
+        print(str(self), file=sys.stderr)
         # Checking if to skip
         if self.to_skip() is True:
             # warning will be generated because the test case is skipped because of some parent failure

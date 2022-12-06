@@ -171,9 +171,9 @@ def metadata_insdc(test, runner):
     base_url = str(runner.base_url)
     session_params = runner.session_params
     test.result = -1
-    if session_params['algorithms:trunc512'] is False:
+    if session_params['identifier_types:insdc'] is False:
         test.result = 0
-        test.set_skip_text(str(test) + ' is skipped because "ga4gh" is not supported by the server')
+        test.set_skip_text(str(test) + ' is skipped because "insdc" is not supported by the server')
         return
     metadata_object = None
     try:
