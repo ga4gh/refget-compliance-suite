@@ -3,29 +3,27 @@ This module contains methods to test the metadata_algorithms module via pytest.
 It uses good_mock_server to validate the positive test cases 
 and bad_mock_server for the negative test cases.
 """
-import pytest
-import json
-import click
-from click.testing import CliRunner
 from compliance_suite.metadata_algorithms import *
 from compliance_suite.test_runner import TestRunner
 from compliance_suite.tests import Test
-from unittests.constants import GOOD_SERVER_URL as good_mock_server, BAD_SERVER_URL as bad_mock_server
+from unittests.constants import GOOD_SERVER_V1_URL as good_mock_server_v1, BAD_SERVER_V1_URL as bad_mock_server_v1
 
-good_runner = TestRunner(good_mock_server)
+good_runner = TestRunner(good_mock_server_v1)
 good_runner.session_params = {
     "limit": 400000,
-    "trunc512": True,
+    "algorithms:trunc512": True,
     "circular_supported": None,
     "redirection": None
         }
-bad_runner = TestRunner(bad_mock_server)
+bad_runner = TestRunner(bad_mock_server_v1)
 bad_runner.session_params = {
     "limit": 400000,
-    "trunc512": True,
+    "algorithms:trunc512": True,
     "circular_supported": None,
     "redirection": None
         }
+
+
 def testing_metadata_algorithms():
     pass
 test = Test(testing_metadata_algorithms)
@@ -55,7 +53,7 @@ def test_metadata_query_by_trunc512():
 
     # if trunc512 is not supported
     test.result = 2
-    good_runner.session_params["trunc512"]=False
+    good_runner.session_params["algorithms:trunc512"] = False
     metadata_query_by_trunc512(test, good_runner)
     assert test.result == 0
 
@@ -87,25 +85,27 @@ def test_metadata_md5():
     metadata_md5(test, bad_runner)
     assert test.result == -1
 
+
 def test_metadata_trunc512():
 
     # if trunc512 is supported
     test.result = 2
-    good_runner.session_params["trunc512"]= True
+    good_runner.session_params["algorithms:trunc512"] = True
     metadata_trunc512(test, good_runner)
     assert test.result == 1
 
     # if trunc512 is not supported
     test.result = 2
-    good_runner.session_params ["trunc512"]= False
+    good_runner.session_params ["algorithms:trunc512"]= False
     metadata_query_by_trunc512(test, good_runner)
     assert test.result == 0
 
     # if trunc512 is supported
     test.result = 2
-    good_runner.session_params["trunc512"]= True
+    good_runner.session_params["algorithms:trunc512"] = True
     metadata_trunc512(test, bad_runner)
     assert test.result == -1
+
 
 def test_metadata_length():
     test.result = 2

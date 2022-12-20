@@ -3,87 +3,110 @@ This module contains methods to test the sequence_algorithms module via pytest.
 It uses good_mock_server to validate the positive test cases 
 and bad_mock_server for the negative test cases.
 """
-import pytest
-import json
-import click
-from click.testing import CliRunner
-from compliance_suite.sequence_algorithms import *
+from compliance_suite.sequence_algorithms import sequence_implement, sequence_implement_default, \
+    sequence_query_by_trunc512, sequence_invalid_checksum_404_error, sequence_invalid_encoding_406_error, \
+    sequence_start_end, sequence_start_end_success_cases, sequence_range, sequence_range_success_cases, \
+    sequence_circular, sequence_start_end_errors, sequence_range_errors, sequence_circular_support_true_errors, \
+    sequence_circular_support_false_errors, sequence_query_by_ga4gh, sequence_query_by_insdc
 from compliance_suite.test_runner import TestRunner
 from compliance_suite.tests import Test
-from unittests.constants import GOOD_SERVER_URL as good_mock_server, BAD_SERVER_URL as bad_mock_server
+from unittests.constants import GOOD_SERVER_V1_URL as good_mock_server_v1, \
+    BAD_SERVER_V1_URL as bad_mock_server_v1, \
+    GOOD_SERVER_V2_URL as good_mock_server_v2, \
+    BAD_SERVER_V2_URL as bad_mock_server_v2
 
-good_runner = TestRunner(good_mock_server)
-good_runner.session_params = {
+good_runner_v1 = TestRunner(good_mock_server_v1)
+good_runner_v1.session_params = {
     "limit": 400000,
-    "trunc512": True,
+    "algorithms:trunc512": True,
     "circular_supported": True,
     "redirection": None
-        }
-bad_runner = TestRunner(bad_mock_server)
-bad_runner.session_params = {
+}
+bad_runner_v1 = TestRunner(bad_mock_server_v1)
+bad_runner_v1.session_params = {
     "limit": 400000,
-    "trunc512": True,
+    "algorithms:trunc512": True,
     "circular_supported": True,
     "redirection": None
-        }
+}
+good_runner_v2 = TestRunner(good_mock_server_v2)
+good_runner_v2.session_params = {
+    "limit": 400000,
+    "algorithms:trunc512": False,
+    "algorithms:ga4gh": True,
+    "identifier_types:insdc": True,
+    "circular_supported": True,
+    "redirection": None
+}
+bad_runner_v2 = TestRunner(bad_mock_server_v2)
+bad_runner_v2.session_params = {
+    "limit": 400000,
+    "algorithms:trunc512": False,
+    "algorithms:ga4gh": True,
+    "identifier_types:insdc": True,
+    "circular_supported": True,
+    "redirection": None
+}
+
 def testing_sequence_algorithms():
     pass
+
 test = Test(testing_sequence_algorithms)
 
 def test_sequence_implement():
     test.result = 2
-    sequence_implement(test, good_runner)
+    sequence_implement(test, good_runner_v1)
     assert test.result == 1
 
     test.result = 2
-    sequence_implement(test, bad_runner)
+    sequence_implement(test, bad_runner_v1)
     assert test.result == -1
 
 def test_sequence_implement_default():
     test.result = 2
-    sequence_implement_default(test, good_runner)
+    sequence_implement_default(test, good_runner_v1)
     assert test.result == 1
 
     test.result = 2
-    sequence_implement_default(test, bad_runner)
+    sequence_implement_default(test, bad_runner_v1)
     assert test.result == -1
 
 
 def test_sequence_query_by_trunc512():
     test.result = 2
-    sequence_query_by_trunc512(test, good_runner)
+    sequence_query_by_trunc512(test, good_runner_v1)
     assert test.result == 1
 
     test.result = 2
-    sequence_query_by_trunc512(test, bad_runner)
+    sequence_query_by_trunc512(test, bad_runner_v1)
     assert test.result == -1
     
 
 def test_sequence_invalid_checksum_404_error():
     test.result = 2
-    sequence_invalid_checksum_404_error(test, good_runner)
+    sequence_invalid_checksum_404_error(test, good_runner_v1)
     assert test.result == 1
 
     test.result = 2
-    sequence_invalid_checksum_404_error(test, bad_runner)
+    sequence_invalid_checksum_404_error(test, bad_runner_v1)
     assert test.result == -1
 
 def test_sequence_invalid_encoding_406_error():
     test.result = 2
-    sequence_invalid_encoding_406_error(test, good_runner)
+    sequence_invalid_encoding_406_error(test, good_runner_v1)
     assert test.result == 1
 
     test.result = 2
-    sequence_invalid_encoding_406_error(test, bad_runner)
+    sequence_invalid_encoding_406_error(test, bad_runner_v1)
     assert test.result == -1
     
 def test_sequence_start_end():
     test.result = 2
-    sequence_start_end(test, good_runner)
+    sequence_start_end(test, good_runner_v1)
     assert test.result == 1
 
     test.result = 2
-    sequence_start_end(test, bad_runner)
+    sequence_start_end(test, bad_runner_v1)
     assert test.result == -1
     
 def test_sequence_start_end_success_cases():
@@ -103,25 +126,25 @@ def test_sequence_start_end_success_cases():
         (['?start=230217', 230217, None], 1),
         (['?end=0', None, 0], 0)
     ]
-    sequence_start_end_success_cases(test, good_runner)
+    sequence_start_end_success_cases(test, good_runner_v1)
     assert len(test.case_outputs) == len(test.cases)
     for case_output in test.case_outputs:
         assert case_output["result"] == 1
 
     test.result = 2
     test.case_outputs = []
-    sequence_start_end_success_cases(test, bad_runner)
+    sequence_start_end_success_cases(test, bad_runner_v1)
     assert len(test.case_outputs) == len(test.cases)
     for case_output in test.case_outputs:
         assert case_output["result"] == -1
     
 def test_sequence_range():
     test.result = 2
-    sequence_range(test, good_runner)
+    sequence_range(test, good_runner_v1)
     assert test.result == 1 
 
     test.result = 2
-    sequence_range(test, bad_runner)
+    sequence_range(test, bad_runner_v1)
     assert test.result == -1  
 
 def test_sequence_range_success_cases():
@@ -136,14 +159,14 @@ def test_sequence_range_success_cases():
         (['bytes=0-0', 0, 0], [206, 1]),
         (['bytes=230217-230217', 230217, 230217], [206, 1])
     ]
-    sequence_range_success_cases(test, good_runner)
+    sequence_range_success_cases(test, good_runner_v1)
     assert len(test.case_outputs) == len(test.cases)
     for case_output in test.case_outputs:
         assert case_output["result"] == 1
 
     test.result = 2
     test.case_outputs = []
-    sequence_range_success_cases(test, bad_runner)
+    sequence_range_success_cases(test, bad_runner_v1)
     assert len(test.case_outputs) == len(test.cases)
     for case_output in test.case_outputs:
         assert case_output["result"] == -1
@@ -156,14 +179,14 @@ def test_sequence_circular():
         ('?start=5374&end=0', ['ATCCAACCTGCA', 12]),
         ('?start=5380&end=25', ['CCTGCAGAGTTTTATCGCTTCCATGACGCAG', 31]),
     ]
-    sequence_circular(test, good_runner)
+    sequence_circular(test, good_runner_v1)
     assert len(test.case_outputs) == len(test.cases)
     for case_output in test.case_outputs:
         assert case_output["result"] == 1 
 
     test.result = 2
     test.case_outputs = []
-    sequence_circular(test, bad_runner)
+    sequence_circular(test, bad_runner_v1)
     assert len(test.case_outputs) == len(test.cases)
     for case_output in test.case_outputs:
         assert case_output["result"] == -1 
@@ -182,14 +205,14 @@ def test_sequence_start_end_errors():
         (['3332ed720ac7eaa9b3655c06f6b9e196', '?start=5386&end=5386'], 416),
         (['3332ed720ac7eaa9b3655c06f6b9e196', '?start=5386&end=5'], 416),
     ]
-    sequence_start_end_errors(test, good_runner)
+    sequence_start_end_errors(test, good_runner_v1)
     assert len(test.case_outputs) == len(test.cases)
     for case_output in test.case_outputs:
         assert case_output["result"] == 1
 
     test.result = 2
     test.case_outputs = []
-    sequence_start_end_errors(test, bad_runner)
+    sequence_start_end_errors(test, bad_runner_v1)
     assert len(test.case_outputs) == len(test.cases)
     for case_output in test.case_outputs:
         assert case_output["result"] == -1
@@ -216,14 +239,14 @@ def test_sequence_range_errors():
         (['3332ed720ac7eaa9b3655c06f6b9e196', 'bytes=5386-5387'], 416),
         (['3332ed720ac7eaa9b3655c06f6b9e196', 'bytes=9999-99999'], 416)
     ]
-    sequence_range_errors(test, good_runner)
+    sequence_range_errors(test, good_runner_v1)
     assert len(test.case_outputs) == len(test.cases)
     for case_output in test.case_outputs:
         assert case_output["result"] == 1
 
     test.result = 2
     test.case_outputs = []
-    sequence_range_errors(test, bad_runner)
+    sequence_range_errors(test, bad_runner_v1)
     assert len(test.case_outputs) == len(test.cases)
     for case_output in test.case_outputs:
         assert case_output["result"] == -1
@@ -235,15 +258,15 @@ def test_sequence_circular_support_true_errors():
         (['6681ac2f62509cfc220d78751b8dc524', '?start=220218&end=671'], 416)
     ]
     # if circular support in session params is False, then the test is skipped
-    good_runner.session_params["circular_supported"]= False
-    sequence_circular_support_true_errors(test, good_runner)
+    good_runner_v1.session_params["circular_supported"]= False
+    sequence_circular_support_true_errors(test, good_runner_v1)
     assert test.result == 0
 
     # if circular support in session params is True
-    good_runner.session_params["circular_supported"]= True
+    good_runner_v1.session_params["circular_supported"]= True
     test.case_outputs =[]
     test.result = 2
-    sequence_circular_support_true_errors(test, good_runner)
+    sequence_circular_support_true_errors(test, good_runner_v1)
     assert len(test.case_outputs) == len(test.cases)
     for case_output in test.case_outputs:
         # good_mock_server supports circular sequences. 
@@ -253,7 +276,7 @@ def test_sequence_circular_support_true_errors():
 
     test.case_outputs = []
     test.result = 2
-    sequence_circular_support_true_errors(test, bad_runner)
+    sequence_circular_support_true_errors(test, bad_runner_v1)
     assert len(test.case_outputs) == len(test.cases)
     for case_output in test.case_outputs:
         # bad_mock_server supports circular sequences. 
@@ -269,15 +292,15 @@ def test_sequence_circular_support_false_errors():
     ]
 
     # if circular support in session params is True, then the test is skipped
-    good_runner.session_params["circular_supported"]= True
-    sequence_circular_support_false_errors(test, good_runner)
+    good_runner_v1.session_params["circular_supported"]= True
+    sequence_circular_support_false_errors(test, good_runner_v1)
     assert test.result == 0
     
     # if circular support in session params is False
-    good_runner.session_params["circular_supported"]=False
+    good_runner_v1.session_params["circular_supported"]=False
     test.result = 2
     test.case_outputs = []
-    sequence_circular_support_false_errors(test, good_runner)
+    sequence_circular_support_false_errors(test, good_runner_v1)
     assert len(test.case_outputs) == len(test.cases)
     for case_output in test.case_outputs:
         # good_mock_server supports circular sequences. 
@@ -286,7 +309,27 @@ def test_sequence_circular_support_false_errors():
 
     test.case_outputs = []
     test.result = 2
-    sequence_circular_support_false_errors(test, bad_runner)
+    sequence_circular_support_false_errors(test, bad_runner_v1)
     # bad_mock_server supports circular sequence. It also provides incorrect error codes
     for case_output in test.case_outputs:
-        assert case_output["result"] == -1 
+        assert case_output["result"] == -1
+
+
+def test_sequence_query_by_ga4gh():
+    test.result = 2
+    sequence_query_by_ga4gh(test, good_runner_v2)
+    assert test.result == 1
+
+    test.result = 2
+    sequence_query_by_ga4gh(test, bad_runner_v2)
+    assert test.result == -1
+
+
+def test_sequence_query_by_insdc():
+    test.result = 2
+    sequence_query_by_insdc(test, good_runner_v2)
+    assert test.result == 1
+
+    test.result = 2
+    sequence_query_by_insdc(test, bad_runner_v2)
+    assert test.result == -1

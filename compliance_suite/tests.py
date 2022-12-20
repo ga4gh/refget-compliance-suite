@@ -97,6 +97,7 @@ class Test():
         '''
         First checks if the parent test cases were successful then run the text.
         '''
+        print(str(self), file=sys.stderr)
         # Checking if to skip
         if self.to_skip() is True:
             # warning will be generated because the test case is skipped because of some parent failure
@@ -108,6 +109,8 @@ class Test():
         # if it fails it'll generate a warning
         if self.result == -1:
             self.warning = True
+        if self.result not in (0, 1):
+            print(str(self), self.to_echo(), file=sys.stderr)
 
     def to_echo(self):
         '''
@@ -144,7 +147,6 @@ def initiate_tests():
     test_base = Test(base_algorithm)
 
     # Info Success Test Cases
-
     test_info_implement = Test(info_implement)
     test_info_implement.set_phase('service info')
     test_info_implement.set_pass_text('Info endpoint implemented by the server')
@@ -165,6 +167,11 @@ def initiate_tests():
     test_info_algorithms.set_pass_text('algorithms key in info response object')
     test_info_algorithms.set_fail_text('"algorithms" key not in info response object. It sends ')
 
+    test_info_identifier_types = Test(info_identifiers)
+    test_info_identifier_types.set_phase('service info')
+    test_info_identifier_types.set_pass_text('identifier_types key in info response object')
+    test_info_identifier_types.set_fail_text('"identifier_types" key not in info response object. It sends ')
+
     test_info_subsequence_limit = Test(info_subsequence)
     test_info_subsequence_limit.set_phase('service info')
     test_info_subsequence_limit.set_pass_text('subsequence_limit key in info response object')
@@ -179,11 +186,11 @@ def initiate_tests():
                                       'test_info_implement_default',
                                       'test_info_circular',
                                       'test_info_algorithms',
+                                      'test_info_algorithms',
                                       'test_info_subsequence',
                                       'test_info_api_version']
 
     # Metadata Success Test Cases
-
     test_metadata_implement = Test(metadata_implement)
     test_metadata_implement.set_phase('metadata')
     test_metadata_implement.set_pass_text('Metadata endpoint implemented by the server')
@@ -199,6 +206,16 @@ def initiate_tests():
     test_metadata_query_by_trunc512.set_pass_text('TRUNC512 algorithm is working in the server for metadata endpoint')
     test_metadata_query_by_trunc512.set_fail_text('TRUNC512 algorithm is not working in the server for metadata endpoint even though info endpoint indicates it"s support')
 
+    test_metadata_query_by_ga4gh = Test(metadata_query_by_ga4gh)
+    test_metadata_query_by_ga4gh.set_phase('metadata')
+    test_metadata_query_by_ga4gh.set_pass_text('GA4GH algorithm is working in the server for metadata endpoint')
+    test_metadata_query_by_ga4gh.set_fail_text('GA4GH algorithm is not working in the server for metadata endpoint even though info endpoint indicates it"s support')
+
+    test_metadata_query_by_insdc = Test(metadata_query_by_insdc)
+    test_metadata_query_by_insdc.set_phase('metadata')
+    test_metadata_query_by_insdc.set_pass_text('INSDC identifier is working in the server for metadata endpoint')
+    test_metadata_query_by_insdc.set_fail_text('INSDC identifier is not working in the server for metadata endpoint even though info endpoint indicates it"s support')
+
     test_metadata_query_circular_sequence = Test(metadata_query_circular_sequence)
     test_metadata_query_circular_sequence.set_phase('metadata')
     test_metadata_query_circular_sequence.set_pass_text('Circular sequence metadata can be retrieved')
@@ -213,6 +230,16 @@ def initiate_tests():
     test_metadata_trunc512.set_phase('metadata')
     test_metadata_trunc512.set_pass_text('trunc512 key in metadata response object')
     test_metadata_trunc512.set_fail_text('trunc512 key not in metadata response object even though info endpoint indicates it"s support instead sends ')
+
+    test_metadata_ga4gh = Test(metadata_ga4gh)
+    test_metadata_ga4gh.set_phase('metadata')
+    test_metadata_ga4gh.set_pass_text('ga4gh key in metadata response object')
+    test_metadata_ga4gh.set_fail_text('ga4gh key not in metadata response object even though info endpoint indicates it"s support instead sends ')
+
+    test_metadata_insdc = Test(metadata_insdc)
+    test_metadata_insdc.set_phase('metadata')
+    test_metadata_insdc.set_pass_text('insdc alias in metadata response object')
+    test_metadata_insdc.set_fail_text('insdc alias not in metadata response object even though info endpoint indicates it"s support instead sends ')
 
     test_metadata_length = Test(metadata_length)
     test_metadata_length.set_phase('metadata')
@@ -237,14 +264,16 @@ def initiate_tests():
     tests_in_phase['metadata'] = ['test_metadata_implement',
                                   'test_metadata_implement_default',
                                   'test_metadata_query_by_trunc512',
+                                  'test_metadata_query_by_ga4gh',
+                                  'test_metadata_query_by_insdc',
                                   'test_metadata_query_circular_sequence',
-                                  'test_metadata_md5','test_metadata_trunc512',
+                                  'test_metadata_md5', 'test_metadata_trunc512',
+                                  'test_metadata_ga4gh', 'test_metadata_insdc',
                                   'test_metadata_length','test_metadata_aliases',
                                   'test_metadata_invalid_checksum_404_error',
                                   'test_metadata_invalid_encoding_406_error']
 
     # Sequence endpoint test cases
-
     test_sequence_implement = Test(sequence_implement)
     test_sequence_implement.set_phase('sequence')
     test_sequence_implement.set_pass_text('Sequence endpoint implemented in the server')
@@ -259,6 +288,14 @@ def initiate_tests():
     test_sequence_query_by_trunc512.set_phase('sequence')
     test_sequence_query_by_trunc512.set_pass_text('TRUNC512 algorithm is working in the server for sequence endpoint')
     test_sequence_query_by_trunc512.set_fail_text('TRUNC512 algorithm is not working in the server for sequence endpoint even though info endpoint indicates it"s support')
+
+    test_sequence_query_by_ga4gh = Test(sequence_query_by_ga4gh)
+    test_sequence_query_by_ga4gh.set_pass_text('GA4GH algorithm is working in the server for sequence endpoint')
+    test_sequence_query_by_ga4gh.set_fail_text('GA4GH algorithm is not working in the server for sequence endpoint even though info endpoint indicates it"s support')
+
+    test_sequence_query_by_insdc = Test(sequence_query_by_insdc)
+    test_sequence_query_by_insdc.set_pass_text('INSDC identifier is working in the server for sequence endpoint')
+    test_sequence_query_by_insdc.set_fail_text('INSDC identifier is not working in the server for sequence endpoint even though info endpoint indicates it"s support')
 
     test_sequence_invalid_checksum_404_error = Test(sequence_invalid_checksum_404_error)
     test_sequence_invalid_checksum_404_error.set_phase('sequence')
@@ -396,64 +433,56 @@ def initiate_tests():
                                         'test_sequence_range_success_cases',
                                         'test_sequence_range_errors']
 
-    # generating test graph
+    # Generating test graph
 
-    test_base.add_child(test_info_implement)
+    # Children of test base
+    for test in [test_info_implement, test_metadata_implement, test_sequence_implement]:
+        test_base.add_child(test)
 
-    test_info_implement.add_child(test_info_implement_default)
-    test_info_implement.add_child(test_info_circular)
-    test_info_implement.add_child(test_info_algorithms)
-    test_info_implement.add_child(test_info_subsequence_limit)
-    test_info_implement.add_child(test_info_api_version)
+    # Children of test_info_implement
+    for test in [test_info_implement_default, test_info_circular, test_info_algorithms, test_info_identifier_types,
+                 test_info_subsequence_limit, test_info_api_version]:
+        test_info_implement.add_child(test)
 
-    test_base.add_child(test_metadata_implement)
+    # Children of test_metadata_implement
+    for test in [test_metadata_implement_default, test_metadata_query_by_trunc512,
+                 test_metadata_query_by_ga4gh, test_metadata_query_by_insdc,
+                 test_metadata_query_circular_sequence, test_metadata_md5, test_metadata_trunc512,
+                 test_metadata_ga4gh, test_metadata_insdc, test_metadata_length,
+                 test_metadata_aliases, test_metadata_invalid_checksum_404_error,
+                 test_metadata_invalid_encoding_406_error]:
+        test_metadata_implement.add_child(test)
 
-    test_metadata_implement.add_child(test_metadata_implement_default)
+    # Children of test_info_algorithms
+    for test in [test_metadata_query_by_trunc512, test_metadata_query_by_ga4gh,
+                 test_metadata_trunc512, test_metadata_ga4gh,
+                 test_sequence_query_by_trunc512, test_sequence_query_by_ga4gh]:
+        test_info_algorithms.add_child(test)
 
-    test_metadata_implement.add_child(test_metadata_query_by_trunc512)
-    test_info_algorithms.add_child(test_metadata_query_by_trunc512)
+    # Children of test_info_identifier_types
+    for test in [test_metadata_query_by_insdc, test_metadata_insdc]:
+        test_info_identifier_types.add_child(test)
 
-    test_metadata_implement.add_child(test_metadata_query_circular_sequence)
-    test_info_circular.add_child(test_metadata_query_circular_sequence)
+    # Children of test_info_circular
+    for test in [test_metadata_query_circular_sequence, test_sequence_circular,
+                 test_sequence_circular_support_false_errors, test_sequence_circular_support_true_errors]:
+        test_info_circular.add_child(test)
 
-    test_metadata_implement.add_child(test_metadata_md5)
+    # Children of test_sequence_implement
+    for test in [test_sequence_implement_default, test_sequence_start_end, test_sequence_range,
+                 test_sequence_query_by_trunc512, test_sequence_query_by_ga4gh,
+                 test_sequence_query_by_insdc, test_sequence_invalid_checksum_404_error,
+                 test_sequence_invalid_encoding_406_error, test_sequence_circular,
+                 test_sequence_circular_support_false_errors, test_sequence_circular_support_true_errors]:
+        test_sequence_implement.add_child(test)
 
-    test_metadata_implement.add_child(test_metadata_trunc512)
-    test_info_algorithms.add_child(test_metadata_trunc512)
+    # Children of test_sequence_start_end
+    for test in [test_sequence_start_end_success_cases, test_sequence_start_end_errors]:
+        test_sequence_start_end.add_child(test)
 
-    test_metadata_implement.add_child(test_metadata_length)
-    test_metadata_implement.add_child(test_metadata_aliases)
-    test_metadata_implement.add_child(test_metadata_invalid_checksum_404_error)
-    test_metadata_implement.add_child(test_metadata_invalid_encoding_406_error)
-
-    test_base.add_child(test_sequence_implement)
-
-    test_sequence_implement.add_child(test_sequence_implement_default)
-    test_sequence_implement.add_child(test_sequence_start_end)
-    test_sequence_implement.add_child(test_sequence_range)
-
-    test_sequence_implement.add_child(test_sequence_query_by_trunc512)
-    test_info_algorithms.add_child(test_sequence_query_by_trunc512)
-
-    test_sequence_implement.add_child(test_sequence_invalid_checksum_404_error)
-
-    test_sequence_implement.add_child(test_sequence_invalid_encoding_406_error)
-
-    test_sequence_start_end.add_child(test_sequence_start_end_success_cases)
-    test_sequence_range.add_child(test_sequence_range_success_cases)
-
-    test_sequence_implement.add_child(test_sequence_circular)
-    test_info_circular.add_child(test_sequence_circular)
-
-    test_sequence_start_end.add_child(test_sequence_start_end_errors)
-
-    test_sequence_range.add_child(test_sequence_range_errors)
-
-    test_sequence_implement.add_child(test_sequence_circular_support_false_errors)
-    test_info_circular.add_child(test_sequence_circular_support_false_errors)
-
-    test_sequence_implement.add_child(test_sequence_circular_support_true_errors)
-    test_info_circular.add_child(test_sequence_circular_support_true_errors)
+    # Children of test_sequence_range
+    for test in [test_sequence_range_success_cases, test_sequence_range_errors]:
+        test_sequence_range.add_child(test)
 
     return test_base
 

@@ -10,11 +10,13 @@ install:
   - python setup.py install
   - python -m pip install -r unittests/requirements.txt
 before_script:
-  - python unittests/good_mock_server.py &
-  - python unittests/bad_mock_server.py &
+  - python unittests/mock_servers/good_mock_server_v1.py &
+  - python unittests/mock_servers/good_mock_server_v2.py &
+  - python unittests/mock_servers/bad_mock_server_v1.py &
+  - python unittests/mock_servers/bad_mock_server_v2.py &
 script:
   - pytest --cov=compliance_suite/ --cov-report=term-missing unittests/
 after_success:
   - coveralls
 after_script:
-  - kill %1 %2
+  - kill %1 %2 %3 %4
