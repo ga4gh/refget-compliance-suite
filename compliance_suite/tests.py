@@ -229,17 +229,20 @@ def initiate_tests():
     test_metadata_trunc512 = Test(metadata_trunc512)
     test_metadata_trunc512.set_phase('metadata')
     test_metadata_trunc512.set_pass_text('trunc512 key in metadata response object')
-    test_metadata_trunc512.set_fail_text('trunc512 key not in metadata response object even though info endpoint indicates it"s support instead sends ')
+    test_metadata_trunc512.set_fail_text('trunc512 key not in metadata response object even though info endpoint '
+                                         'indicates it supports it. Instead sends ')
 
     test_metadata_ga4gh = Test(metadata_ga4gh)
     test_metadata_ga4gh.set_phase('metadata')
     test_metadata_ga4gh.set_pass_text('ga4gh key in metadata response object')
-    test_metadata_ga4gh.set_fail_text('ga4gh key not in metadata response object even though info endpoint indicates it"s support instead sends ')
+    test_metadata_ga4gh.set_fail_text('ga4gh key not in metadata response object even though info endpoint '
+                                      'indicates it supports it. Instead sends ')
 
     test_metadata_insdc = Test(metadata_insdc)
     test_metadata_insdc.set_phase('metadata')
     test_metadata_insdc.set_pass_text('insdc alias in metadata response object')
-    test_metadata_insdc.set_fail_text('insdc alias not in metadata response object even though info endpoint indicates it"s support instead sends ')
+    test_metadata_insdc.set_fail_text('insdc alias not not in metadata response object even though info endpoint '
+                                      'indicates it supports it. Instead sends ')
 
     test_metadata_length = Test(metadata_length)
     test_metadata_length.set_phase('metadata')
@@ -251,10 +254,11 @@ def initiate_tests():
     test_metadata_aliases.set_pass_text('aliases key in metadata response object')
     test_metadata_aliases.set_fail_text('aliases key not in metadata response object')
 
-    test_metadata_invalid_checksum_404_error = Test(metadata_invalid_checksum_404_error)
-    test_metadata_invalid_checksum_404_error.set_phase('metadata')
-    test_metadata_invalid_checksum_404_error.set_pass_text('Server is correctly sending 404 on invalid checksum')
-    test_metadata_invalid_checksum_404_error.set_fail_text('Server is not sending 404 on invalid checksum instead sends ')
+    test_metadata_invalid_checksum_400_404_error = Test(metadata_invalid_checksum_400_404_error)
+    test_metadata_invalid_checksum_400_404_error.set_phase('metadata')
+    test_metadata_invalid_checksum_400_404_error.set_pass_text('Server is correctly sending 400 on invalid checksum')
+    test_metadata_invalid_checksum_400_404_error.set_fail_text(
+        'Server is not sending 400 on invalid checksum instead sends ')
 
     test_metadata_invalid_encoding_406_error = Test(metadata_invalid_encoding_406_error)
     test_metadata_invalid_encoding_406_error.set_phase('metadata')
@@ -270,7 +274,7 @@ def initiate_tests():
                                   'test_metadata_md5', 'test_metadata_trunc512',
                                   'test_metadata_ga4gh', 'test_metadata_insdc',
                                   'test_metadata_length','test_metadata_aliases',
-                                  'test_metadata_invalid_checksum_404_error',
+                                  'test_metadata_invalid_checksum_400_404_error',
                                   'test_metadata_invalid_encoding_406_error']
 
     # Sequence endpoint test cases
@@ -297,10 +301,10 @@ def initiate_tests():
     test_sequence_query_by_insdc.set_pass_text('INSDC identifier is working in the server for sequence endpoint')
     test_sequence_query_by_insdc.set_fail_text('INSDC identifier is not working in the server for sequence endpoint even though info endpoint indicates it"s support')
 
-    test_sequence_invalid_checksum_404_error = Test(sequence_invalid_checksum_404_error)
-    test_sequence_invalid_checksum_404_error.set_phase('sequence')
-    test_sequence_invalid_checksum_404_error.set_pass_text('Server is correctly sending 404 on invalid checksum')
-    test_sequence_invalid_checksum_404_error.set_fail_text('Server is not sending 404 on invalid checksum instead sends ')
+    test_sequence_invalid_checksum_400_404_error = Test(sequence_invalid_checksum_400_404_error)
+    test_sequence_invalid_checksum_400_404_error.set_phase('sequence')
+    test_sequence_invalid_checksum_400_404_error.set_pass_text('Server is correctly sending 400 or 404 on invalid checksum')
+    test_sequence_invalid_checksum_400_404_error.set_fail_text('Server is not sending 400 or 404 on invalid checksum instead sends ')
 
     test_sequence_invalid_encoding_406_error = Test(sequence_invalid_encoding_406_error)
     test_sequence_invalid_encoding_406_error.set_phase('sequence')
@@ -420,7 +424,7 @@ def initiate_tests():
     tests_in_phase['sequence'] = ['test_sequence_implement',
                                   'test_sequence_implement_default',
                                   'test_sequence_query_by_trunc512',
-                                  'test_sequence_invalid_checksum_404_error',
+                                  'test_sequence_invalid_checksum_400_404_error',
                                   'test_sequence_invalid_encoding_406_error',
                                   'test_sequence_start_end',
                                   'test_sequence_start_end_success_cases',
@@ -449,7 +453,7 @@ def initiate_tests():
                  test_metadata_query_by_ga4gh, test_metadata_query_by_insdc,
                  test_metadata_query_circular_sequence, test_metadata_md5, test_metadata_trunc512,
                  test_metadata_ga4gh, test_metadata_insdc, test_metadata_length,
-                 test_metadata_aliases, test_metadata_invalid_checksum_404_error,
+                 test_metadata_aliases, test_metadata_invalid_checksum_400_404_error,
                  test_metadata_invalid_encoding_406_error]:
         test_metadata_implement.add_child(test)
 
@@ -471,9 +475,10 @@ def initiate_tests():
     # Children of test_sequence_implement
     for test in [test_sequence_implement_default, test_sequence_start_end, test_sequence_range,
                  test_sequence_query_by_trunc512, test_sequence_query_by_ga4gh,
-                 test_sequence_query_by_insdc, test_sequence_invalid_checksum_404_error,
-                 test_sequence_invalid_encoding_406_error, test_sequence_circular,
-                 test_sequence_circular_support_false_errors, test_sequence_circular_support_true_errors]:
+                 test_sequence_query_by_insdc, test_sequence_invalid_checksum_400_404_error,
+                 test_sequence_invalid_encoding_406_error,
+                 test_sequence_circular, test_sequence_circular_support_false_errors,
+                 test_sequence_circular_support_true_errors]:
         test_sequence_implement.add_child(test)
 
     # Children of test_sequence_start_end
@@ -485,6 +490,3 @@ def initiate_tests():
         test_sequence_range.add_child(test)
 
     return test_base
-
-
-

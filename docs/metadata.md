@@ -52,7 +52,7 @@ Array under `aliases` key will contain objects of aliases in the form given belo
 ## Error Conditions
 <h5> Case 1 </h5>
 **ID not found**
-When ID provided in the request doesn't match any of the checksums of any sequence or alias supported by the server, server throws a `404 Not Found` error
+When ID provided in the request doesn't match any of the checksums of any sequence or alias supported by the server, server throws a `404 Not Found` error. If the server use the length of the digest to check that it is formed correctly it might return 400 if the length does not match expected.
 
 ```
 GET /sequence/some1111garbage11111id/metadata/

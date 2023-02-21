@@ -137,7 +137,8 @@ def metadata_by_algorithm(test, runner, algorithm, optional):
         if metadata_object[algorithm]:
             test.result = 1
     except:
-        test.fail_text = test.fail_text + str(metadata_object)
+        pass
+    test.fail_text = test.fail_text + str(metadata_object)
 
 
 def metadata_md5(test, runner):
@@ -198,8 +199,10 @@ def metadata_length(test, runner):
         metadata_object = json.loads(response.text)["metadata"]
         if "length" in metadata_object and metadata_object['length'] == 230218:
             test.result = 1
+            return
     except:
-        test.fail_text = test.fail_text + str(metadata_object)
+        pass
+    test.fail_text = test.fail_text + str(metadata_object)
 
 
 def metadata_aliases(test, runner):
@@ -214,22 +217,23 @@ def metadata_aliases(test, runner):
         metadata_object = json.loads(response.text)["metadata"]
         if "aliases" in metadata_object:
             test.result = 1
+            return
     except:
-        test.fail_text = test.fail_text + str(metadata_object)
+        pass
+    test.fail_text = test.fail_text + str(metadata_object)
 
 
-def metadata_invalid_checksum_404_error(test, runner):
+def metadata_invalid_checksum_400_404_error(test, runner):
     '''
-    Test if 404 on invalid checksum in metadata response
+    Test if 400 or 404 on invalid checksum in metadata response
     '''
     base_url = str(runner.base_url)
-    response = requests.get(base_url + 'sequence/' + 'some1111garbage1111ID/metadata', headers=METADATA_ACCEPT_HEADER)
-    if response.status_code == 404:
+    response = requests.get(base_url + 'sequence/' + 'Garbagechecksum/metadata', headers=METADATA_ACCEPT_HEADER)
+    if response.status_code in [400, 404]:
         test.result = 1
     else:
         test.result = -1
         test.fail_text = test.fail_text + str(response.status_code)
-
 
 def metadata_invalid_encoding_406_error(test, runner):
     '''

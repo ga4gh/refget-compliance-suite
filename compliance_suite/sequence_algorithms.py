@@ -87,13 +87,14 @@ def sequence_query_by_insdc(test, runner):
     else:
         test.result = -1
 
-def sequence_invalid_checksum_404_error(test, runner):
-    '''Test to check if server returns 404 using some garbage checksum and
+
+def sequence_invalid_checksum_400_404_error(test, runner):
+    '''Test to check if server returns 400 or 404 using some garbage checksum and
     appropriate headers
     '''
     base_url = str(runner.base_url)
     response = requests.get(base_url + 'sequence/Garbagechecksum', headers=SEQUENCE_ACCEPT_HEADER)
-    if response.status_code == 404:
+    if response.status_code in [400, 404]:
         test.result = 1
     else:
         test.result = -1
@@ -112,11 +113,13 @@ def sequence_invalid_encoding_406_error(test, runner):
         test.result = 1
     else:
         # More squid sniffing. Do not error if squid failed to respond correctly
-        if 'via' in response.headers and 'squid' in response.headers['via'].lower():
-            test.result = 0
-        else:
-            test.result = -1
-            test.fail_text = test.fail_text + str(response.status_code)
+        #
+        # if 'via' in response.headers and 'squid' in response.headers['via'].lower():
+        #     test.result = 0
+        #     test.set_skip_text(str(test) + ' is skipped because squid failed to respond correctly')
+        # else:
+        test.result = -1
+        test.fail_text = test.fail_text + str(response.status_code)
 
 
 def sequence_start_end(test, runner):
@@ -292,8 +295,9 @@ def sequence_range_errors(test, runner):
             # bad Accept headers. So first we look if we were testing for an
             # error code (4XX), see if we had a successful response
             # and the request was sent via squid then
-            if error and successful_response and squid:
-                res = 0
+            # if error and successful_response and squid:
+            #     res = 0
+            #     test.set_skip_text(str(test) + ' is skipped because squid failed to respond correctly')
             case_output_object['result'] = res
             test.result = res
         test.case_outputs.append(case_output_object)

@@ -9,5 +9,5 @@ Detailed specifications regarding these APIs are covered in the doc, available [
 Important points :
 
  * Servers **MAY** or **MAY NOT** support circular sequences
- * Servers **MUST** implement MD5 while truncated SHA512 is optional
+ * Servers **MUST** implement MD5 while other algorithms are optional
  * Server **MAY** support a `302 Found` and `Location` header redirecting the client to retrieve sequence data from an alternative location.
