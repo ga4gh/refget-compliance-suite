@@ -5,8 +5,8 @@ and bad_mock_server for the negative test cases.
 """
 from compliance_suite.metadata_algorithms import metadata_implement, metadata_implement_default, \
     metadata_query_by_trunc512, metadata_query_circular_sequence, metadata_md5, metadata_trunc512, metadata_length, \
-    metadata_aliases, metadata_invalid_checksum_400_404_error, metadata_invalid_encoding_406_error, \
-    metadata_query_by_ga4gh, metadata_query_by_insdc
+    metadata_aliases, metadata_invalid_encoding_406_error, \
+    metadata_query_by_ga4gh, metadata_query_by_insdc, metadata_invalid_checksum_404_error
 from compliance_suite.test_runner import TestRunner
 from compliance_suite.tests import Test
 import unittests.constants
@@ -123,11 +123,11 @@ def test_metadata_aliases():
 
 def test_metadata_invalid_checksum_404_error():
     test.result = 2
-    metadata_invalid_checksum_400_404_error(test, good_runner_v1)
+    metadata_invalid_checksum_404_error(test, good_runner_v1)
     assert test.result == 1
 
     test.result = 2
-    metadata_invalid_checksum_400_404_error(test, bad_runner_v1)
+    metadata_invalid_checksum_404_error(test, bad_runner_v1)
     assert test.result == -1
 
 

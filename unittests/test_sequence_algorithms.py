@@ -4,10 +4,11 @@ It uses good_mock_server to validate the positive test cases
 and bad_mock_server for the negative test cases.
 """
 from compliance_suite.sequence_algorithms import sequence_implement, sequence_implement_default, \
-    sequence_query_by_trunc512, sequence_invalid_checksum_400_404_error, sequence_invalid_encoding_406_error, \
+    sequence_query_by_trunc512, sequence_invalid_encoding_406_error, \
     sequence_start_end, sequence_start_end_success_cases, sequence_range, sequence_range_success_cases, \
     sequence_circular, sequence_start_end_errors, sequence_range_errors, sequence_circular_support_true_errors, \
-    sequence_circular_support_false_errors, sequence_query_by_ga4gh, sequence_query_by_insdc
+    sequence_circular_support_false_errors, sequence_query_by_ga4gh, sequence_query_by_insdc, \
+    sequence_invalid_checksum_404_error
 from compliance_suite.tests import Test
 from unittests.runners import good_runner_v1, bad_runner_v1, good_runner_v2, bad_runner_v2
 
@@ -48,11 +49,11 @@ def test_sequence_query_by_trunc512():
 
 def test_sequence_invalid_checksum_404_error():
     test.result = 2
-    sequence_invalid_checksum_400_404_error(test, good_runner_v1)
+    sequence_invalid_checksum_404_error(test, good_runner_v1)
     assert test.result == 1
 
     test.result = 2
-    sequence_invalid_checksum_400_404_error(test, bad_runner_v1)
+    sequence_invalid_checksum_404_error(test, bad_runner_v1)
     assert test.result == -1
 
 def test_sequence_invalid_encoding_406_error():
