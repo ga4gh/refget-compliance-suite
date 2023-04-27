@@ -183,6 +183,9 @@ def metadata_insdc(test, runner):
         aliases = metadata_object.get("aliases", {})
         if 'insdc' in [a.get('naming_authority') for a in aliases]:
             test.result = 1
+        else:
+            test.result = 0
+            test.set_skip_text(str(test) + ' is skipped because "insdc" alias is not mandatory as an alias')
     except:
         test.fail_text = test.fail_text + str(metadata_object)
 
