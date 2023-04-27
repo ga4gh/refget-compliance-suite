@@ -229,17 +229,20 @@ def initiate_tests():
     test_metadata_trunc512 = Test(metadata_trunc512)
     test_metadata_trunc512.set_phase('metadata')
     test_metadata_trunc512.set_pass_text('trunc512 key in metadata response object')
-    test_metadata_trunc512.set_fail_text('trunc512 key not in metadata response object even though info endpoint indicates it"s support instead sends ')
+    test_metadata_trunc512.set_fail_text('trunc512 key not in metadata response object even though info endpoint '
+                                         'indicates it supports it. Instead sends ')
 
     test_metadata_ga4gh = Test(metadata_ga4gh)
     test_metadata_ga4gh.set_phase('metadata')
     test_metadata_ga4gh.set_pass_text('ga4gh key in metadata response object')
-    test_metadata_ga4gh.set_fail_text('ga4gh key not in metadata response object even though info endpoint indicates it"s support instead sends ')
+    test_metadata_ga4gh.set_fail_text('ga4gh key not in metadata response object even though info endpoint '
+                                      'indicates it supports it. Instead sends ')
 
     test_metadata_insdc = Test(metadata_insdc)
     test_metadata_insdc.set_phase('metadata')
     test_metadata_insdc.set_pass_text('insdc alias in metadata response object')
-    test_metadata_insdc.set_fail_text('insdc alias not in metadata response object even though info endpoint indicates it"s support instead sends ')
+    test_metadata_insdc.set_fail_text('insdc alias not not in metadata response object even though info endpoint '
+                                      'indicates it supports it. Instead sends ')
 
     test_metadata_length = Test(metadata_length)
     test_metadata_length.set_phase('metadata')
@@ -485,6 +488,3 @@ def initiate_tests():
         test_sequence_range.add_child(test)
 
     return test_base
-
-
-

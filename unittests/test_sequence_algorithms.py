@@ -4,49 +4,14 @@ It uses good_mock_server to validate the positive test cases
 and bad_mock_server for the negative test cases.
 """
 from compliance_suite.sequence_algorithms import sequence_implement, sequence_implement_default, \
-    sequence_query_by_trunc512, sequence_invalid_checksum_404_error, sequence_invalid_encoding_406_error, \
+    sequence_query_by_trunc512, sequence_invalid_encoding_406_error, \
     sequence_start_end, sequence_start_end_success_cases, sequence_range, sequence_range_success_cases, \
     sequence_circular, sequence_start_end_errors, sequence_range_errors, sequence_circular_support_true_errors, \
-    sequence_circular_support_false_errors, sequence_query_by_ga4gh, sequence_query_by_insdc
-from compliance_suite.test_runner import TestRunner
+    sequence_circular_support_false_errors, sequence_query_by_ga4gh, sequence_query_by_insdc, \
+    sequence_invalid_checksum_404_error
 from compliance_suite.tests import Test
-from unittests.constants import GOOD_SERVER_V1_URL as good_mock_server_v1, \
-    BAD_SERVER_V1_URL as bad_mock_server_v1, \
-    GOOD_SERVER_V2_URL as good_mock_server_v2, \
-    BAD_SERVER_V2_URL as bad_mock_server_v2
+from unittests.runners import good_runner_v1, bad_runner_v1, good_runner_v2, bad_runner_v2
 
-good_runner_v1 = TestRunner(good_mock_server_v1)
-good_runner_v1.session_params = {
-    "limit": 400000,
-    "algorithms:trunc512": True,
-    "circular_supported": True,
-    "redirection": None
-}
-bad_runner_v1 = TestRunner(bad_mock_server_v1)
-bad_runner_v1.session_params = {
-    "limit": 400000,
-    "algorithms:trunc512": True,
-    "circular_supported": True,
-    "redirection": None
-}
-good_runner_v2 = TestRunner(good_mock_server_v2)
-good_runner_v2.session_params = {
-    "limit": 400000,
-    "algorithms:trunc512": False,
-    "algorithms:ga4gh": True,
-    "identifier_types:insdc": True,
-    "circular_supported": True,
-    "redirection": None
-}
-bad_runner_v2 = TestRunner(bad_mock_server_v2)
-bad_runner_v2.session_params = {
-    "limit": 400000,
-    "algorithms:trunc512": False,
-    "algorithms:ga4gh": True,
-    "identifier_types:insdc": True,
-    "circular_supported": True,
-    "redirection": None
-}
 
 def testing_sequence_algorithms():
     pass
@@ -174,6 +139,7 @@ def test_sequence_range_success_cases():
 def test_sequence_circular():
     test.result = 2
     test.case_outputs = []
+    good_runner_v1.session_params["circular_supported"] = True
     test.cases = [
         ('?start=5374&end=5', ['ATCCAACCTGCAGAGTT', 17]),
         ('?start=5374&end=0', ['ATCCAACCTGCA', 12]),
@@ -258,13 +224,13 @@ def test_sequence_circular_support_true_errors():
         (['6681ac2f62509cfc220d78751b8dc524', '?start=220218&end=671'], 416)
     ]
     # if circular support in session params is False, then the test is skipped
-    good_runner_v1.session_params["circular_supported"]= False
+    good_runner_v1.session_params["circular_supported"] = False
     sequence_circular_support_true_errors(test, good_runner_v1)
     assert test.result == 0
 
     # if circular support in session params is True
-    good_runner_v1.session_params["circular_supported"]= True
-    test.case_outputs =[]
+    good_runner_v1.session_params["circular_supported"] = True
+    test.case_outputs = []
     test.result = 2
     sequence_circular_support_true_errors(test, good_runner_v1)
     assert len(test.case_outputs) == len(test.cases)
@@ -272,7 +238,6 @@ def test_sequence_circular_support_true_errors():
         # good_mock_server supports circular sequences. 
         # the status code != 501 as expected
         assert case_output["result"] == 1
-
 
     test.case_outputs = []
     test.result = 2
@@ -292,12 +257,12 @@ def test_sequence_circular_support_false_errors():
     ]
 
     # if circular support in session params is True, then the test is skipped
-    good_runner_v1.session_params["circular_supported"]= True
+    good_runner_v1.session_params["circular_supported"] = True
     sequence_circular_support_false_errors(test, good_runner_v1)
     assert test.result == 0
     
     # if circular support in session params is False
-    good_runner_v1.session_params["circular_supported"]=False
+    good_runner_v1.session_params["circular_supported"] = False
     test.result = 2
     test.case_outputs = []
     sequence_circular_support_false_errors(test, good_runner_v1)
@@ -313,6 +278,8 @@ def test_sequence_circular_support_false_errors():
     # bad_mock_server supports circular sequence. It also provides incorrect error codes
     for case_output in test.case_outputs:
         assert case_output["result"] == -1
+    # Revert to original setting
+    good_runner_v1.session_params["circular_supported"] = True
 
 
 def test_sequence_query_by_ga4gh():

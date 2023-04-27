@@ -24,8 +24,8 @@ There are three sequences used in the compliance documentation for sample querie
 Checksums will be used as identifiers in sequence retrieval and metadata retrieval APIs. There are currently two checksum algorithms in use:
 
  * MD5
- * Truncated SHA512
+ * GA4GH
 
 Implementation details of these algorithms are given in API specification doc [here](https://docs.google.com/document/d/1q2ZE9YewJTpaqQg82Nrz_jVy8KsDpKoG1T8RvCAAsbI/edit#heading=h.h66j2ox4ydtw).
 
-**Server MUST implement MD5 while truncated SHA512 is optional**
+**Server MUST implement MD5 while others are optional**

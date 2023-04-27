@@ -114,6 +114,7 @@ def sequence_invalid_encoding_406_error(test, runner):
         # More squid sniffing. Do not error if squid failed to respond correctly
         if 'via' in response.headers and 'squid' in response.headers['via'].lower():
             test.result = 0
+            test.set_skip_text(str(test) + ' is skipped because squid failed to respond correctly')
         else:
             test.result = -1
             test.fail_text = test.fail_text + str(response.status_code)
@@ -294,6 +295,7 @@ def sequence_range_errors(test, runner):
             # and the request was sent via squid then
             if error and successful_response and squid:
                 res = 0
+                test.set_skip_text(str(test) + ' is skipped because squid failed to respond correctly')
             case_output_object['result'] = res
             test.result = res
         test.case_outputs.append(case_output_object)

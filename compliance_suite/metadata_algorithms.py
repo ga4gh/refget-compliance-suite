@@ -137,7 +137,8 @@ def metadata_by_algorithm(test, runner, algorithm, optional):
         if metadata_object[algorithm]:
             test.result = 1
     except:
-        test.fail_text = test.fail_text + str(metadata_object)
+        pass
+    test.fail_text = test.fail_text + str(metadata_object)
 
 
 def metadata_md5(test, runner):
@@ -182,6 +183,9 @@ def metadata_insdc(test, runner):
         aliases = metadata_object.get("aliases", {})
         if 'insdc' in [a.get('naming_authority') for a in aliases]:
             test.result = 1
+        else:
+            test.result = 0
+            test.set_skip_text(str(test) + ' is skipped because "insdc" alias is not mandatory as an alias')
     except:
         test.fail_text = test.fail_text + str(metadata_object)
 
@@ -198,8 +202,10 @@ def metadata_length(test, runner):
         metadata_object = json.loads(response.text)["metadata"]
         if "length" in metadata_object and metadata_object['length'] == 230218:
             test.result = 1
+            return
     except:
-        test.fail_text = test.fail_text + str(metadata_object)
+        pass
+    test.fail_text = test.fail_text + str(metadata_object)
 
 
 def metadata_aliases(test, runner):
@@ -214,8 +220,10 @@ def metadata_aliases(test, runner):
         metadata_object = json.loads(response.text)["metadata"]
         if "aliases" in metadata_object:
             test.result = 1
+            return
     except:
-        test.fail_text = test.fail_text + str(metadata_object)
+        pass
+    test.fail_text = test.fail_text + str(metadata_object)
 
 
 def metadata_invalid_checksum_404_error(test, runner):
