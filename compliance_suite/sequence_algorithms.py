@@ -12,9 +12,11 @@ case_start_time = {}
 case_end_time = {}
 
 def sequence_implement(test, runner):
-    '''Test to check if server returns 200 using I test sequence and
+    '''
+    Test to check if server returns 200 using I test sequence and
     appropriate headers
     '''
+    test.description = "Test to check if server returns 200 using I test sequence and appropriate headers"
     base_url = str(runner.base_url)
     response = requests.get(base_url + SEQUENCE_MD5, headers=SEQUENCE_ACCEPT_HEADER)
     if response.status_code == 200:
@@ -24,9 +26,11 @@ def sequence_implement(test, runner):
 
 
 def sequence_implement_default(test, runner):
-    '''Test to check if server returns 200 using I test sequence and
+    '''
+    Test to check if server returns 200 using I test sequence and
     no headers
     '''
+    test.description = "Test to check if server returns 200 using I test sequence and no headers"
     base_url = str(runner.base_url)
     response = requests.get(base_url + SEQUENCE_MD5, headers=SEQUENCE_ACCEPT_HEADER)
     if response.status_code == 200:
@@ -36,9 +40,11 @@ def sequence_implement_default(test, runner):
 
 
 def sequence_query_by_trunc512(test, runner):
-    '''Test to check if server returns 200 using I test sequence trunc512 and
+    '''
+    Test to check if server returns 200 using I test sequence trunc512 and
     appropriate headers if the server supports trunc512
     '''
+    test.description = "Test to check if server returns 200 using I test sequence trunc512 and appropriate headers if the server supports trunc512"
     base_url = str(runner.base_url)
     session_params = runner.session_params
     if session_params['trunc512'] is False:
@@ -46,6 +52,7 @@ def sequence_query_by_trunc512(test, runner):
         test.set_skip_text(str(test) + ' is skipped because server does not support TRUNC512 algorithm')
         return
     response = requests.get(base_url + SEQUENCE_MD5, headers=SEQUENCE_ACCEPT_HEADER)
+    test.response_body = response.text
     if response.status_code == 200:
         test.result = 1
     else:
@@ -53,11 +60,14 @@ def sequence_query_by_trunc512(test, runner):
 
 
 def sequence_invalid_checksum_404_error(test, runner):
-    '''Test to check if server returns 404 using some garbage checksum and
+    '''
+    Test to check if server returns 404 using some garbage checksum and
     appropriate headers
     '''
+    test.description = "Test to check if server returns 404 using some garbage checksum and appropriate headers"
     base_url = str(runner.base_url)
     response = requests.get(base_url + 'sequence/Garbagechecksum', headers=SEQUENCE_ACCEPT_HEADER)
+    test.response_body = response.text
     if response.status_code == 404:
         test.result = 1
     else:
@@ -66,9 +76,11 @@ def sequence_invalid_checksum_404_error(test, runner):
 
 
 def sequence_invalid_encoding_406_error(test, runner):
-    '''Test to check if server returns 200 using I test sequence and
+    '''
+    Test to check if server returns 200 using I test sequence and
     garbage encoding in Accept header
     '''
+    test.description = "Test to check if server returns 200 using I test sequence and garbage encoding in Accept header"
     base_url = str(runner.base_url)
     response = requests.get(
         base_url + SEQUENCE_MD5,
@@ -85,9 +97,11 @@ def sequence_invalid_encoding_406_error(test, runner):
 
 
 def sequence_start_end(test, runner):
-    '''Test to check if server returns 200 and appropriate text using I test
+    '''
+    Test to check if server returns 200 and appropriate text using I test
     sequence and start/end query params set to 10 and 20 respectively
     '''
+    test.description = "Test to check if server returns 200 and appropriate text using I test sequence and start/end query params set to 10 and 20 respectively"
     base_url = str(runner.base_url)
     response = requests.get(
         base_url + SEQUENCE_MD5 + '?start=10&end=20',
@@ -99,9 +113,11 @@ def sequence_start_end(test, runner):
 
 
 def sequence_start_end_success_cases(test, runner):
-    '''Test to check if server passes all the edge cases related to success
+    '''
+    Test to check if server passes all the edge cases related to success
     queries using start/end params
     '''
+    test.description = "Test to check if server passes all the edge cases related to success queries using start/end params"
     data = runner.test_data
     base_url = str(runner.base_url)
     test.result = 1
@@ -112,6 +128,7 @@ def sequence_start_end_success_cases(test, runner):
         response = requests.get(
             base_url + SEQUENCE_MD5 + _input[0],
             headers=SEQUENCE_ACCEPT_HEADER)
+        test.response_body = response.text
         case_output_object = {'api': SEQUENCE_MD5 + ':' + _input[0] + ':' + str(SEQUENCE_ACCEPT_HEADER)}
         if response.status_code == 200 and \
                 response.text == data[0].sequence[_input[1]:_input[2]] and \
@@ -125,9 +142,11 @@ def sequence_start_end_success_cases(test, runner):
 
 
 def sequence_range(test, runner):
-    '''Test to check if server returns 200 and appropriate text using I test
+    '''
+    Test to check if server returns 200 and appropriate text using I test
     sequence and range header set to 10 and 19 respectively
     '''
+    test.description = "Test to check if server returns 200 and appropriate text using I test sequence and range header set to 10 and 19 respectively"
     base_url = str(runner.base_url)
     header = {
         'Accept': 'text/vnd.ga4gh.refget.v1.0.0+plain',
@@ -142,9 +161,11 @@ def sequence_range(test, runner):
 
 
 def sequence_range_success_cases(test, runner):
-    '''Test to check if server passes all the edge cases related to range header
+    '''
+    Test to check if server passes all the edge cases related to range header
     success queries
     '''
+    test.description = "Test to check if server passes all the edge cases related to range header success queries"
     data = runner.test_data
     header = {
         'Accept': 'text/vnd.ga4gh.refget.v1.0.0+plain',
@@ -158,6 +179,7 @@ def sequence_range_success_cases(test, runner):
         header['Range'] = _input[0]
         response = requests.get(
             base_url + SEQUENCE_MD5, headers=header)
+        test.response_body = response.text
         case_output_object = {'api': SEQUENCE_MD5 + ':' + _input[0] + ':' + str(SEQUENCE_ACCEPT_HEADER)}
         if response.status_code == _output[0] and \
                 response.text == data[0].sequence[_input[1]:_input[2] + 1] \
@@ -171,8 +193,10 @@ def sequence_range_success_cases(test, runner):
 
 
 def sequence_circular(test, runner):
-    '''Test to check if server passes all the edge cases related to circular queries
     '''
+    Test to check if server passes all the edge cases related to circular queries
+    '''
+    test.description = "Test to check if server passes all the edge cases related to circular queries"
     session_params = runner.session_params
     if session_params['circular_supported'] is False:
         test.result = 0
@@ -186,6 +210,7 @@ def sequence_circular(test, runner):
         case_start_time[SEQUENCE_CIRCULAR + _input + ':' + str(SEQUENCE_ACCEPT_HEADER)] = datetime.datetime.utcnow().strftime(TIMESTAMP_FORMAT)
         response = requests.get(
             base_url + SEQUENCE_CIRCULAR + _input, headers=SEQUENCE_ACCEPT_HEADER)
+        test.response_body = response.text
         case_output_object = {'api': SEQUENCE_CIRCULAR + _input + ':' + str(SEQUENCE_ACCEPT_HEADER)}
         if response.status_code == 200 and \
                 response.text == _output[0] \
@@ -199,9 +224,11 @@ def sequence_circular(test, runner):
 
 
 def sequence_start_end_errors(test, runner):
-    '''Test to check if server passes all the edge cases related start-end
+    '''
+    Test to check if server passes all the edge cases related start-end
     error cases
     '''
+    test.description = "Test to check if server passes all the edge cases related start-end error cases"
     base_url = str(runner.base_url)
     test.result = 1
     for case in test.cases:
@@ -210,6 +237,7 @@ def sequence_start_end_errors(test, runner):
         case_start_time['sequence/' + _input[0] + ':' + _input[1]] = datetime.datetime.utcnow().strftime(TIMESTAMP_FORMAT)
         response = requests.get(
             base_url + 'sequence/' + _input[0] + _input[1], headers=SEQUENCE_ACCEPT_HEADER)
+        test.response_body = response.text
         case_output_object = {'api': 'sequence/' + _input[0] + ':' + _input[1]}
         if response.status_code == _output:
             case_output_object['result'] = 1
@@ -221,9 +249,11 @@ def sequence_start_end_errors(test, runner):
 
 
 def sequence_range_errors(test, runner):
-    '''Test to check if server passes all the edge cases related range
+    '''
+    Test to check if server passes all the edge cases related range
     error cases
     '''
+    test.description = "Test to check if server passes all the edge cases related range error cases"
     header = {
         'Accept': 'text/vnd.ga4gh.refget.v1.0.0+plain',
     }
@@ -266,9 +296,11 @@ def sequence_range_errors(test, runner):
 
 
 def sequence_circular_support_false_errors(test, runner):
-    '''Test to check if server throws correct error codes on circular sequence
+    '''
+    Test to check if server throws correct error codes on circular sequence
     query if server does not support circular sequences
     '''
+    test.description = "Test to check if server throws correct error codes on circular sequence query if server does not support circular sequences"
     session_params = runner.session_params
     if session_params['circular_supported'] is True:
         test.result = 0
@@ -282,6 +314,7 @@ def sequence_circular_support_false_errors(test, runner):
         case_start_time['sequence/' + _input[0] + ':' + _input[1]] = datetime.datetime.utcnow().strftime(TIMESTAMP_FORMAT)
         response = requests.get(
             base_url + 'sequence/' + _input[0] + _input[1], headers=SEQUENCE_ACCEPT_HEADER)
+        test.response_body = response.text
         case_output_object = {'api': 'sequence/' + _input[0] + ':' + _input[1]}
         if response.status_code == _output:
             case_output_object['result'] = 1
@@ -293,9 +326,11 @@ def sequence_circular_support_false_errors(test, runner):
 
 
 def sequence_circular_support_true_errors(test, runner):
-    '''Test to check if server throws correct error codes on circular sequence
+    '''
+    Test to check if server throws correct error codes on circular sequence
     query if server supports circular sequences
     '''
+    test.description = "Test to check if server throws correct error codes on circular sequence query if server supports circular sequences"
     session_params = runner.session_params
     if session_params['circular_supported'] is False:
         test.result = 0
@@ -309,6 +344,7 @@ def sequence_circular_support_true_errors(test, runner):
         case_start_time['sequence/' + _input[0] + ':' + _input[1]] = datetime.datetime.utcnow().strftime(TIMESTAMP_FORMAT)
         response = requests.get(
             base_url + 'sequence/' + _input[0] + _input[1], headers=SEQUENCE_ACCEPT_HEADER)
+        test.response_body = response.text
         case_output_object = {'api': 'sequence/' + _input[0] + ':' + _input[1]}
         if response.status_code == _output:
             case_output_object['result'] = 1

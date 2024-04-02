@@ -207,7 +207,7 @@ class TestRunner():
                     if not test['edge_cases']:
                         ga4gh_test_case = ga4gh_test.add_case()
                         ga4gh_test_case.set_case_name(test['name'])
-                        ga4gh_test_case.set_case_name(test['test_description'])
+                        ga4gh_test_case.set_case_description(test['test_description'])
                         ga4gh_test_case.set_start_time(self.start_time[test['name']])
                         ga4gh_test_case.set_end_time(self.end_time[test['name']])                    
 

@@ -16,8 +16,10 @@ def metadata_implement(test, runner):
     Test if metadata endpoint returns 200 with appropriate headers using I test
     sequence
     '''
+    test.description = "Test if metadata endpoint returns 200 with appropriate headers using I test sequence"
     base_url = str(runner.base_url)
     response = requests.get(base_url + 'sequence/' + SEQ_MD5, headers=METADATA_ACCEPT_HEADER)
+    test.response_body = response.text
     if response.status_code == 200:
         test.result = 1
     else:
@@ -28,8 +30,10 @@ def metadata_implement_default(test, runner):
     '''
     Test if metadata endpoint returns 200 without headers using I test sequence
     '''
+    test.description = "Test if metadata endpoint returns 200 without headers using I test sequence"
     base_url = str(runner.base_url)
     response = requests.get(base_url + 'sequence/' + SEQ_MD5)
+    test.response_body = response.text
     if response.status_code == 200:
         test.result = 1
     else:
@@ -42,6 +46,7 @@ def metadata_query_by_trunc512(test, runner):
     if the server supports. Value stored in session_params. If not skip test
     and set skip text appropriately
     '''
+    test.description = "Test if metadata endpoint returns 200 using trunc512 with I test sequence if the server supports. Value stored in session_params. If not skip test and set skip text appropriately"
     base_url = str(runner.base_url)
     session_params = runner.session_params
     if session_params['trunc512'] is False:
@@ -49,6 +54,7 @@ def metadata_query_by_trunc512(test, runner):
         test.set_skip_text(str(test) + ' is skipped because server does not support TRUNC512 algorithm')
         return
     response = requests.get(base_url + 'sequence/' + SEQ_TRUNC512, headers=METADATA_ACCEPT_HEADER)
+    test.response_body = response.text
     if response.status_code == 200:
         test.result = 1
     else:
@@ -61,6 +67,7 @@ def metadata_query_circular_sequence(test, runner):
     if the server supports circular sequences. Value stored in session_params.
     If not skip test and set skip text appropriately
     '''
+    test.description = "Test if metadata endpoint returns 200 using circular test sequence if the server supports circular sequences. Value stored in session_params. If not skip test and set skip text appropriately"
     base_url = str(runner.base_url)
     session_params = runner.session_params
     if session_params['circular_supported'] is False:
@@ -68,6 +75,7 @@ def metadata_query_circular_sequence(test, runner):
         test.set_skip_text(str(test) + ' is skipped because server does not support circular sequences')
         return
     response = requests.get(base_url + 'sequence/' + SEQ_CIRCULAR, headers=METADATA_ACCEPT_HEADER)
+    test.response_body = response.text
     if response.status_code == 200:
         test.result = 1
     else:
@@ -78,9 +86,11 @@ def metadata_md5(test, runner):
     '''
     Test if md5 in metadata response object
     '''
+    test.description = "Test if md5 in metadata response object"
     base_url = str(runner.base_url)
     test.result = -1
     response = requests.get(base_url + 'sequence/' + SEQ_MD5, headers=METADATA_ACCEPT_HEADER)
+    test.response_body = response.text
     metadata_object = None
     try:
         metadata_object = json.loads(response.text)["metadata"]
@@ -95,6 +105,7 @@ def metadata_trunc512(test, runner):
     Test if trunc512 in metadata response object. Skip if server does not
     support trunc512
     '''
+    test.description = "Test if trunc512 in metadata response object. Skip if server does not support trunc512"
     base_url = str(runner.base_url)
     session_params = runner.session_params
     test.result = -1
@@ -105,6 +116,7 @@ def metadata_trunc512(test, runner):
     metadata_object = None
     try:
         response = requests.get(base_url + 'sequence/' + SEQ_MD5, headers=METADATA_ACCEPT_HEADER)
+        test.response_body = response.text
         metadata_object = json.loads(response.text)["metadata"]
         if "trunc512" in metadata_object:
             test.result = 1
@@ -116,11 +128,13 @@ def metadata_length(test, runner):
     '''
     Test if length in metadata response object
     '''
+    test.description = "Test if length in metadata response object"
     base_url = str(runner.base_url)
     test.result = -1
     metadata_object = None
     try:
         response = requests.get(base_url + 'sequence/' + SEQ_MD5, headers=METADATA_ACCEPT_HEADER)
+        test.response_body = response.text
         metadata_object = json.loads(response.text)["metadata"]
         if "length" in metadata_object and metadata_object['length'] == 230218:
             test.result = 1
@@ -132,11 +146,13 @@ def metadata_aliases(test, runner):
     '''
     Test if aliases in metadata response object
     '''
+    test.description = "Test if aliases in metadata response object"
     base_url = str(runner.base_url)
     test.result = -1
     metadata_object = None
     try:
         response = requests.get(base_url + 'sequence/' + SEQ_MD5, headers=METADATA_ACCEPT_HEADER)
+        test.response_body = response.text
         metadata_object = json.loads(response.text)["metadata"]
         if "aliases" in metadata_object:
             test.result = 1
@@ -148,8 +164,10 @@ def metadata_invalid_checksum_404_error(test, runner):
     '''
     Test if 404 on invalid checksum in metadata response
     '''
+    test.description = "Test if 404 on invalid checksum in metadata response"
     base_url = str(runner.base_url)
     response = requests.get(base_url + 'sequence/' + 'some1111garbage1111ID/metadata', headers=METADATA_ACCEPT_HEADER)
+    test.response_body = response.text
     if response.status_code == 404:
         test.result = 1
     else:
@@ -161,10 +179,12 @@ def metadata_invalid_encoding_406_error(test, runner):
     '''
     Test if 406 on invalid encoding in Accept header
     '''
+    test.description = "Test if 406 on invalid encoding in Accept header"
     base_url = str(runner.base_url)
     response = requests.get(
         base_url + 'sequence/' + SEQ_MD5,
         headers={'Accept': 'embl/some_json'})
+    test.response_body = response.text
     if response.status_code == 406:
         test.result = 1
     else:
