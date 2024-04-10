@@ -108,7 +108,6 @@ class Test():
         # run the test if not skipped
         self.algorithm(self, test_runner)
         # if it fails it'll generate a warning
-        print(self.response_body, file=sys.stderr)
         if self.result == -1:
             self.warning = True
 
