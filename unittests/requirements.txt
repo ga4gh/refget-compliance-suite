@@ -1,6 +1,6 @@
 Flask==2.3.2
 click==8.1.6
-requests==2.31.0
+requests==2.32.0
 pytest==6.2.5
 pytest-cov==4.0.0
 flake8==6.0.0
