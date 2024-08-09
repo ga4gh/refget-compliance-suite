@@ -12,17 +12,28 @@ GET  /sequence/service-info/
 ```
 ```
 HTTP/1.1 200 OK
-Content-Type: application/vnd.ga4gh.refget.v1.0.0+json
+Content-Type: application/vnd.ga4gh.refget.v2.0.0+json
 
 ```
 ```json
 {
-  "service" : {
-    "circular_supported" : false,
-    "algorithms": ["md5", "trunc512"],
-    "subsequence_limit": 4000000,
-    "Supported_api_versions": ["1.0"]
-  }
+    "id": "refget.server.v2",
+    "name": "The GA4GH Refget API V2",
+    "type": {
+        "group": "org.ga4gh",
+        "artifact": "refget",
+        "version": "2.0.0"
+    },
+    "organization": {
+        "name": "Example Org",
+        "url": "https://www.examples.com"
+    },
+    "refget": {
+        "circular_supported": false,
+        "subsequence_limit": 4000000,
+        "algorithms":  ["md5", "ga4gh"],
+        "identifier_types": ["insdc"]
+    }
 }
 ```
 

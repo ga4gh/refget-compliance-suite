@@ -1,14 +1,12 @@
-from unittest import skip
-from compliance_suite.tests import initiate_tests
-from compliance_suite.utils import data
 import datetime
+
+from compliance_suite.tests import initiate_tests
+from compliance_suite.utils import data, now
 import re
 import sys
 from compliance_suite.sequence_algorithms import *
 from compliance_suite.tests import tests_in_phase
 from ga4gh.testbed.report.report import Report
-from ga4gh.testbed.report.constants import TIMESTAMP_FORMAT
-
 
 
 def processed_func_descrp(text):
@@ -39,8 +37,11 @@ class TestRunner():
 
         self.root = None
         self.session_params = {
+            'refget_version': 1,
             'limit': None,
-            'trunc512': None,
+            'algorithms:trunc512': None,
+            'algorithms::ga4gh': None,
+            'identifier_types:insdc': None,
             'circular_supported': None,
             'redirection': None
         }
@@ -53,7 +54,7 @@ class TestRunner():
         self.base_url = base_url
         self.results = []
         self.report = Report()
-        self.report.set_start_time(str(datetime.datetime.utcnow().strftime(TIMESTAMP_FORMAT)))
+        self.report.set_start_time(now())
         self.start_time = {}
         self.end_time = {}
         self.phase_start_time = {}
@@ -119,18 +120,18 @@ class TestRunner():
         label = node.label + 1
         for child in node.children:
             if child.label == label:
-                print(str(child), file=sys.stderr)
-                self.start_time[str(child)] = str(datetime.datetime.utcnow().strftime(TIMESTAMP_FORMAT))
+                #print(str(child), file=sys.stderr)
+                self.start_time[str(child)] = now()
                 child.run(self)
-                self.end_time[str(child)] = str(datetime.datetime.utcnow().strftime(TIMESTAMP_FORMAT))
+                self.end_time[str(child)] = now()
 
         for child in node.children:
             if len(child.children) != 0:
                 if str(child) in self.hls_to_phase:
-                    self.phase_start_time[str(child)] = str(datetime.datetime.utcnow().strftime(TIMESTAMP_FORMAT))
+                    self.phase_start_time[str(child)] = now()
                 self.recurse_run_tests(child)
                 if str(child) in self.hls_to_phase:
-                    self.phase_end_time[str(child)] = str(datetime.datetime.utcnow().strftime(TIMESTAMP_FORMAT))
+                    self.phase_end_time[str(child)] = now()
 
     def generate_final_json(self):
         '''
@@ -191,7 +192,7 @@ class TestRunner():
             phase.set_start_time(self.phase_start_time[high_level_name])
             phase.set_end_time(self.phase_end_time[high_level_name])
 
-            #Create tests for phase            
+            #Create tests for phase
             for test in self.results:
 
                 #Checks against checks membership of tests agaist test_in_phase dict generated from tests
@@ -230,7 +231,7 @@ class TestRunner():
                                              
                         ga4gh_case.add_log_message('api' + ': ' + str(case['api']))
 
-        self.report.set_end_time(str(datetime.datetime.utcnow().strftime(TIMESTAMP_FORMAT)))
+        self.report.set_end_time(now())
         self.report.finalize()
 
         return self.report
@@ -241,6 +242,3 @@ if __name__ == "__main__":
     tr.run_tests()
 
     print('--------------', file=sys.stderr)
-
-    # tr = TestRunner('http://localhost:5000/')
-    # tr.run_tests()

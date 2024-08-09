@@ -1,4 +1,7 @@
+import datetime
 import os
+
+from ga4gh.testbed.report.constants import TIMESTAMP_FORMAT
 
 TEST_SUITE = os.path.dirname(__file__)
 SEQUENCE_FILES = os.path.join(TEST_SUITE, 'sequences/')
@@ -57,3 +60,7 @@ def data():
     data.append(get_seq_obj("VI"))
     data.append(get_seq_obj("NC"))
     return data
+
+
+def now():
+    return str(datetime.datetime.utcnow().strftime(TIMESTAMP_FORMAT))

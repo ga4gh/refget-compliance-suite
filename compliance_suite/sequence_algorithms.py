@@ -1,13 +1,15 @@
 import requests
-import datetime
-from ga4gh.testbed.report.constants import TIMESTAMP_FORMAT
+
+from compliance_suite.utils import now
 
 SEQUENCE_ACCEPT_HEADER = {
-    'Accept': 'text/vnd.ga4gh.refget.v1.0.0+plain'
+    'Accept': 'text/vnd.ga4gh.refget.v1.0.0+plain,text/vnd.ga4gh.refget.v2.0.0+plain'
 }
 SEQUENCE_MD5 = 'sequence/6681ac2f62509cfc220d78751b8dc524'
 SEQUENCE_TRUNC512 = 'sequence/959cb1883fc1ca9ae1394ceb475a356ead1ecceff5824ae7'
 SEQUENCE_CIRCULAR = 'sequence/3332ed720ac7eaa9b3655c06f6b9e196'
+SEQUENCE_GA4GH = 'sequence/ga4gh:SQ.lZyxiD_ByprhOUzrR1o1bq0ezO_1gkrn'
+SEQUENCE_INSDC = 'sequence/insdc:BK006935.2'
 case_start_time = {}
 case_end_time = {}
 
@@ -47,17 +49,52 @@ def sequence_query_by_trunc512(test, runner):
     test.description = "Test to check if server returns 200 using I test sequence trunc512 and appropriate headers if the server supports trunc512"
     base_url = str(runner.base_url)
     session_params = runner.session_params
-    if session_params['trunc512'] is False:
+    if session_params['algorithms:trunc512'] is False:
         test.result = 0
         test.set_skip_text(str(test) + ' is skipped because server does not support TRUNC512 algorithm')
         return
-    response = requests.get(base_url + SEQUENCE_MD5, headers=SEQUENCE_ACCEPT_HEADER)
+
+    response = requests.get(base_url + SEQUENCE_TRUNC512, headers=SEQUENCE_ACCEPT_HEADER)
     test.response_body = response.text
+    
     if response.status_code == 200:
         test.result = 1
     else:
         test.result = -1
 
+
+def sequence_query_by_ga4gh(test, runner):
+    '''Test to check if server returns 200 using I test sequence ga4gh and
+    appropriate headers if the server supports ga4gh
+    '''
+    base_url = str(runner.base_url)
+    session_params = runner.session_params
+    if session_params['algorithms:ga4gh'] is False:
+        test.result = 0
+        test.set_skip_text(str(test) + ' is skipped because server does not support GA4GH algorithm')
+        return
+    response = requests.get(base_url + SEQUENCE_GA4GH, headers=SEQUENCE_ACCEPT_HEADER)
+    if response.status_code == 200:
+        test.result = 1
+    else:
+        test.result = -1
+
+
+def sequence_query_by_insdc(test, runner):
+    '''Test to check if server returns 200 using a test insdc identifier and
+    appropriate headers if the server supports ga4gh
+    '''
+    base_url = str(runner.base_url)
+    session_params = runner.session_params
+    if session_params['identifier_types:insdc'] is False:
+        test.result = 0
+        test.set_skip_text(str(test) + ' is skipped because server does not support query by INSDC identifiers')
+        return
+    response = requests.get(base_url + SEQUENCE_INSDC, headers=SEQUENCE_ACCEPT_HEADER)
+    if response.status_code == 200:
+        test.result = 1
+    else:
+        test.result = -1
 
 def sequence_invalid_checksum_404_error(test, runner):
     '''
@@ -91,6 +128,7 @@ def sequence_invalid_encoding_406_error(test, runner):
         # More squid sniffing. Do not error if squid failed to respond correctly
         if 'via' in response.headers and 'squid' in response.headers['via'].lower():
             test.result = 0
+            test.set_skip_text(str(test) + ' is skipped because squid failed to respond correctly')
         else:
             test.result = -1
             test.fail_text = test.fail_text + str(response.status_code)
@@ -124,7 +162,7 @@ def sequence_start_end_success_cases(test, runner):
     for case in test.cases:
         _input = case[0]
         _output = case[1]
-        case_start_time[SEQUENCE_MD5 + ":" + _input[0] + ':' + str(SEQUENCE_ACCEPT_HEADER)] = datetime.datetime.utcnow().strftime(TIMESTAMP_FORMAT)
+        case_start_time[SEQUENCE_MD5 + ":" + _input[0] + ':' + str(SEQUENCE_ACCEPT_HEADER)] = now()
         response = requests.get(
             base_url + SEQUENCE_MD5 + _input[0],
             headers=SEQUENCE_ACCEPT_HEADER)
@@ -138,7 +176,7 @@ def sequence_start_end_success_cases(test, runner):
             case_output_object['result'] = -1
             test.result = -1
         test.case_outputs.append(case_output_object)
-        case_end_time[SEQUENCE_MD5 + ":" + _input[0] + ':' + str(SEQUENCE_ACCEPT_HEADER)] = datetime.datetime.utcnow().strftime(TIMESTAMP_FORMAT)
+        case_end_time[SEQUENCE_MD5 + ":" + _input[0] + ':' + str(SEQUENCE_ACCEPT_HEADER)] = now()
 
 
 def sequence_range(test, runner):
@@ -175,7 +213,7 @@ def sequence_range_success_cases(test, runner):
     for case in test.cases:
         _input = case[0]
         _output = case[1]
-        case_start_time[SEQUENCE_MD5 + ":" + _input[0] + ':' + str(SEQUENCE_ACCEPT_HEADER)] = datetime.datetime.utcnow().strftime(TIMESTAMP_FORMAT)
+        case_start_time[SEQUENCE_MD5 + ":" + _input[0] + ':' + str(SEQUENCE_ACCEPT_HEADER)] = now()
         header['Range'] = _input[0]
         response = requests.get(
             base_url + SEQUENCE_MD5, headers=header)
@@ -189,7 +227,7 @@ def sequence_range_success_cases(test, runner):
             case_output_object['result'] = -1
             test.result = -1
         test.case_outputs.append(case_output_object)
-        case_end_time[SEQUENCE_MD5 + ":" + _input[0] + ':' + str(SEQUENCE_ACCEPT_HEADER)] = datetime.datetime.utcnow().strftime(TIMESTAMP_FORMAT)
+        case_end_time[SEQUENCE_MD5 + ":" + _input[0] + ':' + str(SEQUENCE_ACCEPT_HEADER)] = now()
 
 
 def sequence_circular(test, runner):
@@ -207,7 +245,7 @@ def sequence_circular(test, runner):
     for case in test.cases:
         _input = case[0]
         _output = case[1]
-        case_start_time[SEQUENCE_CIRCULAR + _input + ':' + str(SEQUENCE_ACCEPT_HEADER)] = datetime.datetime.utcnow().strftime(TIMESTAMP_FORMAT)
+        case_start_time[SEQUENCE_CIRCULAR + _input + ':' + str(SEQUENCE_ACCEPT_HEADER)] = now()
         response = requests.get(
             base_url + SEQUENCE_CIRCULAR + _input, headers=SEQUENCE_ACCEPT_HEADER)
         test.response_body = response.text
@@ -220,7 +258,7 @@ def sequence_circular(test, runner):
             case_output_object['result'] = -1
             test.result = -1
         test.case_outputs.append(case_output_object)
-        case_end_time[SEQUENCE_CIRCULAR + _input + ':' + str(SEQUENCE_ACCEPT_HEADER)] = datetime.datetime.utcnow().strftime(TIMESTAMP_FORMAT)
+        case_end_time[SEQUENCE_CIRCULAR + _input + ':' + str(SEQUENCE_ACCEPT_HEADER)] = now()
 
 
 def sequence_start_end_errors(test, runner):
@@ -234,7 +272,7 @@ def sequence_start_end_errors(test, runner):
     for case in test.cases:
         _input = case[0]
         _output = case[1]
-        case_start_time['sequence/' + _input[0] + ':' + _input[1]] = datetime.datetime.utcnow().strftime(TIMESTAMP_FORMAT)
+        case_start_time['sequence/' + _input[0] + ':' + _input[1]] = now()
         response = requests.get(
             base_url + 'sequence/' + _input[0] + _input[1], headers=SEQUENCE_ACCEPT_HEADER)
         test.response_body = response.text
@@ -245,7 +283,7 @@ def sequence_start_end_errors(test, runner):
             case_output_object['result'] = -1
             test.result = -1
         test.case_outputs.append(case_output_object)
-        case_end_time['sequence/' + _input[0] + ':' + _input[1]] = datetime.datetime.utcnow().strftime(TIMESTAMP_FORMAT)
+        case_end_time['sequence/' + _input[0] + ':' + _input[1]] = now()
 
 
 def sequence_range_errors(test, runner):
@@ -262,7 +300,7 @@ def sequence_range_errors(test, runner):
     for case in test.cases:
         _input = case[0]
         _output = case[1]
-        case_start_time[_input[0] + ':' + _input[1]] = datetime.datetime.utcnow().strftime(TIMESTAMP_FORMAT)
+        case_start_time[_input[0] + ':' + _input[1]] = now()
         header['Range'] = _input[1]
         response = requests.get(
             base_url + 'sequence/' + _input[0], headers=header)
@@ -289,10 +327,11 @@ def sequence_range_errors(test, runner):
             # and the request was sent via squid then
             if error and successful_response and squid:
                 res = 0
+                test.set_skip_text(str(test) + ' is skipped because squid failed to respond correctly')
             case_output_object['result'] = res
             test.result = res
         test.case_outputs.append(case_output_object)
-        case_end_time[_input[0] + ':' + _input[1]] = datetime.datetime.utcnow().strftime(TIMESTAMP_FORMAT)
+        case_end_time[_input[0] + ':' + _input[1]] = now()
 
 
 def sequence_circular_support_false_errors(test, runner):
@@ -311,7 +350,7 @@ def sequence_circular_support_false_errors(test, runner):
     for case in test.cases:
         _input = case[0]
         _output = case[1]
-        case_start_time['sequence/' + _input[0] + ':' + _input[1]] = datetime.datetime.utcnow().strftime(TIMESTAMP_FORMAT)
+        case_start_time['sequence/' + _input[0] + ':' + _input[1]] = now()
         response = requests.get(
             base_url + 'sequence/' + _input[0] + _input[1], headers=SEQUENCE_ACCEPT_HEADER)
         test.response_body = response.text
@@ -322,7 +361,7 @@ def sequence_circular_support_false_errors(test, runner):
             case_output_object['result'] = -1
             test.result = -1
         test.case_outputs.append(case_output_object)
-        case_end_time['sequence/' + _input[0] + ':' + _input[1]] = datetime.datetime.utcnow().strftime(TIMESTAMP_FORMAT)
+        case_end_time['sequence/' + _input[0] + ':' + _input[1]] = now()
 
 
 def sequence_circular_support_true_errors(test, runner):
@@ -341,7 +380,7 @@ def sequence_circular_support_true_errors(test, runner):
     for case in test.cases:
         _input = case[0]
         _output = case[1]
-        case_start_time['sequence/' + _input[0] + ':' + _input[1]] = datetime.datetime.utcnow().strftime(TIMESTAMP_FORMAT)
+        case_start_time['sequence/' + _input[0] + ':' + _input[1]] = now()
         response = requests.get(
             base_url + 'sequence/' + _input[0] + _input[1], headers=SEQUENCE_ACCEPT_HEADER)
         test.response_body = response.text
@@ -352,10 +391,10 @@ def sequence_circular_support_true_errors(test, runner):
             case_output_object['result'] = -1
             test.result = -1
         test.case_outputs.append(case_output_object)
-        case_end_time['sequence/' + _input[0] + ':' + _input[1]] = datetime.datetime.utcnow().strftime(TIMESTAMP_FORMAT)
+        case_end_time['sequence/' + _input[0] + ':' + _input[1]] = now()
 
 def get_sequence_start_times():
     return case_start_time
 
 def get_sequence_end_times():
-    return case_end_time  
+    return case_end_time

@@ -91,6 +91,7 @@ def report(server, file_path_name, json_path, serve, no_web, port, pretty, submi
 
     tr = TestRunner(server)
     tr.run_tests()
+
     ga4gh_report = tr.generate_report()
     final_json = ga4gh_report.to_json(pretty=pretty)
     final_json = json.loads(final_json)
