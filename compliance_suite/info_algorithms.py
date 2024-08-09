@@ -1,3 +1,4 @@
+import sys
 import requests
 import json
 
@@ -21,9 +22,11 @@ def info_implement(test, runner):
     '''
     Test to check if info-endpoint returns 200 OK with appropriate headers
     '''
+    test.description = "Test to check if info-endpoint returns 200 OK with appropriate headers"
     base_url = str(runner.base_url)
     session_params = runner.session_params
     response = requests.get(base_url + INFO_API, headers=INFO_ACCEPT_HEADER)
+    test.response_body = response.text
     if response.status_code == 200:
         test.result = 1
         json_object = json.loads(response.text)
@@ -39,8 +42,10 @@ def info_implement_default(test, runner):
     '''
     Test to check if info-endpoint returns 200 OK without headers
     '''
+    test.description = "Test to check if info-endpoint returns 200 OK without headers"
     base_url = str(runner.base_url)
     response = requests.get(base_url + INFO_API)
+    test.response_body = response.text
     if response.status_code == 200:
         test.result = 1
     else:
@@ -52,9 +57,11 @@ def info_circular(test, runner):
     Test to check if info-endpoint has circular in the response object. And if
     it is there it updates session_params['circular'] as per the value
     '''
+    test.description = "Test to check if info-endpoint has circular in the response object. And if it is there it updates session_params['circular'] as per the value"
     base_url = str(runner.base_url)
     session_params = runner.session_params
     response = requests.get(base_url + INFO_API, headers=INFO_ACCEPT_HEADER)
+    test.response_body = response.text
     service_info_object = None
     try:
         service_info_object = find_service_info_object(response.text, session_params['refget_version'])
@@ -73,9 +80,11 @@ def info_algorithms(test, runner):
     Test to check if info-endpoint has algorithms in the response object. And if
     it is there it updates session_params['algorithms:trunc512'] and session_params['algorithms:ga4gh'] as per the value
     '''
+    test.description = "Test to check if info-endpoint has algorithms in the response object. And if it is there it updates session_params['trunc512'] as per the value"
     base_url = str(runner.base_url)
     session_params = runner.session_params
     response = requests.get(base_url + INFO_API, headers=INFO_ACCEPT_HEADER)
+    test.response_body = response.text
     service_info_object = None
     try:
         service_info_object = find_service_info_object(response.text, session_params['refget_version'])
@@ -124,10 +133,12 @@ def info_subsequence(test, runner):
     If the key is present we update session_params['subsequence_limit'] as per the
     value
     '''
+    test.description = "Test to check if info-endpoint has subsequence_limit in the response object. If the key is present we update session_params['subsequence_limit'] as per thevalue"
     base_url = str(runner.base_url)
     session_params = runner.session_params
     service_info_object = None
     response = requests.get(base_url + INFO_API, headers=INFO_ACCEPT_HEADER)
+    test.response_body = response.text
     try:
         service_info_object = find_service_info_object(response.text, session_params['refget_version'])
         if service_info_object['subsequence_limit'] is not None:
@@ -143,6 +154,7 @@ def info_api_version(test, runner):
     Test to check if info-endpoint has supported_api_versions in the response
     object.
     '''
+    test.description = "Test to check if info-endpoint has supported_api_versions in the response object."
     service_info_object = None
     test.result = -1
     base_url = str(runner.base_url)
@@ -152,6 +164,7 @@ def info_api_version(test, runner):
         test.set_skip_text(str(test) + ' is skipped because server is not running version 1 of Refget')
         return
     response = requests.get(base_url + INFO_API, headers=INFO_ACCEPT_HEADER)
+    test.response_body = response.text
     try:
         service_info_object = find_service_info_object(response.text, session_params['refget_version'])
         if service_info_object["supported_api_versions"]:

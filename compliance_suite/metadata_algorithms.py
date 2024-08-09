@@ -20,8 +20,10 @@ def metadata_implement(test, runner):
     Test if metadata endpoint returns 200 with appropriate headers using I test
     sequence
     '''
+    test.description = "Test if metadata endpoint returns 200 with appropriate headers using I test sequence"
     base_url = str(runner.base_url)
     response = requests.get(base_url + 'sequence/' + SEQ_MD5, headers=METADATA_ACCEPT_HEADER)
+    test.response_body = response.text
     if response.status_code == 200:
         test.result = 1
     else:
@@ -34,13 +36,16 @@ def _metadata_query_by_algorithm(test, runner, algorithm, optional):
     if the server supports. Value stored in session_params. If not skip test
     and set skip text appropriately
     '''
+    test.description = "Test if metadata endpoint returns 200 without headers using I test sequence"
     base_url = str(runner.base_url)
+
     session_params = runner.session_params
     if optional and session_params.get(f'algorithms:{algorithm}', False) is False:
         test.result = 0
         test.set_skip_text(str(test) + f' is skipped because server does not support {algorithm.upper()} algorithm')
         return
     response = requests.get(base_url + 'sequence/' + SEQ_ALGO.get(algorithm), headers=METADATA_ACCEPT_HEADER)
+
     if response.status_code == 200:
         test.result = 1
     else:
@@ -59,6 +64,9 @@ def metadata_query_by_trunc512(test, runner):
     if the server supports. Value stored in session_params. If not skip test
     and set skip text appropriately
     '''
+
+    test.description = "Test if metadata endpoint returns 200 using trunc512 with I test sequence if the server supports. Value stored in session_params. If not skip test and set skip text appropriately"
+
     _metadata_query_by_algorithm(test, runner, 'trunc512', optional=True)
 
 
@@ -77,13 +85,17 @@ def _metadata_query_by_identifier(test, runner, identifier):
     if the server supports. Value stored in session_params. If not skip test
     and set skip text appropriately
     '''
+
     base_url = str(runner.base_url)
     session_params = runner.session_params
     if session_params[f'identifier_types:{identifier}'] is False:
         test.result = 0
         test.set_skip_text(str(test) + f' is skipped because server does not support {identifier.upper()} algorithm')
         return
+
     response = requests.get(base_url + 'sequence/' + SEQ_IDENT.get(identifier), headers=METADATA_ACCEPT_HEADER)
+    test.response_body = response.text
+
     if response.status_code == 200:
         test.result = 1
     else:
@@ -105,6 +117,7 @@ def metadata_query_circular_sequence(test, runner):
     if the server supports circular sequences. Value stored in session_params.
     If not skip test and set skip text appropriately
     '''
+    test.description = "Test if metadata endpoint returns 200 using circular test sequence if the server supports circular sequences. Value stored in session_params. If not skip test and set skip text appropriately"
     base_url = str(runner.base_url)
     session_params = runner.session_params
     if session_params['circular_supported'] is False:
@@ -112,6 +125,7 @@ def metadata_query_circular_sequence(test, runner):
         test.set_skip_text(str(test) + ' is skipped because server does not support circular sequences')
         return
     response = requests.get(base_url + 'sequence/' + SEQ_CIRCULAR, headers=METADATA_ACCEPT_HEADER)
+    test.response_body = response.text
     if response.status_code == 200:
         test.result = 1
     else:
@@ -123,13 +137,19 @@ def metadata_by_algorithm(test, runner, algorithm, optional):
     Test if the algorithm is present in metadata response object. Skip if server does not
     support this algorithm
     '''
+    test.description = "Test if md5 in metadata response object"
     base_url = str(runner.base_url)
     session_params = runner.session_params
     test.result = -1
+
+    response = requests.get(base_url + 'sequence/' + SEQ_MD5, headers=METADATA_ACCEPT_HEADER)
+    test.response_body = response.text
+
     if optional and session_params[f'algorithms:{algorithm}'] is False:
         test.result = 0
         test.set_skip_text(str(test) + f' is skipped because "{algorithm}" is not supported by the server')
         return
+
     metadata_object = None
     try:
         response = requests.get(base_url + 'sequence/' + SEQ_MD5, headers=METADATA_ACCEPT_HEADER)
@@ -153,6 +173,9 @@ def metadata_trunc512(test, runner):
     Test if trunc512 in metadata response object. Skip if server does not
     support trunc512
     '''
+
+    test.description = "Test if trunc512 in metadata response object. Skip if server does not support trunc512"
+
     metadata_by_algorithm(test, runner, 'trunc512', optional=True)
 
 
@@ -169,6 +192,7 @@ def metadata_insdc(test, runner):
     Test if insdc in metadata response aliases. Skip if server does not
     support insdc identifiers
     '''
+
     base_url = str(runner.base_url)
     session_params = runner.session_params
     test.result = -1
@@ -179,6 +203,8 @@ def metadata_insdc(test, runner):
     metadata_object = None
     try:
         response = requests.get(base_url + 'sequence/' + SEQ_INSDC, headers=METADATA_ACCEPT_HEADER)
+        test.response_body = response.text
+
         metadata_object = json.loads(response.text)["metadata"]
         aliases = metadata_object.get("aliases", {})
         if 'insdc' in [a.get('naming_authority') for a in aliases]:
@@ -194,11 +220,13 @@ def metadata_length(test, runner):
     '''
     Test if length in metadata response object
     '''
+    test.description = "Test if length in metadata response object"
     base_url = str(runner.base_url)
     test.result = -1
     metadata_object = None
     try:
         response = requests.get(base_url + 'sequence/' + SEQ_MD5, headers=METADATA_ACCEPT_HEADER)
+        test.response_body = response.text
         metadata_object = json.loads(response.text)["metadata"]
         if "length" in metadata_object and metadata_object['length'] == 230218:
             test.result = 1
@@ -212,11 +240,13 @@ def metadata_aliases(test, runner):
     '''
     Test if aliases in metadata response object
     '''
+    test.description = "Test if aliases in metadata response object"
     base_url = str(runner.base_url)
     test.result = -1
     metadata_object = None
     try:
         response = requests.get(base_url + 'sequence/' + SEQ_MD5, headers=METADATA_ACCEPT_HEADER)
+        test.response_body = response.text
         metadata_object = json.loads(response.text)["metadata"]
         if "aliases" in metadata_object:
             test.result = 1
@@ -230,8 +260,10 @@ def metadata_invalid_checksum_404_error(test, runner):
     '''
     Test if 404 on invalid checksum in metadata response
     '''
+    test.description = "Test if 404 on invalid checksum in metadata response"
     base_url = str(runner.base_url)
     response = requests.get(base_url + 'sequence/' + 'some1111garbage1111ID/metadata', headers=METADATA_ACCEPT_HEADER)
+    test.response_body = response.text
     if response.status_code == 404:
         test.result = 1
     else:
@@ -243,10 +275,12 @@ def metadata_invalid_encoding_406_error(test, runner):
     '''
     Test if 406 on invalid encoding in Accept header
     '''
+    test.description = "Test if 406 on invalid encoding in Accept header"
     base_url = str(runner.base_url)
     response = requests.get(
         base_url + 'sequence/' + SEQ_MD5,
         headers={'Accept': 'embl/some_json'})
+    test.response_body = response.text
     if response.status_code == 406:
         test.result = 1
     else:
