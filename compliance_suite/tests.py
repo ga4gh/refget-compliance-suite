@@ -34,6 +34,8 @@ class Test():
         self.cases = []
         self.case_outputs = []
         self.phase = ''
+        self.response_body = ''
+        self.description = ''
 
     def __str__(self):
         '''

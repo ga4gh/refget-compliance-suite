@@ -6,6 +6,8 @@ import sys
 
 from compliance_suite.test_runner import TestRunner
 from compliance_suite.report_server import start_mock_server
+from ga4gh.testbed.report.report import Report
+from ga4gh.testbed.submit.report_submitter import ReportSubmitter
 
 def scan_for_errors(json):
     '''
@@ -55,7 +57,15 @@ def main():
     '--port', default=15800, help='port at which the compliance report is served')
 @click.option(
     '--pretty', is_flag = True, help='JSON report pretty print')
-def report(server, file_path_name, json_path, serve, no_web, port, pretty):
+@click.option(
+    '--submit', is_flag = True, help='submit JSON report to testbed API')
+@click.option(
+    '--submit-id', help='report series ID')  
+@click.option(
+    '--submit-token', help='report series token') 
+@click.option(
+    '--submit-url', default="http://localhost:4500/reports", help='testbed API submission endpoint')
+def report(server, file_path_name, json_path, serve, no_web, port, pretty, submit, submit_id, submit_token, submit_url):
     '''
     CLI command report to execute the report session and generate report on
     terminal, html file and json file if provided by the user
@@ -73,10 +83,31 @@ def report(server, file_path_name, json_path, serve, no_web, port, pretty):
 
     if len(server) == 0:
         raise Exception('No server url provided. Provide at least one')
-    
+    if submit:
+        if submit_id == None: 
+            raise Exception('Submit requested but no submit ID is provided')
+        if submit_token == None:
+            raise Exception('Submit requested but no submit token is provided')
+
     tr = TestRunner(server)
     tr.run_tests()
-    final_json = tr.generate_report().to_json(pretty=pretty)
+
+    ga4gh_report = tr.generate_report()
+    final_json = ga4gh_report.to_json(pretty=pretty)
+    final_json = json.loads(final_json)
+    footer = {"testbed": {
+        "id": "refget-compliance",
+        "testbed_name": "Refget Compliance Suite",
+        "testbed_description": "Test compliance of Refget services to specification",
+        "repo_url": "https://github.com/ga4gh/refget-compliance-suite",
+        "dockerhub_url": "https://hub.docker.com/r/ga4gh/refget-compliance-suite",
+        "dockstore_url": "https://dockstore.org/containers/registry.hub.docker.com/ga4gh/refget-compliance-suite:1.2.6?tab=info"
+            }
+        }
+
+    final_json.update(footer)
+    final_json = json.dumps(final_json)   
+    
 
     if json_path is not None:
         if json_path == '-':
@@ -98,6 +129,15 @@ def report(server, file_path_name, json_path, serve, no_web, port, pretty):
                 index = index + 1
             with tarfile.open(file_path_name + '_' + str(index) + '.tar.gz', "w:gz") as tar:
                 tar.add(WEB_DIR, arcname=os.path.basename(WEB_DIR))
+
+    if submit:
+        print("Attempting to submit to testbed API...")
+        response = ReportSubmitter.submit_report(submit_id, submit_token, ga4gh_report, url=submit_url)
+        if response["status_code"] == 200:
+            print("The submission was successful, the report ID is " + response["report_id"])
+        else:
+            print("The submission failed with a status code of " + str(response["status_code"]))
+            print("Error Message: " + str(response["error_message"]))
 
     if serve is True:
         start_mock_server(port=port)
